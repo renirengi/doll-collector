@@ -1,0 +1,68 @@
+<form [formGroup]="filterForm" class="filters-panel">
+  <div class="filters-row">
+
+    <mat-form-field appearance="outline" class="filter-control sorting-field">
+      <mat-label>Sort Results</mat-label>
+      <mat-select formControlName="sortData" placeholder="Newest first">
+        <mat-option [value]="{field: 'price', order: 'asc'}">Price: Cheap first</mat-option>
+        <mat-option [value]="{field: 'price', order: 'desc'}">Price: Expensive first</mat-option>
+        <mat-divider></mat-divider>
+        <mat-option [value]="{field: 'releaseYear', order: 'desc'}">Year: Newest first</mat-option>
+        <mat-option [value]="{field: 'releaseYear', order: 'asc'}">Year: Oldest first</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="filter-control">
+      <mat-label>Articulation</mat-label>
+      <mat-select formControlName="articulation" multiple>
+        @for (art of articulationOptions; track art) {
+        <mat-option [value]="art">{{ art }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="filter-control">
+      <mat-label>Body Type</mat-label>
+      <mat-select formControlName="bodyVolume" multiple>
+        @for (body of bodyOptions; track body) {
+        <mat-option [value]="body">{{ body }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="filter-control">
+      <mat-label>Foot Type</mat-label>
+      <mat-select formControlName="footType" multiple>
+        @for (foot of footOptions; track foot) {
+        <mat-option [value]="foot">{{ foot }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="filter-control">
+      <mat-label>Condition</mat-label>
+      <mat-select formControlName="purchaseStates" multiple>
+        @for (state of stateOptions; track state) {
+        <mat-option [value]="state">{{ state }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="filter-control">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status" multiple>
+        @for (stat of statusOptions; track stat) {
+        <mat-option [value]="stat">{{ stat | titlecase }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <div class="actions">
+      <button mat-stroked-button color="warn" type="button" (click)="resetFilters()" [disabled]="filterForm.pristine">
+        <mat-icon>restart_alt</mat-icon>
+        Reset
+      </button>
+    </div>
+
+  </div>
+</form>

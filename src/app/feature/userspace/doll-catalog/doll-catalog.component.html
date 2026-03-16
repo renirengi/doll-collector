@@ -1,0 +1,42 @@
+<div class="catalog-container">
+  <header class="catalog-header">
+    <div class="header-main">
+      <h1>Doll Collection Cabinet</h1>
+      <span class="count-badge">Total: {{ service.totalCount() }}</span>
+    </div>
+
+    <div class="filters-top-panel">
+      <app-manufacturer-navigation></app-manufacturer-navigation>
+      <app-doll-filters></app-doll-filters>
+    </div>
+  </header>
+
+  <main class="catalog-content">
+    @if (service.isLoading() && service.dolls().length === 0) {
+    <div class="initial-spinner">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+    }
+
+    <div class="doll-grid">
+      @for (doll of service.dolls(); track doll.id) {
+      <app-doll-card [doll]="doll"></app-doll-card>
+      } @empty {
+      @if (!service.isLoading()) {
+      <div class="empty-state">
+        <mat-icon>search</mat-icon>
+        <p>No dolls found matching these filters.</p>
+      </div>
+      }
+      }
+
+      @if (service.hasMore()) {
+      <div #infiniteTrigger class="infinite-scroll-trigger">
+        @if (service.isLoading()) {
+        <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+        }
+      </div>
+      }
+    </div>
+  </main>
+</div>

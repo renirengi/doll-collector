@@ -1,0 +1,3830 @@
+{
+  "dolls": [
+    {
+      "id": "1",
+      "itemNumber": "DMF32",
+      "originalName": "Fashionistas #30 White & Pink Pizzazz",
+      "name": "Asya",
+      "brand": "Barbie",
+      "manufacturer": "Mattel",
+      "series": "Fashionistas",
+      "mold": "Olivia / Pizzazz Face",
+      "generation": "Modern",
+      "releaseYear": 2016,
+      "acquisitionYear": 2019,
+      "articulation": "FullyArticulated",
+      "bodyVolume": "Curvy",
+      "footType": "Flat Standard",
+      "status": "active",
+      "purchaseCondition": {
+        "state": "Used-Collector",
+        "outfit": "original"
+      },
+      "isPlayset": false,
+
+  "gender":"Female",
+      "familyNames": ["20"],
+      "photos": [
+        { "imageUrl": "assets/doll-photos/1avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/1a.png", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/1b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/1c.jpg", "notesImage": "Full length, white background" }
+      ],
+      "notes": [
+        "Purchased from a private collector",
+        "First doll in the collection with the Pizzazz (Smiley) mold",
+        "I replaced the body"
+      ]
+    },
+    {
+      "id": "2",
+      "itemNumber": "FJF48",
+      "originalName": "Fashionistas #88 Unicorn Magic",
+      "name": "Luna",
+      "brand": "Barbie",
+      "manufacturer": "Mattel",
+      "series": "Fashionistas",
+      "mold": "Alec / 2016 Alec face",
+      "generation": "Modern",
+      "releaseYear": 2018,
+      "acquisitionYear": 2019,
+      "articulation": "Basic",
+      "bodyVolume": "Standard",
+      "footType": "Heeled",
+      "status": "active",
+      "purchaseCondition": {
+        "state": "New",
+        "outfit": "original"
+      },
+      "isPlayset": false,
+
+  "gender":"Female",
+      "photos": [
+        { "imageUrl": "assets/doll-photos/2avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/2a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/2b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/2c.jpg", "notesImage": "Full length, white background" }
+      ],
+      "familyNames": ["16"],
+      "notes": [
+        "Gifted by Sasha in 2019",
+        "The head was originally very greasy and has been washed",
+        "Current issues: tinsel (lurex) in the hair is frayed"
+      ]
+    },
+    {
+      "id": "3",
+      "itemNumber": "GXF10",
+      "originalName": "Barbie Extra No. 7 in Daisy Pattern Top & Shorts",
+      "name": "Tamika",
+      "brand": "Barbie",
+      "series": "Barbie Extra",
+      "manufacturer": "Mattel",
+      "generation": "Modern",
+      "mold": "2010 Carnaval Playline facemold",
+      "releaseYear": 2020,
+      "acquisitionYear": 2025,
+      "articulation": "FullyArticulated",
+      "bodyVolume": "Standard",
+      "footType": "Flat Standard",
+      "status": "active",
+      "purchaseCondition": {
+        "state": "New",
+        "outfit": "original"
+      },
+      "isPlayset": false,
+
+  "gender":"Female",
+      "photos": [
+       { "imageUrl": "assets/doll-photos/3avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/3a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/3b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/3c.jpg", "notesImage": "Full length, white background" }
+      ],
+      "pets": [
+        {
+          "type": "Dog",
+          "name": "Foxy",
+          "notes": "Included with the doll"
+        }
+      ],
+      "notes": [
+        "Purchased for 30 PLN (approx. 10 EUR)",
+        "Hair unbraided and restyled"
+      ],
+      "price": 10
+    },
+    {
+      "id": "4",
+      "itemNumber": "FTG81",
+      "originalName": "Made to Move - Fitness Barbie (Floral Yoga Pants)",
+      "name": "Millicent\"Millie\"",
+      "brand": "Barbie",
+      "series": "Made to Move",
+      "manufacturer": "Mattel",
+      "generation": "Modern",
+      "mold": "2015 Millie Mouth Closed",
+      "releaseYear": 2018,
+      "acquisitionYear": 2019,
+      "articulation": "SuperArticulated",
+      "bodyVolume": "Standard",
+      "footType": "Universal",
+      "status": "active",
+      "purchaseCondition": {
+        "state": "New",
+        "outfit": "original"
+      },
+      "isPlayset": false,
+
+  "gender":"Female",
+      "photos": [
+         { "imageUrl": "assets/doll-photos/4avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/4a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/4b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/4c.jpg", "notesImage": "Full length, white background" }
+      ],
+      "familyNames": ["8", "9", "10"],
+      "notes": [
+        "Gifted in 2019, NIB (New in Box)",
+        "Currently restyled, original outfit is stored safely",
+        "No partner"
+      ]
+    },
+    {
+      "id": "5",
+      "itemNumber": "GNC46",
+      "originalName": "BMR1959 Barbie - Petite (Neon Logo Hoodie & Biker Shorts)",
+      "name": "Chantal",
+      "brand": "Barbie",
+      "series": "BMR1959",
+      "manufacturer": "Mattel",
+      "generation": "Modern",
+      "mold": "2014 Claudette Face",
+      "releaseYear": 2020,
+      "acquisitionYear": 2021,
+      "articulation": "SuperArticulated",
+      "bodyVolume": "Petite",
+      "footType": "Universal",
+      "status": "active",
+      "purchaseCondition": {
+        "state": "New",
+        "outfit": "original",
+        "defects": ["Pixelated eye print"]
+      },
+      "isPlayset": false,
+
+  "gender":"Female",
+      "photos": [
+          { "imageUrl": "assets/doll-photos/5avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/5a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/5b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/6c.jpg", "notesImage": "Full length, white background" }
+      ],
+      "notes": [
+        "Gifted by Alexandra (Sasha) in 2021",
+        "Original hairstyle preserved (not unbraided)",
+        "Has pixelated eyes (factory defect)",
+        "No partner"
+      ]
+    },
+    {
+      "id": "6",
+      "itemNumber": "GXF05",
+      "originalName": "Made to Move Barbie - Blue Tie-Dye Yoga Pants",
+      "name": "Gina",
+      "brand": "Barbie",
+      "series": "Made to Move",
+      "manufacturer": "Mattel",
+      "generation": "Modern",
+      "mold": "2014 Neysa Face (Playline)",
+      "releaseYear": 2021,
+      "acquisitionYear": 2023,
+      "articulation": "SuperArticulated",
+      "bodyVolume": "Standard",
+      "footType": "Universal",
+      "status": "active",
+      "purchaseCondition": {
+        "state": "New",
+        "outfit": "original"
+      },
+      "isPlayset": false,
+
+  "gender":"Female",
+      "photos": [
+          { "imageUrl": "assets/doll-photos/6avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/6a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/6b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/6c.jpg", "notesImage": "Full length, white background" }
+      ],
+      "notes": [
+        "Gifted by Anton in 2023",
+        "Currently restyled, original outfit kept",
+        "Hairstyle has not been unbraided",
+        "No partner"
+      ]
+    },
+    {
+      "id": "7",
+      "itemNumber": "GRN30",
+      "originalName": "Barbie Extra No. 4 in Blue Curly Hair & Skateboard",
+      "name": "Blue Ivy",
+      "brand": "Barbie",
+      "series": "Barbie Extra",
+      "manufacturer": "Mattel",
+      "generation": "Modern",
+      "mold": "2014 Fashionistas Kim facemold",
+      "releaseYear": 2020,
+      "acquisitionYear": 2024,
+      "articulation": "FullyArticulated",
+      "bodyVolume": "Curvy",
+      "footType": "Flat Standard",
+      "status": "active",
+      "purchaseCondition": {
+        "state": "Used-Child",
+        "outfit": "original",
+        "defects": ["Severe hair degradation", "Requires reroot or head replacement"]
+      },
+      "isPlayset": false,
+
+  "gender":"Female",
+      "photos": [
+         { "imageUrl": "assets/doll-photos/7avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/7a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/7b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/7c.jpg", "notesImage": "Full length, white background" }
+      ],
+      "pets": [
+        {
+          "type": "Cat",
+          "name": "Whiskas",
+          "notes": "Twin cat 1"
+        },
+        {
+          "type": "Cat",
+          "name": "Kitekat",
+          "notes": "Twin cat 2"
+        }
+      ],
+      "notes": [
+        "Purchased for 7 EUR, out of box (OOB)",
+        "Hair condition is critical; restoration or customization is planned",
+        "Unbraided and restyled",
+        "No partner"
+      ],
+      "price": 7
+    },
+    {
+      "id": "8",
+      "itemNumber": "GRN28",
+      "originalName": "Barbie Extra No. 3 in Pink Coat with Pet Pig",
+      "name": "Belinda \"Billie\"",
+      "brand": "Barbie",
+      "series": "Barbie Extra",
+      "manufacturer": "Mattel",
+      "generation": "Modern",
+      "mold": "2015 Millie Mouth Closed",
+      "releaseYear": 2020,
+      "acquisitionYear": 2022,
+      "articulation": "FullyArticulated",
+      "bodyVolume": "Standard",
+      "footType": "Heeled",
+      "status": "active",
+      "purchaseCondition": {
+        "state": "New",
+        "outfit": "original",
+        "defects": ["Minor pixelated eye print"]
+      },
+      "isPlayset": false,
+
+  "gender":"Female",
+      "photos": [
+         { "imageUrl": "assets/doll-photos/8avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/8a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/8b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/8c.jpg", "notesImage": "Full length, white background" }
+      ],
+      "pets": [
+        {
+          "type": "Pig",
+          "name": "Rarity",
+          "notes": "With crown"
+        }
+      ],
+      "coupleName": "16",
+      "familyNames": ["4", "9", "10"],
+      "notes": [
+        "Gifted by Kir in 2023",
+        "Original hairstyle preserved"
+      ]
+    },
+    {
+      "id": "9",
+      "itemNumber": "HDJ45",
+      "originalName": "Barbie Extra No. 12 in Floral Two-Piece Outfit & Bunny",
+      "name": "Vilhelmina \"Willi\"",
+      "brand": "Barbie",
+      "series": "Barbie Extra",
+      "manufacturer": "Mattel",
+      "generation": "Modern",
+      "mold": "2015 Millie Mouth Closed",
+      "releaseYear": 2021,
+      "acquisitionYear": 2023,
+      "articulation": "FullyArticulated",
+      "bodyVolume": "Petite",
+      "footType": "Heeled",
+      "status": "active",
+      "purchaseCondition": {
+        "state": "New",
+        "outfit": "original"
+      },
+      "isPlayset": false,
+
+  "gender":"Female",
+      "photos": [
+         { "imageUrl": "assets/doll-photos/9avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/9a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/9b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/9c.jpg", "notesImage": "Full length, white background" }
+      ],
+      "pets": [
+        {
+          "type": "Bunny",
+          "name": "Felix",
+          "notes": "Included with the doll"
+        }
+      ],
+      "familyNames": ["4", "8", "10"],
+      "notes": [
+        "Gifted by Kir in 2023",
+        "Needs hair washing to remove factory printed hearts on strands",
+        "Restyled",
+        "No partner"
+      ],
+      "washSchedule": "Planned: Hair treatment to remove prints"
+    },
+    {
+      "id": "10",
+      "itemNumber": "HYX76",
+      "originalName": "Barbie Deluxe Style Wave 1 Millie",
+      "name": "Tilda \"Tilly\"",
+      "brand": "Barbie",
+      "series": "Deluxe Style",
+      "manufacturer": "Mattel",
+      "generation": "Modern",
+      "mold": "2015 Millie Mouth Closed",
+      "releaseYear": 2024,
+      "acquisitionYear": 2025,
+      "articulation": "FullyArticulated",
+      "bodyVolume": "Standard",
+      "footType": "Heeled",
+      "status": "active",
+      "purchaseCondition": {
+        "state": "New",
+        "outfit": "original"
+      },
+      "isPlayset": false,
+
+  "gender":"Female",
+      "photos": [
+         { "imageUrl": "assets/doll-photos/10avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/10a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/10b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/10c.jpg", "notesImage": "Full length, white background" }
+      ],
+      "familyNames": ["4", "8", "9"],
+      "notes": [
+        "Gift from husband, 2025",
+        "Original hairstyle preserved"
+      ]
+    },
+    {
+  "id": "11",
+  "itemNumber": "DYY90",
+  "originalName": "Fashionistas #60 Patchwork Denim (Tall)",
+  "name": "Jade",
+  "brand": "Barbie",
+  "series": "Fashionistas",
+  "manufacturer": "Mattel",
+  "generation": "Modern",
+  "mold": "2016 June Face",
+  "releaseYear": 2017,
+  "acquisitionYear": 2019,
+  "articulation": "Basic",
+  "bodyVolume": "Tall",
+  "footType": "Flat Standard",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+     { "imageUrl": "assets/doll-photos/11avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/11a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/11b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/11c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "familyNames": ["17"],
+  "notes": [
+    "Gifted by Sasha in 2019",
+    "Head/hair has been washed",
+    "Currently restyled (original patchwork dress was considered 'trashy')",
+    "No partner, no relatives, no pets"
+  ],
+  "status": "active"
+},
+{
+  "id": "12",
+  "itemNumber": "FXP03",
+  "originalName": "Barbie Career - Barista Ken (Man Bun)",
+  "name": "Adam",
+  "brand": "Barbie",
+  "series": "Career",
+  "manufacturer": "Mattel",
+  "generation": "Modern",
+  "mold": "2016 Ken (Ryan) with Man Bun #FNJ38",
+  "releaseYear": 2019,
+  "acquisitionYear": 2025,
+  "articulation": "Basic",
+  "bodyVolume": "Standard",
+  "footType": "Flat Standard",
+  "purchaseCondition": {
+    "state": "Used-Child",
+    "outfit": "original",
+    "defects": ["Pants torn at the seam (repaired)"]
+  },
+  "isPlayset": false,
+
+  "gender":"Male",
+  "photos": [
+     { "imageUrl": "assets/doll-photos/12avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/12a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/12b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/12c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "coupleName": "17",
+  "notes": [
+    "Purchased for 1 EUR after a child",
+    "Extremely poor quality of original clothes: pants were torn at the seam and had to be sewn",
+    "Needs a body swap (requires a new articulated body)",
+    "Currently restyled/partially changed",
+    "Partner/Wife: Allegra"
+  ],
+  "status": "active",
+  "price": 1
+},
+{
+  "id": "13",
+  "itemNumber": "HBV11",
+  "originalName": "Fashionistas #177 Barbie with Floral Dress",
+  "name": "Nadya",
+  "brand": "Barbie",
+  "series": "Fashionistas",
+  "manufacturer": "Mattel",
+  "generation": "Modern",
+  "mold": "2020 Fashionistas Face #GRB52",
+  "releaseYear": 2021,
+  "acquisitionYear": 2022,
+  "articulation": "Basic",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+      { "imageUrl": "assets/doll-photos/13avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/13a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/13b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/13c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "familyNames": ["14"],
+  "notes": [
+    "Gifted by Anya in 2022",
+    "Currently restyled",
+    "Needs a body swap (requires a new articulated body)",
+    "Hair has not been washed yet",
+    "Sister: Nia"
+  ],
+  "status": "active"
+},
+{
+  "id": "14",
+  "itemNumber": "HHN07",
+  "originalName": "Barbie Extra No. 15 in Leopard Print Jacket & Pet Puppy",
+  "name": "Nia",
+  "brand": "Barbie",
+  "series": "Barbie Extra",
+  "manufacturer": "Mattel",
+  "generation": "Modern",
+  "mold": "2020 Fashionistas Face #GRB52",
+  "releaseYear": 2022,
+  "acquisitionYear": 2022,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+     { "imageUrl": "assets/doll-photos/14avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/14a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/14b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/14c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "pets": [
+    {
+      "type": "Dog",
+      "name": "Domino",
+      "notes": "Dalmatian with heart-shaped sunglasses"
+    }
+  ],
+  "coupleName": "15",
+  "familyNames": ["13"],
+  "notes": [
+    "Gift from husband, 2022",
+    "Flawless beauty, the star of the collection",
+    "Original hairstyle and outfit preserved",
+    "Sister: Nadya",
+    "Husband: Ezra"
+  ],
+  "status": "active"
+},
+{
+  "id": "15",
+  "itemNumber": "GHT93",
+  "originalName": "BMR1959 Ken - Harley Face (Neon Overalls & Puffer Jacket)",
+  "name": "Ezra",
+  "brand": "Barbie",
+  "series": "BMR1959",
+  "manufacturer": "Mattel",
+  "generation": "Modern",
+  "mold": "2019 Harley Face (BMR1959)",
+  "releaseYear": 2020,
+  "acquisitionYear": 2021,
+  "articulation": "SuperArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Universal",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Male",
+  "photos": [
+     { "imageUrl": "assets/doll-photos/15avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/15a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/15b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/15c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "coupleName": "14",
+  "notes": [
+    "Gifted by Sasha in 2021",
+    "Rare and highly sought-after model",
+    "Perfect condition, original hairstyle (braids) and outfit preserved",
+    "Wife: Nia",
+    "No pets"
+  ],
+  "status": "active"
+},
+{
+  "id": "16",
+  "itemNumber": "HPT48",
+  "originalName": "Barbie Extra Fly Ken - Desert Theme",
+  "name": "Zachary \"Zak\"",
+  "brand": "Barbie",
+  "series": "Barbie Extra Fly",
+  "manufacturer": "Mattel",
+  "generation": "Modern",
+  "mold": "2022 Ken Collector / EXTRA fly Sculpt",
+  "releaseYear": 2023,
+  "acquisitionYear": 2023,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Flat Standard",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Male",
+  "photos": [
+      { "imageUrl": "assets/doll-photos/16avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/16a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/16b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/16c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "coupleName": "8",
+  "familyNames": ["2"],
+  "notes": [
+    "Gifted by Pasha in 2023",
+    "Major disappointment: looked much better on promo photos than in reality",
+    "Original hairstyle and outfit preserved",
+    "Wife: Belinda \"Billie\"",
+    "Sister: Luna"
+  ],
+  "status": "active"
+},
+{
+  "id": "17",
+  "itemNumber": "HHN09",
+  "originalName": "Barbie Extra No. 17 in Blue Floral Outfit",
+  "name": "Allegra",
+  "brand": "Barbie",
+  "series": "Barbie Extra",
+  "manufacturer": "Mattel",
+  "generation": "Modern",
+  "mold": "2016 June Face",
+  "releaseYear": 2022,
+  "acquisitionYear": 2023,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+      { "imageUrl": "assets/doll-photos/17avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/17a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/17b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/17c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "pets": [
+    {
+      "type": "Dog",
+      "name": "Marshmallow",
+      "notes": "Included with the doll"
+    }
+  ],
+  "coupleName": "12",
+  "familyNames": ["11"],
+  "notes": [
+    "Gifted by Kir in 2023",
+    "Hair unbraided, currently restyled (original outfit kept in storage)",
+    "Husband: Adam",
+    "Sister: Jade (same June mold)"
+  ],
+  "status": "active"
+},
+{
+  "id": "18",
+  "itemNumber": "GNC47",
+  "originalName": "BMR1959 Barbie - Tall (Mesh Top & Plaid Short)",
+  "name": "Mayumi",
+  "brand": "Barbie",
+  "series": "BMR1959",
+  "manufacturer": "Mattel",
+  "generation": "Modern",
+  "mold": "2018 Tango Face (BMR1959)",
+  "releaseYear": 2020,
+  "acquisitionYear": 2021,
+  "articulation": "SuperArticulated",
+  "bodyVolume": "Tall",
+  "footType": "Universal",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+      { "imageUrl": "assets/doll-photos/18avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/18a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/18b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/18c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Gifted by Anya in 2021",
+    "Perfect condition, original hairstyle preserved",
+    "Partner planned for the future",
+    "No family, no pets"
+  ],
+  "status": "active"
+},
+{
+  "id": "19",
+  "itemNumber": "GFX28",
+  "originalName": "Barbie You Can Be Anything - Political Candidate",
+  "name": "Jacqueline \"Jackie\"",
+  "brand": "Barbie",
+  "series": "Career",
+  "manufacturer": "Mattel",
+  "generation": "Modern",
+  "mold": "2000 Kayla / Lea",
+  "releaseYear": 2019,
+  "acquisitionYear": 2019,
+  "articulation": "Basic",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+      { "imageUrl": "assets/doll-photos/19avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/19a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/19b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/19c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Gifted by Anya in 2019",
+    "Perfect condition, NIB (New in Box)",
+    "Original hairstyle and outfit preserved",
+    "Confirmed Kayla / Lea facemold (©2000)",
+    "No family or partners assigned yet"
+  ],
+  "status": "active"
+},
+{
+  "id": "20",
+  "itemNumber": "HHG22",
+  "originalName": "Barbie Cutie Reveal Wave 1 - Panda",
+  "name": "Raquelle",
+  "brand": "Barbie",
+  "series": "Cutie Reveal",
+  "manufacturer": "Mattel",
+  "generation": "Modern",
+  "mold": "2015 Olivia / Pizzazz",
+  "releaseYear": 2022,
+  "acquisitionYear": 2025,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Flat Standard",
+  "purchaseCondition": {
+    "state": "Used-Child",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+     { "imageUrl": "assets/doll-photos/20avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/20a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/20b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/20c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Sister to Asya",
+    "Acquired in 2025, previously owned by a child",
+    "Full original outfit preserved",
+    "Hair in good condition",
+    "Body: Poseable Raquelle body",
+    "No partner assigned"
+  ],
+  "familyNames": ["1"],
+  "status": "active",
+  "pets": [
+    {
+      "type": "Panda",
+      "name": "Panda",
+      "notes": "Small panda pet from Cutie Reveal set"
+    }
+  ]
+},
+{
+  "id": "21",
+  "itemNumber": "JFX99",
+  "originalName": "Barbie Dream Besties - Renee",
+  "name": "Renisenb \"Reni\"",
+  "brand": "Barbie",
+  "series": "Dream Besties",
+  "manufacturer": "Mattel",
+  "generation": "Modern",
+  "mold": "2024 Dream Besties Renee",
+  "releaseYear": 2024,
+  "acquisitionYear": 2025,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+      { "imageUrl": "assets/doll-photos/21avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/21a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/21b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/21c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased NIB (New in Box) in 2025",
+    "Original hairstyle, never washed",
+    "Never redressed",
+    "Renee's unique Dream Besties facemold",
+    "Heel feet (fits roller skates)"
+  ],
+  "status": "active",
+  "price": 25
+},
+{
+  "id": "22",
+  "itemNumber": "HYC23",
+  "originalName": "Barbie Dream Besties - Teresa",
+  "name": "Madison",
+  "brand": "Barbie",
+  "series": "Dream Besties",
+  "manufacturer": "Mattel",
+  "generation": "Modern",
+  "mold": "2024 Dream Besties Teresa",
+  "releaseYear": 2024,
+  "acquisitionYear": 2025,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+      { "imageUrl": "assets/doll-photos/22avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/22a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/22b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/22c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased NIB (New in Box) in 2025 for 10 EUR",
+    "Perfect condition, original hairstyle preserved",
+    "Never washed, never redressed",
+    "Unique Dream Besties Teresa facemold (2024)",
+    "Heel feet, standard articulated body"
+  ],
+  "status": "active",
+  "price": 10
+},
+{
+  "id": "23",
+  "itemNumber": "14644",
+  "originalName": "Valentine Sweetheart Barbie",
+  "name": "Barbara Valentina",
+  "brand": "Barbie",
+  "series": "Holiday / Special Edition",
+  "manufacturer": "Mattel",
+  "generation": "Modern",
+  "mold": "1976 Superstar",
+  "releaseYear": 1996,
+  "acquisitionYear": 2021,
+  "articulation": "LegsArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+     { "imageUrl": "assets/doll-photos/23avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/23a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/23b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/23c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Gifted by husband in 2021",
+    "NIB (New in Box) - perfect condition",
+    "Classic TNT body with bendable click-legs",
+    "Non-articulated 'straight' arms",
+    "Superstar facemold",
+    "Sisters: Rose and Flora"
+  ],
+  "familyNames": ["24", "25"],
+  "status": "active"
+},
+{
+  "id": "24",
+  "itemNumber": "17032",
+  "originalName": "Blossom Beauty",
+  "name": "Barbara Flora",
+  "brand": "Barbie",
+  "series": "Blossom Beauty",
+  "manufacturer": "Mattel",
+  "generation": "Modern",
+  "mold": "1976 Superstar",
+  "releaseYear": 1997,
+  "acquisitionYear": 2020,
+  "articulation": "LegsArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Child",
+    "outfit": "custom",
+    "defects": ["Missing left earring"]
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+     { "imageUrl": "assets/doll-photos/24avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/24a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/24b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/24c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Gifted by husband in 2020",
+    "Condition: Used-Child, missing left earring",
+    "Shoes were missing, purchased separately (Heeled)",
+    "Classic TNT body with click-legs and straight arms",
+    "Magic 'blooming' dress mechanism",
+    "Sisters: Barbara Valentina and Rose"
+  ],
+  "familyNames": ["23", "25"],
+  "status": "active"
+},
+{
+  "id": "25",
+  "itemNumber": "17237",
+  "originalName": "City Style Barbie",
+  "name": "Barbara Rose",
+  "brand": "Barbie",
+  "series": "City Style",
+  "manufacturer": "Mattel",
+  "generation": "Modern",
+  "mold": "1976 Superstar",
+  "releaseYear": 1996,
+  "acquisitionYear": 2021,
+  "articulation": "LegsArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+       { "imageUrl": "assets/doll-photos/25avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/25a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/25b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/25c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Gifted by Pasha in 2021",
+    "NIB (New in Box), perfect condition",
+    "Standard maintenance: replaced old hair/accessory elastics",
+    "Classic TNT body with click-legs and straight arms",
+    "Superstar facemold",
+    "Part of the Barbara sisterhood (Valentina, Flora, Rose)"
+  ],
+  "familyNames": ["23", "24"],
+  "status": "active"
+},
+{
+  "id": "26",
+  "itemNumber": "N/A",
+  "originalName": "Sandra Happy Bride",
+  "name": "Sandra",
+  "brand": "Sandra",
+  "series": "Sandra Collection",
+  "manufacturer": "GWToys",
+  "generation": "Modern",
+  "mold": "Sandra (Superstar clone)",
+  "releaseYear": 1995,
+  "acquisitionYear": 2023,
+  "articulation": "LegsArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Child",
+    "outfit": "original",
+    "defects": [
+      "Broken click-mechanism in one leg",
+      "Felt-tip pen stain on the right leg",
+      "Missing original shoes"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+   { "imageUrl": "assets/doll-photos/26avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/26a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/26b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/26c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Produced by GW Toys",
+    "Gifted by Anton in 2023",
+    "Extensive hair restoration completed: washed and detangled",
+    "Original bridal outfit preserved",
+    "Legs: click-mechanism (one is broken), Arms: straight/static",
+    "Non-original shoes added",
+    "Very fragile condition, stored carefully"
+  ],
+  "status": "active"
+},
+{
+  "id": "27",
+  "itemNumber": "250517",
+  "originalName": "Bratz First Edition Sasha (V1)",
+  "name": "Meygan",
+  "brand": "Bratz",
+  "series": "First Edition",
+  "manufacturer": "MGA Entertainment",
+  "generation": "G1",
+  "mold": "2001 Open Mouth",
+  "releaseYear": 2001,
+  "acquisitionYear": 2019,
+  "articulation": "LegsArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Flat Non-Standard",
+  "purchaseCondition": {
+    "state": "Used-Child",
+    "outfit": "custom",
+    "defects": [
+      "Original outfit lost",
+      "Wearing custom clothes"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+    { "imageUrl": "assets/doll-photos/27avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/27a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/27b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/27c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased for 3 EUR in 2019",
+    "Original doll is First Edition Sasha V1, renamed by owner to Meygan",
+    "Divine Saran hair condition, excellent plastic",
+    "Standard 2001 Bratz body with click-knees",
+    "Dressed in custom outfit as the original was missing",
+    "No pets or family assigned"
+  ],
+  "status": "active",
+  "price": 3
+},
+{
+  "id": "28",
+  "itemNumber": "538103",
+  "originalName": "Bratz BFFL - Jade & Cloe 2-Pack",
+  "name": "Jade",
+  "brand": "Bratz",
+  "series": "BFFL (Best Friends For Life)",
+  "manufacturer": "MGA Entertainment",
+  "generation": "G2",
+  "mold": "2015 Open Mouth",
+  "releaseYear": 2015,
+  "acquisitionYear": 2022,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Flat Non-Standard",
+  "purchaseCondition": {
+    "state": "Used-Child",
+    "outfit": "custom",
+    "defects": [
+      "Severe glue seepage in hair",
+      "Low-quality brittle plastic",
+      "Non-original outfit",
+      "Broken set (Cloe is destroyed)"
+    ]
+  },
+  "isPlayset": true,
+
+  "gender":"Female",
+  "playsetDollsIds": ["Cloe"],
+  "photos": [
+    { "imageUrl": "assets/doll-photos/28avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/28a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/28b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/28c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased as a set for 3 EUR in 2022 (approx 1.5 EUR per doll)",
+    "The biggest disappointment in the collection due to poor quality",
+    "Body features articulated knees (ball joints) but stiff overall",
+    "Hair is sticky/oily due to internal head glue",
+    "Cloe broke immediately after falling: body split at the seams",
+    "Target for sale/rehoming"
+  ],
+  "status": "active",
+  "price": 1.5
+},
+{
+  "id": "29",
+  "itemNumber": "560548",
+  "originalName": "L.O.L. Surprise! O.M.G. Series 1 - Swag",
+  "name": "Anastasia",
+  "brand": "L.O.L. Surprise! O.M.G.",
+  "series": "O.M.G. Series 1",
+  "manufacturer": "MGA Entertainment",
+  "generation": "G1",
+  "mold": "O.M.G. Original (Standard)",
+  "releaseYear": 2019,
+  "acquisitionYear": 2025,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Child",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+    { "imageUrl": "assets/doll-photos/29avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/29a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/29b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/29c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased for 15 EUR in 2025",
+    "Condition is perfect, all micro-braids are intact",
+    "Original outfit preserved",
+    "Highly articulated body with removable hands",
+    "Kept on a high shelf to protect from the cat's interest",
+    "No complaints about quality, unlike the 2015 Bratz"
+  ],
+  "status": "active",
+  "price": 15
+},
+{
+  "id": "30",
+  "itemNumber": "565123",
+  "originalName": "L.O.L. Surprise! O.M.G. Series 2 - Alt Grrrl",
+  "name": "Ren",
+  "brand": "L.O.L. Surprise! O.M.G.",
+  "series": "O.M.G. Series 2",
+  "manufacturer": "MGA Entertainment",
+  "generation": "G1",
+  "mold": "O.M.G. Original (Standard)",
+  "releaseYear": 2019,
+  "acquisitionYear": 2024,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Child",
+    "outfit": "original",
+    "defects": [
+      "Missing both earrings (one lost, one broken by cat)",
+      "Disappointing hair quality/texture"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+    { "imageUrl": "assets/doll-photos/30avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/30a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/30b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/30c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased for 15 EUR in 2024",
+    "Cat Maurizio knocked her off the shelf (20cm fall), breaking the remaining earring",
+    "Hair quality is a major disappointment (texture/maintenance issues)",
+    "Standard O.M.G. body with articulation at knees, elbows, and wrists",
+    "Despite defects, kept in original outfit"
+  ],
+  "status": "active",
+  "price": 15
+},
+{
+  "id": "31",
+  "itemNumber": "565161",
+  "originalName": "L.O.L. Surprise! O.M.G. Lights - Groovy Babe",
+  "name": "Andy",
+  "brand": "L.O.L. Surprise! O.M.G.",
+  "series": "O.M.G. Lights",
+  "manufacturer": "MGA Entertainment",
+  "generation": "G1",
+  "mold": "O.M.G. Original (Standard)",
+  "releaseYear": 2020,
+  "acquisitionYear": 2023,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Child",
+    "outfit": "incomplete",
+    "defects": [
+      "Missing jacket",
+      "Missing earrings",
+      "Missing glasses"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+   { "imageUrl": "assets/doll-photos/31avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/31a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/31b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/31c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased for 3 EUR in 2023",
+    "Surprisingly good hair quality, possibly treated by previous owner",
+    "Classic black & white mod aesthetic",
+    "Target of Maurizio's MGA-hostility; kept in a safe zone",
+    "Incomplete outfit, but body and hair are in great shape"
+  ],
+  "status": "active",
+  "price": 3
+},
+{
+  "id": "32",
+  "itemNumber": "582731",
+  "originalName": "Shadow High Neon Shadow - Harley Limestone",
+  "name": "Laima",
+  "brand": "Shadow High",
+  "series": "Rainbow Vision",
+  "manufacturer": "MGA Entertainment",
+  "generation": "G1",
+  "mold": "3B Sculpt",
+  "releaseYear": 2022,
+  "acquisitionYear": 2023,
+  "articulation": "SuperArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Universal",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original",
+    "defects": [
+      "Small gray dot/mole on the forehead"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+   { "imageUrl": "assets/doll-photos/32avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/32a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/32b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/32c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Gifted by husband in 2023",
+    "NIB (New in Box) at the time of arrival",
+    "Status: NOT washed. Original factory state except for hair combing",
+    "Massive amount of factory glue/gel was combed out, but hair remains unwashed",
+    "Full original outfit preserved (High-quality Neon Shadow gear)",
+    "Foot type: Universal (articulated ankle fits both flats and heels)",
+    "Small manufacturing defect (gray dot) on forehead, treated as a 'mole'",
+    "Highly articulated body, including chest and ankle joints",
+    "Another MGA target for Maurizio's surveillance"
+  ],
+  "status": "active"
+},
+{
+  "id": "33",
+  "itemNumber": "35800",
+  "originalName": "Liv Moonlight Dance - Daniela",
+  "name": "Dasha",
+  "brand": "Liv",
+  "series": "Moonlight Dance",
+  "manufacturer": "Spin Master",
+  "generation": "Classic",
+  "mold": "Daniela (Insert Eyes)",
+  "releaseYear": 2010,
+  "acquisitionYear": 2023,
+  "articulation": "SuperArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Universal",
+  "purchaseCondition": {
+    "state": "Used-Child",
+    "outfit": "nude",
+    "defects": [
+      "Bought nude without wig",
+      "Missing original outfit"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+   { "imageUrl": "assets/doll-photos/33avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/33a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/33b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/33c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Flea market find for 1 EUR",
+    "Company: Spin Master",
+    "Brown wig and custom clothes added later",
+    "Realistic inset eyes",
+    "Full mobility with 14 points of articulation",
+    "High quality materials, significantly better than Bratz 2015"
+  ],
+  "status": "active"
+},
+{
+  "id": "34",
+  "itemNumber": "N/A",
+  "originalName": "Cool Girl Roxie - Blond",
+  "name": "Mia",
+  "brand": "Other",
+  "series": "Blond",
+  "manufacturer": "Other",
+  "generation": "Modern",
+  "mold": "Cool Girl (RH-style)",
+  "releaseYear": 2024,
+  "acquisitionYear": 2025,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+   { "imageUrl": "assets/doll-photos/34avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/34a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/34b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/34c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased New for 7 EUR in 2025",
+    "Brand: Roxie (by Ele Fun)",
+    "High-quality budget doll, looks like Rainbow High but is a different brand",
+    "Status: NOT washed. Original factory hair condition",
+    "Full original outfit: beige sweater with heart, headband with ears, and shorts",
+    "Heeled feet; body is fully articulated but simpler than MGA standard",
+    "Might be safe from Maurizio since she is not MGA"
+  ],
+  "status": "active",
+  "price": 7
+},
+{
+  "id": "35",
+  "itemNumber": "N/A",
+  "originalName": "Funky Toys Glam Diva",
+  "name": "Kristina",
+  "brand": "Other",
+  "series": "Other",
+  "manufacturer": "Other",
+  "generation": "Modern",
+  "mold": "Glam Diva Standard",
+  "releaseYear": 2024,
+  "acquisitionYear": 2025,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Curvy",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original",
+    "defects": [
+      "Factory defect: black spots on legs",
+      "Thin hair rooting (hidden by original hairstyle)"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+    { "imageUrl": "assets/doll-photos/35avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/35a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/35b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/35c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Gift from husband in 2025 (NIB)",
+    "Heavy, solid plastic body",
+    "Body type is closer to Curvy than Standard",
+    "Hair rooting is sparse, looks best kept in original style",
+    "Arrived with black stains on legs from the factory/packaging",
+    "Brand/Series marked as Other due to low likelihood of future acquisitions",
+    "Fully articulated but not as poseable as Made to Move"
+  ],
+  "status": "active"
+},
+{
+  "id": "36",
+  "itemNumber": "6167",
+  "originalName": "Kurhn 17th Anniversary Little Panda",
+  "name": "Silvana",
+  "brand": "Kurhn",
+  "series": "Kurhn Anniversary",
+  "manufacturer": "Kurhn",
+  "generation": "Modern",
+  "mold": "Kurhn Standard",
+  "releaseYear": 2021,
+  "acquisitionYear": 2023,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original",
+    "defects": [
+      "Extremely poor quality stand"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+     { "imageUrl": "assets/doll-photos/36avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/36a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/36b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/36c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Gift from husband in 2023 (NIB)",
+    "Purchased for 30 EUR",
+    "17th Anniversary edition (Little Panda theme)",
+    "Condition: Pristine, never undressed",
+    "Body: Standard Kurhn articulated body (approx. 28cm)",
+    "Includes a cute panda-styled bag",
+    "Foot type: Heeled (Standard Kurhn)",
+    "The stand is described as 'terrible'/unstable",
+    "One of several Kurhn dolls in the collection"
+  ],
+  "status": "active",
+  "price": 30
+},
+{
+  "id": "37",
+  "itemNumber": "R4425N",
+  "originalName": "Sonya Rose Daily Collection - Путешествие во Францию",
+  "name": "Twiggy",
+  "brand": "Sonya Rose",
+  "series": "Daily Collection",
+  "manufacturer": "Kurhn",
+  "generation": "Modern",
+  "mold": "Kurhn Standard",
+  "releaseYear": 2019,
+  "acquisitionYear": 2020,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+    { "imageUrl": "assets/doll-photos/37avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/37a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/37b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/37c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Gift from Anya in 2020 (NIB)",
+    "Manufacturer: Kurhn (branded as Sonya Rose for international market)",
+    "Status: NOT washed, pristine condition",
+    "Hat has never been removed from the head",
+    "Classic Kurhn articulated body with heeled feet",
+    "High-quality textile outfit from the 'Daily Collection' series"
+  ],
+  "status": "active"
+},
+{
+  "id": "38",
+  "itemNumber": "N2854",
+  "originalName": "Monster High Signature - Cleo de Nile",
+  "name": "Cleo de Nile",
+  "brand": "Monster High",
+  "series": "Signature (Basic G1)",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Cleo de Nile",
+  "releaseYear": 2010,
+  "acquisitionYear": 2020,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Child",
+    "outfit": "original",
+    "defects": [
+      "Missing leg bandage/sleeve",
+      "Metallic tinsel (lurex) in hair is damaged/frizzy"
+    ]
+  },
+  "isPlayset": true,
+
+  "gender":"Female",
+  "playsetDollsIds": ["39"],
+  "photos": [
+    { "imageUrl": "assets/doll-photos/38avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/38a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/38b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/38c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased separately from Deuce in 2020",
+    "Classic G1 body with gold tinsel in hair",
+    "Diary",
+    "Original outfit is mostly complete except for the leg accessory"
+  ],
+  "coupleName": "Deuce Gorgon",
+  "status": "active",
+  "pets": [
+    {
+      "type": "Snake",
+      "name": "Hissette",
+      "notes": "Egyptian cobra with a crown"
+    }
+  ],
+  "familyNames": ["Nefera de Nile"]
+},
+{
+  "id": "39",
+  "itemNumber": "N2854",
+  "originalName": "Monster High Signature - Deuce Gorgon",
+  "name": "Deuce Gorgon",
+  "brand": "Monster High",
+  "series": "Signature (Basic G1)",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Deuce Gorgon",
+  "releaseYear": 2010,
+  "acquisitionYear": 2020,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Flat Standard",
+  "purchaseCondition": {
+    "state": "Used-Child",
+    "outfit": "original",
+    "defects": [
+      "Hip joint issues (elastic/tension problems)",
+      "Originally purchased without pet (mouse added later)"
+    ]
+  },
+  "isPlayset": true,
+
+  "gender":"Male",
+  "playsetDollsIds": ["38"],
+  "photos": [
+     { "imageUrl": "assets/doll-photos/39avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/39a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/39b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/39c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased separately from Cleo in 2020",
+    "Pet Perseus was bought separately to complete the set",
+    "Classic manster body with flat feet"
+  ],
+  "coupleName": "Cleo de Nile",
+  "status": "active",
+  "pets": [
+    {
+      "type": "Two-tailed rat",
+      "name": "Perseus",
+      "notes": "Added to the collection after purchasing the doll"
+    }
+  ],
+  "familyNames": ["Viperine Gorgon"]
+},
+{
+  "id": "40",
+  "itemNumber": "N5946",
+  "originalName": "Monster High Signature - Draculaura",
+  "name": "Draculaura",
+  "brand": "Monster High",
+  "series": "Signature (Basic G1)",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Draculaura",
+  "releaseYear": 2010,
+  "acquisitionYear": 2019,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Child",
+    "outfit": "original",
+    "defects": [
+      "Ink stains on the face (pen marks)",
+      "Missing earrings",
+      "Missing necklace",
+      "Missing umbrella",
+      "Restored left palm",
+      "Repaired hip joints (replaced elastics/joints)"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+    { "imageUrl": "assets/doll-photos/40avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/40a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/40b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/40c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Received in very poor condition",
+    "Major restoration work: hip joints replaced and hand fixed",
+    "Count Fabulous was purchased separately to complete the doll",
+    "Face has stubborn ink stains from previous owner"
+  ],
+  "status": "active",
+  "pets": [
+    {
+      "type": "Bat",
+      "name": "Count Fabulous",
+      "notes": "Purchased separately after doll acquisition"
+    }
+  ]
+},
+{
+  "id": "41",
+  "itemNumber": "N5948",
+  "originalName": "Monster High Signature - Lagoona Blue",
+  "name": "Lagoona Blue",
+  "brand": "Monster High",
+  "series": "Signature (Basic G1)",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Lagoona Blue",
+  "releaseYear": 2010,
+  "acquisitionYear": 2019,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Child",
+    "outfit": "original",
+    "defects": [
+      "Body is a replacement (not original to this specific doll)",
+      "Torn mesh on the swimsuit",
+      "Missing bracelet, pendant, and hair flower",
+      "Acquired in 'nightmare' condition"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+     { "imageUrl": "assets/doll-photos/41avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/41a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/41b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/41c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Gifted in 2019 in terrible condition",
+    "Full restoration: replacement body purchased separately",
+    "Leg fins and earrings were missing and purchased later",
+    "Neptuna (pet) was missing and purchased separately",
+    "Swimsuit mesh remains damaged"
+  ],
+  "status": "active",
+  "coupleName": "Gillington 'Gil' Webber",
+  "pets": [
+    {
+      "type": "Piranha",
+      "name": "Neptuna",
+      "notes": "Purchased separately to complete the doll"
+    }
+  ]
+},
+{
+  "id": "42",
+  "itemNumber": "Y7705",
+  "originalName": "Monster High 13 Wishes - Clawdeen Wolf",
+  "name": "Clawdeen Wolf",
+  "brand": "Monster High",
+  "series": "13 Wishes",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Clawdeen Wolf",
+  "releaseYear": 2013,
+  "acquisitionYear": 2021,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Child",
+    "outfit": "original",
+    "defects": [
+      "Originally had very greasy hair (factory glue seepage)",
+      "Missing lamp accessory"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+     { "imageUrl": "assets/doll-photos/42avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/42a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/42b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/42c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased used in 2021",
+    "Extensive hair treatment done to remove factory grease",
+    "Missing the purple/gold lantern that came with the original release",
+    "The gold details on the outfit and shoes are in good condition"
+  ],
+  "status": "active",
+  "familyNames": ["Clawd Wolf", "Howleen Wolf", "Clawdia Wolf"]
+},
+{
+  "id": "43",
+  "itemNumber": "Y7710",
+  "originalName": "Monster High 13 Wishes - Howleen Wolf",
+  "name": "Howleen Wolf",
+  "brand": "Monster High",
+  "series": "13 Wishes",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Howleen Wolf",
+  "releaseYear": 2013,
+  "acquisitionYear": 2020,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Petite",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Collector",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+     { "imageUrl": "assets/doll-photos/43avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/44a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/44b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/44c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased from a collector in 2020 in mint condition",
+    "Original beanie is still factory-attached to the head",
+    "Includes original stand",
+    "Features the shorter 'younger sister' (petite) body type"
+  ],
+  "status": "active",
+  "pets": [
+    {
+      "type": "Hedgehog",
+      "name": "Cushion",
+      "notes": "Original pet included"
+    }
+  ],
+  "familyNames": ["Clawdeen Wolf", "Clawd Wolf", "Clawdia Wolf"]
+},
+{
+  "id": "44",
+  "itemNumber": "BBV48",
+  "originalName": "Monster High 13 Wishes - Lagoona Blue",
+  "name": "Lagoona Blue",
+  "brand": "Monster High",
+  "series": "13 Wishes",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Lagoona Blue",
+  "releaseYear": 2013,
+  "acquisitionYear": 2020,
+  "price": 50,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+      { "imageUrl": "assets/doll-photos/44avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/44a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/44b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/44c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased NEW in 2020 for 50 EUR",
+    "Diary",
+    "Perfect condition: hair is not unbraided, factory elastics are still in place",
+    "Special 'Freshwater' yellow skin tone version"
+  ],
+  "coupleName": "Gillington 'Gil' Webber",
+  "status": "active",
+  "pets": [
+    {
+      "type": "Piranha",
+      "name": "Neptuna",
+      "notes": "Original pet included"
+    }
+  ]
+},
+{
+  "id": "45",
+  "itemNumber": "Y7708",
+  "originalName": "Monster High 13 Wishes - Twyla",
+  "name": "Twyla",
+  "brand": "Monster High",
+  "series": "13 Wishes",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Twyla",
+  "releaseYear": 2013,
+  "acquisitionYear": 2020,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Petite",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Child",
+    "outfit": "original",
+    "defects": [
+      "Faded/rubbed patterns on legs",
+      "Missing one bracelet",
+      "Originally purchased without pet"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+     { "imageUrl": "assets/doll-photos/45avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/45a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/45b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/45c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased used in 2020",
+    "Dustin (pet) was purchased separately later to complete the set",
+    "Features the shorter 'petite' body type",
+    "Leg patterns show signs of wear/rubbing"
+  ],
+  "status": "active",
+  "pets": [
+    {
+      "type": "Dust Bunny",
+      "name": "Dustin",
+      "notes": "Purchased separately after doll acquisition"
+    }
+  ]
+},
+{
+  "id": "46",
+  "itemNumber": "V7974",
+  "originalName": "Monster High Dead Tired - Cleo de Nile",
+  "name": "Cleo de Nile",
+  "brand": "Monster High",
+  "series": "Dead Tired",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Cleo de Nile",
+  "releaseYear": 2011,
+  "acquisitionYear": 2021,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Collector",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+      { "imageUrl": "assets/doll-photos/46avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/46a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/46b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/46c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased from a collector in 2021 in excellent condition",
+    "Full set with all original accessories included",
+    "Features exceptionally soft hair without tinsel or heavy factory glue"
+  ],
+  "familyNames":["Nefera de Nile"],
+  "coupleName": "Deuce Gorgon",
+  "status": "active"
+},
+{
+  "id": "47",
+  "itemNumber": "V7973",
+  "originalName": "Monster High Dead Tired - Ghoulia Yelps",
+  "name": "Ghoulia Yelps",
+  "brand": "Monster High",
+  "series": "Dead Tired",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Ghoulia Yelps",
+  "releaseYear": 2011,
+  "acquisitionYear": 2020,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Collector",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+     { "imageUrl": "assets/doll-photos/47avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/47a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/47b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/47c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased in 2020 in excellent condition",
+    "Full set with all original accessories included",
+    "Beautiful, high-quality hair without factory defects"
+  ],
+  "coupleName": "Sloman 'Slo Mo' Mortavitch",
+  "status": "active"
+},
+{
+  "id": "48",
+  "itemNumber": "X4531",
+  "originalName": "Monster High Dot Dead Gorgeous - Spectra Vondergeist",
+  "name": "Spectra  Vondergeist",
+  "brand": "Monster High",
+  "series": "Dot Dead Gorgeous",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Spectra Vondergeist",
+  "releaseYear": 2012,
+  "acquisitionYear": 2021,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Collector",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+     { "imageUrl": "assets/doll-photos/48avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/48a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/48b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/48c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased in 2021 in flawless condition",
+    "Full set including stand, collector card, and additional outfit",
+    "No defects, paint on translucent limbs is intact"
+  ],
+  "coupleName": "Porter Geiss",
+  "status": "active"
+},
+{
+  "id": "49",
+  "itemNumber": "X3713",
+  "originalName": "Monster High Ghouls Rule - Cleo de Nile",
+  "name": "Cleo de Nile",
+  "brand": "Monster High",
+  "series": "Ghouls Rule",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Cleo de Nile",
+  "releaseYear": 2012,
+  "acquisitionYear": 2020,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Child",
+    "outfit": "original",
+    "defects": [
+      "Missing masquerade mask",
+      "Missing bandage necklace/wrap",
+      "Missing cauldron accessory"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+      { "imageUrl": "assets/doll-photos/49avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/49a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/49b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/49c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased in 2020, previously owned by a child",
+    "The hairstyle is well-preserved and not messy",
+    "The dress fabric and prints are in great condition without scuffs",
+    "Missing several small accessories: mask, necklace, and cauldron"
+  ],
+  "coupleName": "Deuce Gorgon",
+  "status": "active"
+},
+{
+  "id": "50",
+  "itemNumber": "W9215",
+  "originalName": "Monster High Signature (Toys\"R\"Us Exclusive) - Purrsephone",
+  "name": "Purrsephone",
+  "brand": "Monster High",
+  "series": "Signature (Basic G1)",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Werecat",
+  "releaseYear": 2012,
+  "acquisitionYear": 2021,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Child",
+    "outfit": "original",
+    "defects": [
+      "Slight scuff on the chin",
+      "Severe factory glue seepage in hair"
+    ]
+  },
+  "isPlayset": true,
+
+  "gender":"Female",
+  "playsetDollsIds": [
+    "Meowlody"
+  ],
+  "photos": [
+      { "imageUrl": "assets/doll-photos/50avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/50a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/50b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/50c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased in 2021 as a single doll from the original 2-pack",
+    "Original diary is included",
+    "Hair was washed several times to remove heavy factory glue",
+    "Minor scuff on the chin area",
+    "Part of a playset, Meowlody is currently missing from the collection"
+  ],
+  "status": "active",
+  "familyNames": [
+    "Meowlody"
+  ]
+},
+{
+  "id": "51",
+  "itemNumber": "W2110",
+  "originalName": "Monster High Signature (Wave 3) - Nefera de Nile",
+  "name": "Nefera de Nile",
+  "brand": "Monster High",
+  "series": "Signature (Basic G1)",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Nefera de Nile",
+  "releaseYear": 2011,
+  "acquisitionYear": 2021,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Tall",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Collector",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+   { "imageUrl": "assets/doll-photos/51avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/51a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/51b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/51c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Gifted by husband in 2021",
+    "Purchased from a collector in mint condition",
+    "Original diary is included",
+    "Features the taller 'big sister' body type"
+  ],
+  "status": "active",
+  "pets": [
+    {
+      "type": "Scarab beetle",
+      "name": "Azura",
+      "notes": "Original pet included"
+    }
+  ],
+  "familyNames": ["Cleo de Nile"]
+},
+{
+  "id": "52",
+  "itemNumber": "W9115",
+  "originalName": "Monster High Signature (Wave 4) - Robecca Steam",
+  "name": "Robecca Steam",
+  "brand": "Monster High",
+  "series": "Signature (Basic G1)",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Robecca Steam",
+  "releaseYear": 2012,
+  "acquisitionYear": 2020,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Collector",
+    "outfit": "original",
+    "defects": [
+      "Missing stand"
+    ]
+  },
+  "isPlayset": false,
+  "photos": [
+   { "imageUrl": "assets/doll-photos/52avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/52a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/52b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/52c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Gifted by husband in 2020",
+    "Full set including diary and pet, except for the stand",
+    "Hair was washed once to remove factory product",
+    "Doll body and outfit have no defects"
+  ],
+  "status": "active",
+  "pets": [
+    {
+      "type": "Mechanical penguin",
+      "name": "Captain Penny",
+      "notes": "Original pet included"
+    }
+  ],
+  "familyNames": ["Hexiciah Steam"]
+},
+{
+  "id": "53",
+  "itemNumber": "W9116",
+  "originalName": "Monster High Signature (Wave 4) - Rochelle Goyle",
+  "name": "Rochelle Goyle",
+  "brand": "Monster High",
+  "series": "Signature (Basic G1)",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Rochelle Goyle",
+  "releaseYear": 2012,
+  "acquisitionYear": 2020,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Collector",
+    "outfit": "original",
+    "defects": [
+      "Missing diary",
+      "Headband is detached from the head"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+   { "imageUrl": "assets/doll-photos/53avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/53a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/53b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/53c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased used in 2020",
+    "Includes doll, stand, and pet; diary is missing",
+    "Headband has been detached from the factory plastic ties",
+    "Hair was washed once",
+    "Stone-textured skin and wings are in perfect condition"
+  ],
+  "coupleName": "Garrott DuRoque",
+  "status": "active",
+  "pets": [
+    {
+      "type": "Gargoyle Griffin",
+      "name": "Roux",
+      "notes": "Original pet included"
+    }
+  ]
+},
+{
+  "id": "54",
+  "itemNumber": "W9117",
+  "originalName": "Monster High Signature (Wave 4) - Venus McFlytrap",
+  "name": "Venus McFlytrap",
+  "brand": "Monster High",
+  "series": "Signature (Basic G1)",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Venus McFlytrap",
+  "releaseYear": 2012,
+  "acquisitionYear": 2019,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Child",
+    "outfit": "original",
+    "defects": [
+      "Missing handbag",
+      "Missing one earring",
+      "Missing one vine bracelet",
+      "Missing stand"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+    { "imageUrl": "assets/doll-photos/54avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/54a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/54b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/54c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased used in 2019, previously owned by a child",
+    "The flocked side of the head is in mint condition",
+    "Hair has not been washed",
+    "Original pet and diary are included",
+    "Missing several accessories (bag, one earring, one bracelet)"
+  ],
+  "status": "active",
+  "pets": [
+    {
+      "type": "Venus Flytrap",
+      "name": "Chewliette",
+      "notes": "Original pet included"
+    }
+  ]
+},
+{
+  "id": "55",
+  "itemNumber": "X3673",
+  "originalName": "Monster High Skultimate Roller Maze - Lagoona Blue",
+  "name": "Lagoona Blue",
+  "brand": "Monster High",
+  "series": "Skultimate Roller Maze",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Lagoona Blue",
+  "releaseYear": 2012,
+  "acquisitionYear": 2019,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Child",
+    "outfit": "original",
+    "defects": [
+      "Missing collector card",
+      "Missing stand",
+      "Originally purchased without fins (replaced later)",
+      "Original knee pad lost by Maurizio (replaced later)"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+   { "imageUrl": "assets/doll-photos/55avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/55a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/55b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/55c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased used in 2019 from a child",
+    "Severely greasy hair (glue seepage) was thoroughly washed and restored",
+    "Leg and arm fins were missing at purchase and were acquired separately",
+    "One knee pad was lost by Maurizio (a lesson learned!) and replaced with a new one",
+    "The doll is now fully restored to its original look"
+  ],
+  "coupleName": "Gillington 'Gil' Webber",
+  "status": "active"
+},
+{
+  "id": "56",
+  "itemNumber": "BDD88",
+  "originalName": "Monster High Frights, Camera, Action! - Clawdia Wolf",
+  "name": "Clawdia Wolf",
+  "brand": "Monster High",
+  "series": "Frights, Camera, Action!",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Clawdia Wolf",
+  "releaseYear": 2013,
+  "acquisitionYear": 2021,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Tall",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Collector",
+    "outfit": "original",
+    "defects": [
+      "Missing stand",
+      "Missing diary"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+    { "imageUrl": "assets/doll-photos/56avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/56a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/56b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/56c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Gifted by Anton in 2021",
+    "The doll's outfit and accessories are complete",
+    "Original hairstyle was messy, so hair was washed and restyled",
+    "Features the taller 'big sister' body type"
+  ],
+  "status": "active",
+  "familyNames": [
+    "Clawdeen Wolf",
+    "Clawd Wolf",
+    "Howleen Wolf"
+  ]
+},
+{
+  "id": "57",
+  "itemNumber": "BDD85",
+  "originalName": "Monster High Frights, Camera, Action! Hauntlywood - Viperine Gorgon",
+  "name": "Viperine Gorgon",
+  "brand": "Monster High",
+  "series": "Frights, Camera, Action!",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Viperine Gorgon",
+  "releaseYear": 2013,
+  "acquisitionYear": 2020,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Child",
+    "outfit": "original",
+    "defects": [
+      "Broken stand holder",
+      "Missing headband (pink snakes wrap)",
+      "Severe hair quality issues"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+     { "imageUrl": "assets/doll-photos/57avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/57a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/57b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/57c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased in 2020",
+    "The hair condition is very poor; it was washed twice but remained difficult to manage",
+    "Original diary is included",
+    "Stand is present but the holder (clip) is broken",
+    "Missing her signature pink snake headband"
+  ],
+  "status": "active",
+  "familyNames": [
+    "Deuce Gorgon"
+  ]
+},
+{
+  "id": "58",
+  "itemNumber": "BBC12",
+  "originalName": "Monster High Ghoul’s Night Out - Spectra Vondergeist",
+  "name": "Spectra Vondergeist",
+  "brand": "Monster High",
+  "series": "Ghoul’s Night Out",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Spectra Vondergeist",
+  "releaseYear": 2013,
+  "acquisitionYear": 2020,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Child",
+    "outfit": "original",
+    "defects": [
+      "Missing diary"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+    { "imageUrl": "assets/doll-photos/58avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/58a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/58b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/58c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased in 2020, previously owned by a child",
+    "Comes with a stand, but the diary is missing",
+    "No significant yellowing on translucent parts; kept away from direct sunlight for preservation",
+    "Hair is in good condition, no issues reported"
+  ],
+  "coupleName": "Porter Geiss",
+  "status": "active"
+},
+{
+  "id": "59",
+  "itemNumber": "Y0402",
+  "originalName": "Monster High Original Favorites - Clawdeen Wolf",
+  "name": "Clawdeen Wolf",
+  "brand": "Monster High",
+  "series": "Original Favorites",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Clawdeen Wolf",
+  "releaseYear": 2013,
+  "acquisitionYear": 2020,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Collector",
+    "outfit": "original",
+    "defects": [
+      "Missing original earrings (replaced)",
+      "Missing one stocking",
+      "Missing diary",
+      "Missing stand"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+     { "imageUrl": "assets/doll-photos/59avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/59a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/59b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/59c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased in 2020",
+    "The doll is in good overall condition",
+    "Original earrings were lost and have been replaced with similar ones",
+    "Missing one stocking from the original outfit",
+    "Pet (Crescent) is included, but diary and stand are missing"
+  ],
+  "status": "active",
+  "pets": [
+    {
+      "type": "Kitten",
+      "name": "Crescent",
+      "notes": "Original pet included"
+    }
+  ],
+  "familyNames": [
+    "Clawd Wolf",
+    "Clawdia Wolf",
+    "Howleen Wolf"
+  ]
+},
+{
+  "id": "60",
+  "itemNumber": "HHK66",
+  "originalName": "Monster High Creepover Party - Draculaura",
+  "name": "Draculaura",
+  "brand": "Monster High",
+  "series": "Creepover Party",
+  "manufacturer": "Mattel",
+  "generation": "G3",
+  "mold": "Draculaura G3",
+  "releaseYear": 2022,
+  "acquisitionYear": 2024,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Curvy",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "NewInBox",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+    { "imageUrl": "assets/doll-photos/60avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/60a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/60b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/60c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Gifted in 2024, originally in box (NIB)",
+    "Complete outfit and all sleepover accessories included",
+    "Hair quality is average (common for this release)",
+    "Features a slight eye wonk characteristic of G3 Draculauras, which adds unique charm",
+    "One of my favorite dolls in the collection"
+  ],
+  "status": "active",
+  "pets": [
+    {
+      "type": "Bat",
+      "name": "Count Fabulous",
+      "notes": "Original G3 pet included"
+    }
+  ],
+  "coupleName": "Clawd Wolf"
+},
+{
+  "id": "61",
+  "itemNumber": "CBP33",
+  "originalName": "Monster High Freaky Fusion - Neighthan Rot",
+  "name": "Neighthan Rot",
+  "brand": "Monster High",
+  "series": "Freaky Fusion",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Neighthan Rot",
+  "releaseYear": 2014,
+  "acquisitionYear": 2021,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Flat Standard",
+  "purchaseCondition": {
+    "state": "Used-Collector",
+    "outfit": "original",
+    "defects": [
+      "Missing diary",
+      "Missing stand",
+      "Loose velcro on pants (pants tend to fall down)"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Male",
+  "photos": [
+    { "imageUrl": "assets/doll-photos/61avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/61a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/61b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/61c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased in 2021",
+    "The doll's outfit is complete, but the velcro on the pants is weak and unfastens constantly",
+    "Hair was washed",
+    "Diary and stand are missing"
+  ],
+  "coupleName": "Frankie Stein",
+  "status": "active"
+},
+{
+  "id": "62",
+  "itemNumber": "BJR13",
+  "originalName": "Monster High Ghoul Sports - Spectra Vondergeist",
+  "name": "Spectra Vondergeist",
+  "brand": "Monster High",
+  "series": "Ghoul Sports",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Spectra Vondergeist",
+  "releaseYear": 2014,
+  "acquisitionYear": 2021,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Collector",
+    "outfit": "original",
+    "defects": [
+      "Small spots on the face"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+   { "imageUrl": "assets/doll-photos/62avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/62a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/62b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/62c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased in 2021, previously used but in full set",
+    "Includes all sports accessories, stand, and diary",
+    "There are minor spots on the face",
+    "Stored in the shade to prevent plastic yellowing and spots worsening",
+    "Transparent limbs are in good condition"
+  ],
+  "coupleName": "Porter Geiss",
+  "status": "active"
+},
+{
+  "id": "63",
+  "itemNumber": "CDC33",
+  "originalName": "Monster High Haunted: Student Spirits - Kiyomi Haunterly",
+  "name": "Kiyomi Haunterly",
+  "brand": "Monster High",
+  "series": "Haunted",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Kiyomi Haunterly",
+  "releaseYear": 2014,
+  "acquisitionYear": 2021,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Collector",
+    "outfit": "original",
+    "defects": [
+      "Missing stand",
+      "Missing diary"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+    { "imageUrl": "assets/doll-photos/63avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/63a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/63b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/63c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Gifted by Anton in 2021",
+    "Originally came without the stand, diary, and purse",
+    "The translucent purple purse was purchased separately to complete the look",
+    "Hair requires periodic washing and hairband replacement due to styling material",
+    "No visible defects on the shimmery facial features or ghostly blue skin"
+  ],
+  "status": "active"
+},
+{
+  "id": "64",
+  "itemNumber": "CGV19",
+  "originalName": "Monster High Haunted: Student Spirits - Porter “Paintergeist” Geiss",
+  "name": "Porter Geiss",
+  "brand": "Monster High",
+  "series": "Haunted",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Porter Geiss",
+  "releaseYear": 2014,
+  "acquisitionYear": 2020,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Flat Standard",
+  "purchaseCondition": {
+    "state": "Used-Collector",
+    "outfit": "original",
+    "defects": [
+      "Missing one spray paint can",
+      "Missing stand",
+      "Missing diary"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Male",
+  "photos": [
+    { "imageUrl": "assets/doll-photos/64avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/64a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/64b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/64c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased in 2020",
+    "Only one translucent spray paint can is present (one is missing)",
+    "Hair was washed to remove factory styling product",
+    "No other visible issues, the paint splatter outfit is in good condition"
+  ],
+  "coupleName": "Spectra Vondergeist",
+  "status": "active"
+},
+{
+  "id": "65",
+  "itemNumber": "CBX42",
+  "originalName": "Monster High Mansters (Toys\"R\"Us Exclusive) - Gillington \"Gil\" Webber & Deuce Gorgon 2-Pack",
+  "name": "Gillington 'Gil' Webber",
+  "brand": "Monster High",
+  "series": "Mansters 2-Pack",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Gil Webber",
+  "releaseYear": 2014,
+  "acquisitionYear": 2021,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Flat Standard",
+  "purchaseCondition": {
+    "state": "Used-Collector",
+    "outfit": "original",
+    "defects": [
+      "Missing diary",
+      "Missing stand",
+      "Missing game accessories (from the 2-pack)",
+      "Missing Deuce Gorgon (purchased as single doll from set)"
+    ]
+  },
+  "isPlayset": true,
+
+  "gender":"Male",
+  "playsetDollsIds": [
+    "Deuce Gorgon"
+  ],
+  "photos": [
+    { "imageUrl": "assets/doll-photos/65avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/65a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/65b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/65c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased used in 2021 as a single doll from the original Mansters 2-pack",
+    "Excellent condition: all translucent fins on arms and legs are present",
+    "Original dome helmet and flip-flops are included",
+    "Game night accessories and diary are missing",
+    "Perfect match for Lagoona Blue (ID 55)"
+  ],
+  "coupleName": "Lagoona Blue",
+  "status": "active"
+},
+{
+  "id": "66",
+  "itemNumber": "BBR95",
+  "originalName": "Monster High We Are Monster High: Student Disembody Council 5-Pack - Scarah Screams",
+  "name": "Scarah Screams",
+  "brand": "Monster High",
+  "series": "Student Disembody Council 5-Pack",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Scarah Screams",
+  "releaseYear": 2013,
+  "acquisitionYear": 2021,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Collector",
+    "outfit": "original",
+    "defects": [
+      "Originally purchased as a single doll from a 5-pack",
+      "Hair was greasy and required washing"
+    ]
+  },
+  "isPlayset": true,
+
+  "gender":"Female",
+  "playsetDollsIds": [
+    "Gilda Goldstag",
+    "Sloman 'Slo Mo' Mortavich",
+    "Lagoona Blue",
+    "Cleo de Nile"
+  ],
+  "photos": [
+    { "imageUrl": "assets/doll-photos/66avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/66a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/66b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/66c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased in 2021 as a single doll from the 'We Are Monster High' 5-pack",
+    "The doll is in good condition, head has been washed to remove factory grease",
+    "Comes with her signature 'hand-on-a-stick' accessory",
+    "Missing other dolls and accessories from the original large set"
+  ],
+  "coupleName": "Invisi Billy",
+  "status": "active"
+},
+{
+  "id": "67",
+  "itemNumber": "BJW98",
+  "originalName": "Monster High New Scaremester - Invisi Billy",
+  "name": "Invisi Billy",
+  "brand": "Monster High",
+  "series": "New Scaremester",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Invisi Billy",
+  "releaseYear": 2014,
+  "acquisitionYear": 2020,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Flat Standard",
+  "purchaseCondition": {
+    "state": "Used-Collector",
+    "outfit": "original",
+    "defects": [
+      "Missing diary",
+      "Missing stand",
+      "Missing one bracelet",
+      "Scratch on the matte coating of the leg"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Male",
+  "photos": [
+    { "imageUrl": "assets/doll-photos/67avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/67a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/67b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/67c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased in 2020",
+    "The blue beanie hat is detached from the head",
+    "Hair is washed periodically to maintain condition",
+    "Has a visible scratch on the matte finish of the translucent leg",
+    "Missing one of his bracelets",
+    "Perfect match for Scarah Screams (ID 66)"
+  ],
+  "coupleName": "Scarah Screams",
+  "status": "active"
+},
+{
+  "id": "68",
+  "itemNumber": "N2851",
+  "originalName": "Monster High Original Ghouls Collection - Frankie Stein",
+  "name": "Frankie Stein",
+  "brand": "Monster High",
+  "series": "Original Ghouls Collection",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Frankie Stein",
+  "releaseYear": 2014,
+  "acquisitionYear": 2020,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Collector",
+    "outfit": "original",
+    "defects": [
+      "Glue seepage causing yellowish stains on the forehead"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+    { "imageUrl": "assets/doll-photos/68avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/68a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/68b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/68c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased in 2020",
+    "The handbag and pet (Watzit) were purchased separately to complete the doll's set",
+    "The forehead skin has started to yellow due to factory glue seepage",
+    "Head is washed regularly to manage the glue issue",
+    "Overall outfit is in good condition"
+  ],
+  "status": "active",
+  "pets": [
+    {
+      "type": "Hybrid",
+      "name": "Watzit",
+      "notes": "Purchased separately to complete the set"
+    }
+  ],
+  "coupleName": "Neighthan Rot"
+},
+{
+  "id": "69",
+  "itemNumber": "BJR16",
+  "originalName": "Monster High Zombie Shake - Meowlody & Purrsephone 2-Pack",
+  "name": "Purrsephone",
+  "brand": "Monster High",
+  "series": "Zombie Shake",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Werecat",
+  "releaseYear": 2014,
+  "acquisitionYear": 2020,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Collector",
+    "outfit": "original",
+    "defects": [
+      "Slight rub/wear on the lower lip",
+      "Missing diary",
+      "Missing stand"
+    ]
+  },
+  "isPlayset": true,
+
+  "gender":"Female",
+  "playsetDollsIds":["70"],
+  "photos": [
+    { "imageUrl": "assets/doll-photos/69avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/69a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/69b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/69c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased from a collector as part of the Zombie Shake set (but kept individually)",
+    "Outfit and accessories are complete",
+    "There is a small paint scuff on her lower lip",
+    "Hair has been recently washed and is in good condition"
+  ],
+  "familyNames": [
+    "Meowlody"
+  ],
+  "status": "active"
+},
+{
+  "id": "70",
+  "itemNumber": "BJR16",
+  "originalName": "Monster High Zombie Shake - Meowlody & Purrsephone 2-Pack",
+  "name": "Meowlody",
+  "brand": "Monster High",
+  "series": "Zombie Shake",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Werecat",
+  "releaseYear": 2014,
+  "acquisitionYear": 2021,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Gift",
+    "outfit": "original",
+    "defects": [
+      "Originally missing tail (replaced)",
+      "Missing diary",
+      "Missing stand"
+    ]
+  },
+  "isPlayset": true,
+
+  "gender":"Female",
+  "playsetDollsIds":["69"],
+  "photos": [
+    { "imageUrl": "assets/doll-photos/70avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/70a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/70b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/70c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Gifted by Anton in 2021",
+    "The doll was originally missing her tail, which was purchased separately later",
+    "Outfit is complete, hair has been recently washed and is in good condition",
+    "Reunited with her twin Purrsephone in the collection"
+  ],
+  "familyNames": [
+    "Purrsephone"
+  ],
+  "status": "active"
+},
+{
+  "id": "71",
+  "itemNumber": "HKY74",
+  "originalName": "Monster High G3 Basic Budget - Draculaura",
+  "name": "Draculaura",
+  "brand": "Monster High",
+  "series": "G3 Budget",
+  "manufacturer": "Mattel",
+  "generation": "G3",
+  "mold": "Draculaura G3",
+  "releaseYear": 2023,
+  "acquisitionYear": 2024,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Curvy",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+      { "imageUrl": "assets/doll-photos/71avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/71a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/71b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/71c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased new in 2024 for 10 Euro",
+    "The doll is in perfect condition with no defects",
+    "Despite being a budget release, she is fully articulated",
+    "Part of the third generation (G3) collection"
+  ],
+  "status": "active",
+  "coupleName": "Clawd Wolf"
+},
+{
+  "id": "72",
+  "itemNumber": "HNF64",
+  "originalName": "Monster High G3 - Abbey Bominable",
+  "name": "Abbey Bominable",
+  "brand": "Monster High",
+  "series": "G3 Core",
+  "manufacturer": "Mattel",
+  "generation": "G3",
+  "mold": "Abbey Bominable G3",
+  "releaseYear": 2023,
+  "acquisitionYear": 2025,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Tall",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "NewInBox",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+      { "imageUrl": "assets/doll-photos/72avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/72a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/72b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/72c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Gifted by Kir in 2025, received New In Box (NIB)",
+    "Complete set with all accessories: snowflake backpack, scarf, and snacks",
+    "The doll itself is in perfect condition",
+    "There is a small seam split on the pet (Tundra/Shiver)"
+  ],
+  "status": "active",
+  "pets": [
+    {
+      "type": "Wooly Mammoth",
+      "name": "Tundra",
+      "notes": "Small seam split on the plush/plastic body"
+    }
+  ],
+  "coupleName": "Heath Burns"
+}, {
+  "id": "73",
+  "itemNumber": "CHW72",
+  "originalName": "Monster High Ghoul Fair - Heath Burns",
+  "name": "Heath Burns",
+  "brand": "Monster High",
+  "series": "Ghoul Fair",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Heath Burns",
+  "releaseYear": 2015,
+  "acquisitionYear": 2021,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Flat Standard",
+  "purchaseCondition": {
+    "state": "Used-Collector",
+    "outfit": "original",
+    "defects": [
+      "Slight paint rub on the marshmallows accessory",
+      "Missing stand"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Male",
+  "photos": [
+      { "imageUrl": "assets/doll-photos/73avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/73a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/73b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/73c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased in 2021 in full set (except stand)",
+    "The doll is in excellent condition, including strong velcro on the shorts",
+    "The 'harshmallows' accessory has some slight wear/paint rubbing",
+    "Perfect companion for Abbey Bominable"
+  ],
+  "coupleName": "Abbey Bominable",
+  "status": "active"
+},
+{
+  "id": "74",
+  "itemNumber": "CHW73",
+  "originalName": "Monster High Ghoul Fair - Scarah Screams",
+  "name": "Scarah Screams",
+  "brand": "Monster High",
+  "series": "Ghoul Fair",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Scarah Screams",
+  "releaseYear": 2015,
+  "acquisitionYear": 2020,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Collector",
+    "outfit": "original",
+    "defects": [
+      "Missing stand",
+      "Persistent glue seepage in hair"
+    ]
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+      { "imageUrl": "assets/doll-photos/74avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/74a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/74b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/74c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased in 2020",
+    "Includes the original translucent green bucket accessory",
+    "Hair tends to get greasy over time due to factory glue, but responds well to periodic washing",
+    "Outfit and boots are in good condition",
+    "Missing stand and brush as per the original budget release"
+  ],
+  "coupleName": "Invisi Billy",
+  "status": "active"
+},
+{
+  "id": "75",
+  "itemNumber": "HXH77",
+  "originalName": "Monster High G3 Core - Spectra Vondergeist",
+  "name": "Spectra Vondergeist",
+  "brand": "Monster High",
+  "series": "G3 Core",
+  "manufacturer": "Mattel",
+  "generation": "G3",
+  "mold": "Spectra Vondergeist G3",
+  "releaseYear": 2024,
+  "acquisitionYear": 2025,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "NewInBox",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Male",
+  "photos": [
+      { "imageUrl": "assets/doll-photos/75avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/75a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/75b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/75c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Gifted in 2025, originally NIB (purchased for 25 Euro)",
+    "The doll is exceptionally beautiful but has average hair quality",
+    "Planned maintenance: soak hair in conditioner to improve texture",
+    "Comes with full set of accessories: backpack, tablet, phantom nuggets, etc.",
+    "Translucent limbs and ghost-like details are in perfect condition"
+  ],
+  "status": "active",
+  "pets": [
+    {
+      "type": "Ferret",
+      "name": "Rhuen",
+      "notes": "Original ghost ferret included"
+    }
+  ],
+  "coupleName": "Porter Geiss"
+},
+{
+  "id": "76",
+  "itemNumber": "HRP67",
+  "originalName": "Monster High Boo-riginal Creeproduction - Toralei Stripe",
+  "name": "Toralei Stripe",
+  "brand": "Monster High",
+  "series": "Boo-riginal Creeproduction",
+  "manufacturer": "Mattel",
+  "generation": "G1 (Reproduction)",
+  "mold": "Toralei Stripe",
+  "releaseYear": 2024,
+  "acquisitionYear": 2025,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+      { "imageUrl": "assets/doll-photos/76avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/76a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/76b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/76c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased in 2025 for 30 Euro",
+    "Originally New In Box, then unboxed for display",
+    "Pristine condition: 'not washed, not hit, not painted' (no modifications or defects)",
+    "Includes all original accessories, pet (Sweet Fang), diary, and stand",
+    "Accurate reproduction of the 2011 original wave doll"
+  ],
+  "status": "active",
+  "pets": [
+    {
+      "type": "Saber-tooth Tiger Cub",
+      "name": "Sweet Fang",
+      "notes": "Included in the set"
+    }
+  ]
+},
+{
+  "id": "77",
+  "itemNumber": "1501",
+  "originalName": "Once Upon a Zombie - Snow White",
+  "name": "Snow White",
+  "brand": "Once Upon a Zombie",
+  "series": "Wave 1",
+  "manufacturer": "WowWee",
+  "generation": "G1",
+  "mold": "Snow White (Once Upon a Zombie)",
+  "releaseYear": 2013,
+  "acquisitionYear": 2020,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+     { "imageUrl": "assets/doll-photos/77avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/77a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/77b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/77c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Purchased new in box in 2020 for only 1 Euro",
+    "The doll is in good condition, no physical defects",
+    "User feedback: Outfit and hair quality are disappointing, but the joints (articulation) are good",
+    "Standard body type, fully articulated but not 'super' articulation",
+    "Distinctive inset glass eyes"
+  ],
+  "status": "active"
+},
+{
+  "id": "78",
+  "itemNumber": "6067160",
+  "originalName": "Disney ILY 4ever Inspired by Tiana",
+  "name": "Tiana",
+  "brand": "Disney ILY 4ever",
+  "series": "Disney ILY 4ever",
+  "manufacturer": "Spin Master",
+  "generation": "Modern",
+  "releaseYear": 2023,
+  "acquisitionYear": 2024,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Universal",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original",
+    "defects": ["Broken bracelet (out of the box)"]
+  },
+  "isPlayset": false,
+
+  "gender":"Female",
+  "photos": [
+     { "imageUrl": "assets/doll-photos/78avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/78a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/78b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/78c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Gift from husband in 2024",
+    "Purchased new in box",
+    "High quality outfit and accessories",
+    "Inspired by Princess Tiana (The Princess and the Frog)",
+    "Defect note: Bracelet arrived broken inside the box"
+  ],
+  "status": "active"
+},
+{
+  "id": "79",
+  "itemNumber": "HRM16",
+  "originalName": "Barbie Looks Model #24 (Simone)",
+  "name": "Trish",
+  "brand": "Barbie",
+  "series": "Looks Wave 4: Pastel Edition",
+  "manufacturer": "Mattel",
+  "generation": "Modern",
+  "mold": "Simone (Looks #24)",
+  "releaseYear": 2024,
+  "acquisitionYear": 2024,
+  "articulation": "SuperArticulated",
+  "bodyVolume": "Curvy",
+  "footType": "Universal",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+  "gender":"Female",
+  "price": 0,
+  "photos": [
+    { "imageUrl": "assets/doll-photos/79avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/79a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/79b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/79c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Gift from husband in 2024",
+    "Purchased NIB (New In Box)",
+    "Condition: Mint, hair unwashed, no modifications ('не мыта, не бита, не крашена')",
+    "Body type: Curvy Made to Move (SuperArticulated)",
+    "Series: Pastel Edition (Looks Wave 4)"
+  ],
+  "status": "active"
+},
+{
+  "id": "80",
+  "itemNumber": "226544",
+  "originalName": "Disney ILY 4ever Fashion Doll Inspired by Daisy Duck",
+  "name": "Daisy",
+  "brand": "Disney ILY 4ever",
+  "series": "Disney ILY 4ever",
+  "manufacturer": "Jakks Pacific",
+  "generation": "Modern",
+  "releaseYear": 2024,
+  "acquisitionYear": 2025,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Universal",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+  "gender":"Female",
+  "photos": [
+     { "imageUrl": "assets/doll-photos/80avatar.jpg", "notesImage": "Avatar" },
+        { "imageUrl": "assets/doll-photos/80a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/80b.jpg", "notesImage": "In the box" },
+        { "imageUrl": "assets/doll-photos/80c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "Gift from husband in 2025",
+    "Manufacturer: Jakks Pacific (important note)",
+    "Purchased NIB (New In Box)",
+    "Features 13 points of articulation (new generation joints)",
+    "Includes glittery Mickey ring for the owner",
+    "Inspired by Daisy Duck"
+  ],
+  "status": "active"
+},
+{
+  "id": "81",
+  "itemNumber": "JJN70",
+  "originalName": "Barbie Deluxe Style №10",
+  "name": "Annika",
+  "brand": "Barbie",
+  "series": "Deluxe Style",
+  "manufacturer": "Mattel",
+  "generation": "Modern",
+  "mold": "2011 Grace / Mbili",
+  "releaseYear": 2026,
+  "acquisitionYear": 2025,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Curvy",
+  "footType": "Heeled",
+  "status": "active",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+  "gender": "Female",
+  "photos": [
+    { "imageUrl": "assets/doll-photos/81avatar.jpg", "notesImage": "Avatar" },
+    { "imageUrl": "assets/doll-photos/81a.jpg", "notesImage": "My doll" },
+    { "imageUrl": "assets/doll-photos/81b.jpg", "notesImage": "In the box" },
+    { "imageUrl": "assets/doll-photos/81c.jpg", "notesImage": "Full length, white background" }
+  ],
+  "notes": [
+    "New Year 2026 gift from husband (received Dec 2025)",
+    "Excellent condition, NIB (New in Box)",
+    "Features the 2011 Grace/Mbili facemold on a Curvy articulated body",
+    "No family or pets assigned"
+  ]
+},
+{
+  "id": "82",
+  "itemNumber": "HNF77",
+  "originalName": "Monster High Skulltimate Secrets Series 1 Ghoulia Yelps",
+  "name": "Ghoulia",
+  "brand": "Monster High",
+  "series": "Skulltimate Secrets Series 1",
+  "manufacturer": "Mattel",
+  "generation": "G3",
+  "mold": "Ghoulia Yelps (G3)",
+  "releaseYear": 2023,
+  "acquisitionYear": 2025,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+  "gender": "Female",
+  "photos": [
+    { "imageUrl": "assets/doll-photos/82avatar.jpg", "notesImage": "Avatar" },
+    { "imageUrl": "assets/doll-photos/82a.jpg", "notesImage": "My doll" },
+        { "imageUrl": "assets/doll-photos/82b.jpg", "notesImage": "In the box" },
+    { "imageUrl": "assets/doll-photos/82c.jpg", "notesImage": "Full length" }
+  ],
+  "notes": [
+    "Purchased new in 2025",
+    "Opened (de-boxed), complete set with all accessories",
+    "Hair quality is good (normal)",
+    "No pet or family assigned",
+    "Skulltimate Secrets Series 1 (locker edition)"
+  ],
+  "status": "active"
+},
+{
+  "id": "83",
+  "itemNumber": "W9116",
+  "originalName": "Monster High Signature Wave 3 - Operetta",
+  "name": "Operetta",
+  "brand": "Monster High",
+  "series": "Signature (Wave 3)",
+  "manufacturer": "Mattel",
+  "generation": "G1",
+  "mold": "Operetta",
+  "releaseYear": 2012,
+  "acquisitionYear": 2026,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Collector",
+    "outfit": "original",
+    "defects": [
+      "Ruined hairstyle",
+      "Pet's eye is scuffed",
+      "Missing stand and diary",
+      "Without mask"
+    ]
+  },
+  "isPlayset": false,
+  "gender": "Female",
+  "pets": [
+    {
+      "type": "Spider",
+      "name": "Memphis “Daddy O” Longlegs",
+      "notes": "Eye is slightly scuffed"
+    }
+  ],
+  "photos": [
+    { "imageUrl": "assets/doll-photos/83avatar.jpg", "notesImage": "Avatar" },
+    { "imageUrl": "assets/doll-photos/83a.jpg", "notesImage": "My doll" },
+    { "imageUrl": "assets/doll-photos/83b.jpg", "notesImage": "In the box" },
+    { "imageUrl": "assets/doll-photos/83c.jpg", "notesImage": "Full length" }
+  ],
+  "notes": [
+    "Gift from Anton in 2026",
+    "Purchased used (pre-owned)",
+    "Full outfit included: spiderweb jacket, keyboard cuffs, jeans, and heart-shaped mask",
+    "Guitar case included",
+    "Condition note: Hair needs restyling, pet spider has a damaged eye paint"
+  ],
+  "status": "active"
+},
+{
+  "id": "84",
+  "itemNumber": "JBG77",
+  "originalName": "Monster High G3 Scary Sweet Birthday - Cupid Asteria",
+  "name": "Cupid Asteria",
+  "brand": "Monster High",
+  "series": "Scary Sweet Birthday",
+  "manufacturer": "Mattel",
+  "generation": "G3",
+  "releaseYear": 2025,
+  "acquisitionYear": 2026,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+  "gender": "Female",
+  "price": 25,
+  "photos": [
+    { "imageUrl": "assets/doll-photos/84avatar.jpg", "notesImage": "Avatar" },
+    { "imageUrl": "assets/doll-photos/84a.jpg", "notesImage": "My doll" },
+    { "imageUrl": "assets/doll-photos/84b.jpg", "notesImage": "In the box" },
+    { "imageUrl": "assets/doll-photos/84c.jpg", "notesImage": "Full length" }
+  ],
+  "notes": [
+    "Purchased NIB (New In Box) in 2026 for 25 Euro",
+    "Model number: JBG77",
+    "Hair warning: Curly pink and white hair has questionable quality, better not to brush",
+    "Features elaborate gold cage skirt, heart-shaped wings, and arrow-pierced chest piece",
+    "Includes party accessories: gift bag for Draculaura, invite, birthday card, arrow tote, and heart balloon",
+    "No pet or family assigned"
+  ],
+  "status": "active"
+},
+{
+  "id": "85",
+  "itemNumber": "GVR05",
+  "originalName": "Barbie Extra No. 2",
+  "name": "Eugenia",
+  "brand": "Barbie",
+  "series": "Barbie Extra",
+  "manufacturer": "Mattel",
+  "generation": "Modern",
+  "mold": "2011 Grace / Mbili",
+  "releaseYear": 2020,
+  "acquisitionYear": 2026,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Curvy",
+  "footType": "Flat Standard",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original",
+    "defects": [
+      "Original box was in terrible condition"
+    ]
+  },
+  "isPlayset": false,
+  "gender": "Female",
+  "price": 15,
+  "pets": [
+    {
+      "type": "Dog",
+      "name": "Big Boss"
+    }
+  ],
+  "photos": [
+    { "imageUrl": "assets/doll-photos/85avatar.jpg", "notesImage": "Avatar" },
+    { "imageUrl": "assets/doll-photos/85a.jpg", "notesImage": "My doll" },
+    { "imageUrl": "assets/doll-photos/85b.jpg", "notesImage": "In the box" },
+    { "imageUrl": "assets/doll-photos/85c.jpg", "notesImage": "Full length" }
+  ],
+  "notes": [
+    "Gift from husband in 2026",
+    "Purchased NIB for 15 Euro, but the box was in terrible condition",
+    "Doll is de-boxed and restyled (custom outfit) because the original was not to user's taste",
+    "Features the 2011 Grace facemold",
+    "Body type: Curvy, Flat feet",
+    "Pet dog's name: Big Boss",
+    "No partner or family assigned yet"
+  ],
+  "status": "active"
+},
+{
+  "id": "86",
+  "itemNumber": "HDJ46",
+  "originalName": "Barbie Extra No. 13",
+  "name": "Delilah",
+  "brand": "Barbie",
+  "series": "Barbie Extra",
+  "manufacturer": "Mattel",
+  "generation": "Modern",
+  "mold": "1998 Goddess",
+  "releaseYear": 2022,
+  "acquisitionYear": 2026,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Curvy",
+  "footType": "Flat Standard",
+  "purchaseCondition": {
+    "state": "Used-Child",
+    "outfit": "custom",
+    "defects": [
+      "Incomplete set",
+      "Missing pet",
+      "Pre-owned by a child"
+    ]
+  },
+  "isPlayset": false,
+  "gender": "Female",
+  "photos": [
+    { "imageUrl": "assets/doll-photos/86avatar.jpg", "notesImage": "Avatar" },
+    { "imageUrl": "assets/doll-photos/86a.jpg", "notesImage": "My doll" },
+    { "imageUrl": "assets/doll-photos/86b.jpg", "notesImage": "In the box" },
+    { "imageUrl": "assets/doll-photos/86c.jpg", "notesImage": "Full length" }
+  ],
+  "notes": [
+    "Gift from husband in 2026",
+    "Initially purchased for body swapping, but kept due to the unique Goddess facemold and good hair condition",
+    "Used condition (after child play)",
+    "Incomplete: no original pet, custom outfit",
+    "Body type: Curvy, Flat feet",
+    "No family assigned"
+  ],
+  "status": "active"
+},
+{
+  "id": "87",
+  "itemNumber": "JJN58",
+  "originalName": "Barbie Fashionistas #245 Autistic Barbie",
+  "name": "Marla",
+  "brand": "Barbie",
+  "series": "Fashionistas",
+  "manufacturer": "Mattel",
+  "generation": "Modern",
+  "mold": "Autistic Barbie",
+  "releaseYear": 2026,
+  "acquisitionYear": 2026,
+  "articulation": "ArmsArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Flat Standard",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+  "gender": "Female",
+  "photos": [
+    { "imageUrl": "assets/doll-photos/87avatar.jpg", "notesImage": "Avatar" },
+    { "imageUrl": "assets/doll-photos/87a.jpg", "notesImage": "My doll" },
+    { "imageUrl": "assets/doll-photos/87b.jpg", "notesImage": "In the box" },
+    { "imageUrl": "assets/doll-photos/87c.jpg", "notesImage": "Full length" }
+  ],
+  "notes": [
+    "Gift from husband in January 2026",
+    "Purchased NIB (New in Box)",
+    "Features the Autistic Barbie facemold (©2025)",
+    "Body type: Standard with ArmsArticulated articulation and flat feet",
+    "No pet, family, or partner assigned"
+  ],
+  "status": "active"
+},
+{
+  "id": "88",
+  "itemNumber": "FXL70",
+  "originalName": "Standard Fashion Barbie (Pink Stripe Dress)",
+  "name": "Sky",
+  "brand": "Barbie",
+  "series": "Standard Fashion",
+  "manufacturer": "Mattel",
+  "generation": "Modern",
+  "mold": "Kim (2014 Fashionistas)",
+  "releaseYear": 2019,
+  "acquisitionYear": 2019,
+  "articulation": "Basic",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Child",
+    "outfit": "original",
+    "defects": [
+      "Slightly chewed hands"
+    ]
+  },
+  "isPlayset": false,
+  "gender": "Female",
+  "familyNames": ["7"],
+  "photos": [
+    { "imageUrl": "assets/doll-photos/88avatar.jpg", "notesImage": "Avatar" },
+    { "imageUrl": "assets/doll-photos/88a.jpg", "notesImage": "My doll" },
+    { "imageUrl": "assets/doll-photos/88b.jpg", "notesImage": "In the box" },
+    { "imageUrl": "assets/doll-photos/88c.jpg", "notesImage": "Full length" }
+  ],
+  "notes": [
+    "Originally purchased in 2019 as a gift for a niece",
+    "Returned to the collection after the child grew up (Used-Child condition)",
+    "Hair is in excellent condition; original dress and shoes are present",
+    "Defect note: Hands are slightly chewed",
+    "Non-articulated (Basic) standard body with heeled feet",
+    "Sister: Blue Ivy (ID 7)"
+  ],
+  "status": "active"
+},
+{
+  "id": "89",
+  "itemNumber": "105734130",
+  "originalName": "Simba Steffi Love Ultra Hair",
+  "name": "Paris",
+  "brand": "Steffi Love",
+  "series": "Ultra Hair",
+  "manufacturer": "Simba Toys",
+  "generation": "Modern",
+  "mold": "Steffi Love Modern",
+  "releaseYear": 2019,
+  "acquisitionYear": 2019,
+  "articulation": "Basic",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Child",
+    "outfit": "custom",
+    "defects": [
+      "Cut hair (one third removed due to damage)",
+      "Original dress discarded due to poor condition"
+    ]
+  },
+  "isPlayset": false,
+  "gender": "Female",
+  "photos": [
+    { "imageUrl": "assets/doll-photos/89avatar.jpg", "notesImage": "Avatar" },
+    { "imageUrl": "assets/doll-photos/89a.jpg", "notesImage": "My doll" },
+    { "imageUrl": "assets/doll-photos/89b.jpg", "notesImage": "In the box" },
+    { "imageUrl": "assets/doll-photos/89c.jpg", "notesImage": "Full length" }
+  ],
+  "notes": [
+    "Originally purchased in 2019 for a niece; recently returned to the collection",
+    "Heavily played with condition",
+    "Hair was floor-length but damaged; partially cut to restore look",
+    "Original dress thrown away; small cosmetic bottle accessories are still present"
+  ],
+  "status": "active"
+},
+{
+  "id": "90",
+  "itemNumber": "N/A",
+  "originalName": "Funky Toys Glam Diva",
+  "name": "Hermione",
+  "brand": "Other",
+  "series": "Other",
+  "manufacturer": "Other",
+  "generation": "Modern",
+  "mold": "Glam Diva Standard",
+  "releaseYear": 2024,
+  "acquisitionYear": 2025,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Curvy",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "New",
+    "outfit": "original",
+    "defects": [
+      "Poor hair quality out of the box",
+      "Head needs to be glued",
+      "Pet cat discarded due to terrible quality"
+    ]
+  },
+  "isPlayset": false,
+  "gender": "Female",
+  "price": 12,
+  "photos": [
+    { "imageUrl": "assets/doll-photos/90avatar.jpg", "notesImage": "Avatar" },
+    { "imageUrl": "assets/doll-photos/90a.jpg", "notesImage": "My doll" },
+    { "imageUrl": "assets/doll-photos/90b.jpg", "notesImage": "In the box" },
+    { "imageUrl": "assets/doll-photos/90c.jpg", "notesImage": "Full length" }
+  ],
+  "notes": [
+    "Gift from Sasha in January 2026",
+    "Purchased for approximately 12 Euro",
+    "Hair requires treatment; head needs gluing",
+    "Original pet cat was of disgusting quality and was thrown away",
+    "The doll itself is beautiful despite the defects"
+  ],
+  "status": "active"
+},
+{
+  "id": "91",
+  "itemNumber": "R4342N",
+  "originalName": "Sonya Rose Gold Collection - Milena",
+  "name": "Natalie",
+  "brand": "Sonya Rose",
+  "series": "Gold Collection",
+  "manufacturer": "Kurhn",
+  "generation": "Modern",
+  "mold": "Kurhn Standard",
+  "releaseYear": 2022,
+  "acquisitionYear": 2026,
+  "articulation": "FullyArticulated",
+  "bodyVolume": "Standard",
+  "footType": "Heeled",
+  "purchaseCondition": {
+    "state": "Used-Collector",
+    "outfit": "original"
+  },
+  "isPlayset": false,
+  "gender": "Female",
+  "photos": [
+    { "imageUrl": "assets/doll-photos/91avatar.jpg", "notesImage": "Avatar" },
+    { "imageUrl": "assets/doll-photos/91a.jpg", "notesImage": "My doll" },
+    { "imageUrl": "assets/doll-photos/91b.jpg", "notesImage": "In the box" },
+    { "imageUrl": "assets/doll-photos/91c.jpg", "notesImage": "Full length" }
+  ],
+  "notes": [
+    "Originally gifted by husband to niece in 2022",
+    "Transferred to my collection in 2026",
+    "Excellent condition",
+    "Dress model: Milena",
+    "Model number: R4342N",
+    "Part of the Sonya Rose Gold Collection by Kurhn"
+  ],
+  "status": "active"
+}
+  ],
+  "archive": []
+}
