@@ -1,11 +1,18 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
-import { inject, Injectable, signal, WritableSignal, Signal, effect } from '@angular/core';
+import {
+  inject,
+  Injectable,
+  signal,
+  WritableSignal,
+  Signal,
+  effect,
+} from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { Doll } from '../../shared/models/doll.model';
 import { DollFilters } from '../../shared/models/doll-filters.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DollService {
   private readonly http = inject(HttpClient);
@@ -22,7 +29,7 @@ export class DollService {
    */
   public readonly filters: WritableSignal<DollFilters> = signal<DollFilters>({
     _page: 1,
-    _limit: 10
+    _limit: 10,
   });
 
   /**
@@ -34,10 +41,13 @@ export class DollService {
     /**
      * Reacts to any change in the filters signal and triggers data fetching.
      */
-    effect(async () => {
-      const currentFilters = this.filters();
-      await this.loadDolls(currentFilters);
-    }, { allowSignalWrites: true });
+    effect(
+      async () => {
+        const currentFilters = this.filters();
+        await this.loadDolls(currentFilters);
+      },
+      { allowSignalWrites: true },
+    );
   }
 
   /**
@@ -55,9 +65,10 @@ export class DollService {
       if (value === undefined || value === null || value === '') return;
 
       if (Array.isArray(value)) {
-        value.forEach(item => {
+        value.forEach((item) => {
           // Map specific filter keys to the correct backend nested property paths
-          const paramKey = key === 'purchaseStates' ? 'purchaseCondition.state' : key;
+          const paramKey =
+            key === 'purchaseStates' ? 'purchaseCondition.state' : key;
           params = params.append(paramKey, item.toString());
         });
       } else {
@@ -67,7 +78,7 @@ export class DollService {
 
     try {
       const response: HttpResponse<Doll[]> = await firstValueFrom(
-        this.http.get<Doll[]>(this.API_URL, { params, observe: 'response' })
+        this.http.get<Doll[]>(this.API_URL, { params, observe: 'response' }),
       );
 
       const newDolls: Doll[] = response.body || [];
@@ -78,7 +89,10 @@ export class DollService {
       if (currentFilters._page === 1) {
         this.dollsSignal.set(newDolls);
       } else {
-        this.dollsSignal.update((oldDolls: Doll[]) => [...oldDolls, ...newDolls]);
+        this.dollsSignal.update((oldDolls: Doll[]) => [
+          ...oldDolls,
+          ...newDolls,
+        ]);
       }
 
       this.hasMore.set(this.dollsSignal().length < total);
@@ -98,7 +112,7 @@ export class DollService {
     this.filters.update((old: DollFilters) => ({
       ...old,
       ...newFilters,
-      _page: 1
+      _page: 1,
     }));
   }
 
@@ -111,7 +125,7 @@ export class DollService {
     this.filters.set({
       _page: 1,
       _limit: 10,
-      ...baseFilters
+      ...baseFilters,
     });
   }
 
@@ -123,7 +137,7 @@ export class DollService {
     if (!this.isLoading() && this.hasMore()) {
       this.filters.update((old: DollFilters) => ({
         ...old,
-        _page: (old._page || 1) + 1
+        _page: (old._page || 1) + 1,
       }));
     }
   }
@@ -135,7 +149,7 @@ export class DollService {
   public setPage(pageIndex: number): void {
     this.filters.update((old: DollFilters) => ({
       ...old,
-      _page: pageIndex
+      _page: pageIndex,
     }));
   }
 }

@@ -1,13 +1,12 @@
 <mat-card class="doll-card" (click)="onCardClick()">
-
   <div class="image-container">
-    <img [src]="doll.photos?.[0]?.imageUrl" [alt]="doll.name">
+    <img [src]="doll.photos?.[0]?.imageUrl" [alt]="doll.name" />
     <div class="body-badge">{{ doll.bodyVolume }}</div>
   </div>
 
   <mat-card-content class="info-content">
     <div class="brand-label">{{ doll.brand }}</div>
-    <h3 class="doll-name">{{ doll.name || 'No Name' }}</h3>
+    <h3 class="doll-name">{{ doll.name || "No Name" }}</h3>
     <p class="original-name">{{ doll.originalName }}</p>
 
     <div class="tags-container">
@@ -22,5 +21,4 @@
       ● {{ doll.status }}
     </span>
   </div>
-
 </mat-card>

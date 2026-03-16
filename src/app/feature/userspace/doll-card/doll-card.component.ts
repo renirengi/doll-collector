@@ -9,7 +9,7 @@ import { Doll } from '../../../shared/models/doll.model';
   standalone: true,
   imports: [CommonModule, MatCardModule, MatChipsModule],
   templateUrl: './doll-card.component.html',
-  styleUrls: ['./doll-card.component.scss']
+  styleUrls: ['./doll-card.component.scss'],
 })
 export class DollCardComponent {
   @Input({ required: true }) doll!: Doll;

@@ -19,34 +19,66 @@ import { DollService } from '../core/services/dollService';
     MatIconModule
 ],
   template: `
-    <div class="manufacturer-page">
-      <header class="page-header">
-        <button mat-button routerLink="/catalog">
-          <mat-icon>arrow_back</mat-icon> Back to Catalog
-        </button>
-        <h1>{{ manufacturerName() }} Collection</h1>
-      </header>
+   <div class="min-h-screen p-4 md:p-8">
+  <header class="mb-8">
+    <button mat-button routerLink="/catalog" class="mb-4 !text-indigo-600">
+      <mat-icon>arrow_back</mat-icon> Back to Catalog
+    </button>
+    <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">
+      {{ manufacturerName() }} <span class="text-indigo-600">Collection</span>
+    </h1>
+  </header>
 
-      <nav class="brands-bar">
-        @for (brand of brands(); track brand) {
-          <button mat-stroked-button
-                  [routerLink]="['/catalog', manufacturerName(), brand]"
-                  routerLinkActive="active-brand">
-            {{ brand }}
-          </button>
-        }
-      </nav>
+  <nav class="flex flex-wrap gap-2 mb-10">
+    @for (brand of brands(); track brand) {
+      <button mat-stroked-button
+              [routerLink]="['/catalog', manufacturerName(), brand]"
+              routerLinkActive="active-brand"
+              class="brand-chip transition-all">
+        {{ brand }}
+      </button>
+    }
+  </nav>
 
-      <app-doll-filters></app-doll-filters>
+  <div class="mb-10 p-6 rounded-2xl shadow-sm border border-slate-200">
+    <app-doll-filters></app-doll-filters>
+  </div>
 
-      <main class="doll-grid">
-        @for (doll of service.dolls(); track doll.id) {
-          <app-doll-card [doll]="doll"></app-doll-card>
-        }
-      </main>
-    </div>
+  <main class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+    @for (doll of service.dolls(); track doll.id) {
+      <app-doll-card [doll]="doll" class="transform hover:-translate-y-1 transition-transform duration-300"></app-doll-card>
+    }
+  </main>
+</div>
   `,
-  styleUrls: ['./manufacturer-details.component.scss']
+  styles: [`
+  .brand-chip {
+    height: 40px !important;
+    line-height: 40px !important;
+    padding: 0 20px !important;
+    border-radius: 9999px !important;
+    border: 2px solid #374151 !important;
+    color: #374151 !important;
+    font-weight: 600 !important;
+    background-color: transparent !important;
+    white-space: nowrap !important;
+
+    ::ng-deep .mat-mdc-button-touch-target {
+      display: none;
+    }
+  }
+
+  .active-brand {
+    background-color: #4f46e5 !important; // Indigo-600
+    color: white !important;
+    border-color: #4f46e5 !important;
+  }
+
+  // Убираем подчеркивание у ссылок-кнопок
+  :host ::ng-deep .mat-mdc-stroked-button {
+    text-decoration: none;
+  }
+`]
 })
 export class ManufacturerDetailsComponent {
   public readonly service = inject(DollService);

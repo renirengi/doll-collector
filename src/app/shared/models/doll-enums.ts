@@ -6,9 +6,28 @@ export type DollBrand =
   | 'Ever After High'
   | 'Bratz'
   | 'Rainbow High'
-  | 'Other' | 'Liv'|'Lol OMG' | 'Shadow High' | 'Kurhn' | 'Sandra' | 'Once Upon a Zombie' | 'Steffi Love' | 'Disney ILY 4ever';
+  | 'Other'
+  | 'Liv'
+  | 'Lol OMG'
+  | 'Shadow High'
+  | 'Kurhn'
+  | 'Sandra'
+  | 'Once Upon a Zombie'
+  | 'Steffi Love'
+  | 'Disney ILY 4ever';
 
-export type Manufacturer = 'Mattel' | 'Kurhn' | 'MGA Entertainment' | 'WowWee' | 'Hasbro' | 'Disney' | 'Other' | 'Spin Master' | 'GWToys' | 'Jakks Pacific'| 'Simba Toys';
+export type Manufacturer =
+  | 'Mattel'
+  | 'Kurhn'
+  | 'MGA Entertainment'
+  | 'WowWee'
+  | 'Hasbro'
+  | 'Disney'
+  | 'Other'
+  | 'Spin Master'
+  | 'GWToys'
+  | 'Jakks Pacific'
+  | 'Simba Toys';
 
 export type DollState = 'New' | 'Used-Collector' | 'Used-Child';
 
@@ -19,7 +38,6 @@ export type ArticulationType =
   | 'FullyArticulated'
   | 'SuperArticulated'
   | 'Other';
-
 
 export type BodyVolume =
   | 'Standard'
@@ -37,9 +55,15 @@ export type FootType =
   | 'Universal';
 
 export type DollGeneration =
-  | 'G1' | 'G2' | 'G3'
-  | 'Vintage' | 'Mod' | 'Modern'
-  | 'Classic' | 'Reboot' | 'Other';
+  | 'G1'
+  | 'G2'
+  | 'G3'
+  | 'Vintage'
+  | 'Mod'
+  | 'Modern'
+  | 'Classic'
+  | 'Reboot'
+  | 'Other';
 
 export type OutfitState = 'original' | 'nude' | 'custom';
 

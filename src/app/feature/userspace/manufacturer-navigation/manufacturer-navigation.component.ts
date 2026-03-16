@@ -11,24 +11,28 @@ import * as T from '../../../shared/models/doll-enums';
   template: `
     <nav class="manufacturer-nav">
       <div class="nav-scroll-container">
-        <button mat-stroked-button
-                routerLink="/catalog"
-                routerLinkActive="active-link"
-                [routerLinkActiveOptions]="{exact: true}">
+        <button
+          mat-stroked-button
+          routerLink="/catalog"
+          routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
           All
         </button>
 
         @for (m of manufacturers; track m) {
-          <button mat-stroked-button
-                  [routerLink]="['/catalog', m]"
-                  routerLinkActive="active-link">
+          <button
+            mat-stroked-button
+            [routerLink]="['/catalog', m]"
+            routerLinkActive="active-link"
+          >
             {{ m }}
           </button>
         }
       </div>
     </nav>
   `,
-  styleUrls: ['./manufacturer-navigation.component.scss']
+  styleUrls: ['./manufacturer-navigation.component.scss'],
 })
 export class ManufacturerNavigationComponent {
   /**
@@ -45,6 +49,6 @@ export class ManufacturerNavigationComponent {
     'GWToys',
     'Jakks Pacific',
     'Simba Toys',
-    'Other'
+    'Other',
   ];
 }

@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { DollService } from './dollService';
 
-
 describe('DollService', () => {
   let service: DollService;
 

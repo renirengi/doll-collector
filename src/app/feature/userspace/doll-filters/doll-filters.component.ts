@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, distinctUntilChanged} from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { DollService } from '../../../core/services/dollService';
 import { DollFilters } from '../../../shared/models/doll-filters.model';
@@ -34,11 +34,12 @@ interface FilterFormValue {
     ReactiveFormsModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatIcon, MatDividerModule,
-    TitleCasePipe
+    MatIcon,
+    MatDividerModule,
+    TitleCasePipe,
   ],
   templateUrl: './doll-filters.component.html',
-  styleUrls: ['./doll-filters.component.scss']
+  styleUrls: ['./doll-filters.component.scss'],
 })
 export class DollFiltersComponent {
   private readonly fb: FormBuilder = inject(FormBuilder);
@@ -50,24 +51,47 @@ export class DollFiltersComponent {
     bodyVolume: [[]],
     footType: [[]],
     purchaseStates: [[]],
-    status: [[]]
+    status: [[]],
   });
 
-  public readonly articulationOptions: T.ArticulationType[] = ['Basic', 'LegsArticulated', 'ArmsArticulated', 'FullyArticulated', 'SuperArticulated'];
-  public readonly bodyOptions: T.BodyVolume[] = ['Standard', 'Tall', 'Petite', 'Curvy', 'SuperCurvy'];
-  public readonly footOptions: T.FootType[] = ['Flat Standard', 'Flat Non-Standard', 'Heeled', 'Small Heeled', 'Universal'];
-  public readonly stateOptions: T.DollState[] = ['New', 'Used-Collector', 'Used-Child'];
+  public readonly articulationOptions: T.ArticulationType[] = [
+    'Basic',
+    'LegsArticulated',
+    'ArmsArticulated',
+    'FullyArticulated',
+    'SuperArticulated',
+  ];
+  public readonly bodyOptions: T.BodyVolume[] = [
+    'Standard',
+    'Tall',
+    'Petite',
+    'Curvy',
+    'SuperCurvy',
+  ];
+  public readonly footOptions: T.FootType[] = [
+    'Flat Standard',
+    'Flat Non-Standard',
+    'Heeled',
+    'Small Heeled',
+    'Universal',
+  ];
+  public readonly stateOptions: T.DollState[] = [
+    'New',
+    'Used-Collector',
+    'Used-Child',
+  ];
   public readonly statusOptions: T.DollStatus[] = ['active', 'sold', 'gifted'];
 
   private readonly formValue = toSignal<FilterFormValue>(
     this.filterForm.valueChanges.pipe(
       debounceTime(400),
-      distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr))
-    )
+      distinctUntilChanged(
+        (prev, curr) => JSON.stringify(prev) === JSON.stringify(curr),
+      ),
+    ),
   );
 
   constructor() {
-
     effect(() => {
       const value = this.formValue();
       if (value) {
@@ -84,7 +108,7 @@ export class DollFiltersComponent {
       purchaseStates: value.purchaseStates,
       status: value.status,
       _sort: value.sortData?.field,
-      _order: value.sortData?.order
+      _order: value.sortData?.order,
     };
 
     this.dollService.updateFilters(filters);
@@ -97,7 +121,7 @@ export class DollFiltersComponent {
       bodyVolume: [],
       footType: [],
       purchaseStates: [],
-      status: []
+      status: [],
     });
   }
 }

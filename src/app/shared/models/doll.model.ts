@@ -52,7 +52,7 @@ export interface Doll {
   soldPrice?: number;
   soldDate?: Date | string;
 
-  pets?: Pet[],
-   familyNames?: string[],
-  gender:T.Gender;
+  pets?: Pet[];
+  familyNames?: string[];
+  gender: T.Gender;
 }

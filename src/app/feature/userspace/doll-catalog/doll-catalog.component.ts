@@ -1,4 +1,10 @@
-import { Component, ElementRef, inject, ViewChild, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  ViewChild,
+  OnDestroy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -10,7 +16,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { DollCardComponent } from '../doll-card/doll-card.component';
 import { DollFiltersComponent } from '../doll-filters/doll-filters.component';
 import { DollService } from '../../../core/services/dollService';
-import { ManufacturerNavigationComponent } from "../manufacturer-navigation/manufacturer-navigation.component";
+import { ManufacturerNavigationComponent } from '../manufacturer-navigation/manufacturer-navigation.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-doll-catalog',
@@ -24,12 +31,12 @@ import { ManufacturerNavigationComponent } from "../manufacturer-navigation/manu
     MatButtonModule,
     DollCardComponent,
     DollFiltersComponent,
-    ManufacturerNavigationComponent
-],
+    ManufacturerNavigationComponent,
+  ],
   templateUrl: './doll-catalog.component.html',
-  styleUrls: ['./doll-catalog.component.scss']
+  styleUrls: ['./doll-catalog.component.scss'],
 })
-export class DollCatalogComponent implements OnInit, OnDestroy {
+export class DollCatalogComponent implements OnDestroy {
   private readonly dollService = inject(DollService);
   private readonly route = inject(ActivatedRoute);
   private observer?: IntersectionObserver;
@@ -48,16 +55,13 @@ export class DollCatalogComponent implements OnInit, OnDestroy {
   /**
    * Subscribes to route parameters to update filters based on manufacturer and brand from URL.
    */
-  public ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      const manufacturer = params['manufacturer'];
-      const brand = params['brand'];
-
+  constructor() {
+    this.route.params.pipe(takeUntilDestroyed()).subscribe((params) => {
       this.dollService.setRawFilters({
-        manufacturer: manufacturer || null,
-        brand: brand || null,
+        manufacturer: params['manufacturer'] || null,
+        brand: params['brand'] || null,
         _page: 1,
-        _limit: 10
+        _limit: 12,
       });
     });
   }
@@ -69,14 +73,21 @@ export class DollCatalogComponent implements OnInit, OnDestroy {
   private initInfiniteScroll(el: ElementRef): void {
     this.observer?.disconnect();
 
-    this.observer = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
-      if (entries[0].isIntersecting && !this.dollService.isLoading() && this.dollService.hasMore()) {
-        this.loadNextBatch();
-      }
-    }, {
-      threshold: 0.1,
-      rootMargin: '100px'
-    });
+    this.observer = new IntersectionObserver(
+      (entries: IntersectionObserverEntry[]) => {
+        if (
+          entries[0].isIntersecting &&
+          !this.dollService.isLoading() &&
+          this.dollService.hasMore()
+        ) {
+          this.loadNextBatch();
+        }
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '100px',
+      },
+    );
 
     this.observer.observe(el.nativeElement);
   }

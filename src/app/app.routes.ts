@@ -6,18 +6,17 @@ export const routes: Routes = [
 
   {
     path: 'catalog',
-    component: DollCatalogComponent
+    component: DollCatalogComponent,
   },
 
   {
     path: 'catalog/:manufacturer',
-    component: DollCatalogComponent
-
+    component: DollCatalogComponent,
   },
 
   {
     path: 'catalog/:manufacturer/:brand',
-    component: DollCatalogComponent
+    component: DollCatalogComponent,
   },
 
   // {
