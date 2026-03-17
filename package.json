@@ -64,9 +64,11 @@
     "typescript-eslint": "8.46.4"
   },
   "lint-staged": {
-    "src/**/*.{ts,html,scss}": [
-      "prettier --write",
-      "npm run lint -- --fix"
-    ]
-  }
+  "src/**/*.ts": [
+    "eslint --config .eslintrc.json --fix"
+  ],
+  "src/**/*.{html,scss,json}": [
+    "prettier --write"
+  ]
+}
 }
