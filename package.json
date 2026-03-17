@@ -65,7 +65,7 @@
   },
   "lint-staged": {
   "src/**/*.ts": [
-    "eslint --config .eslintrc.json --fix"
+    "cmd /c \"set ESLINT_USE_FLAT_CONFIG=false&& eslint --fix\""
   ],
   "src/**/*.{html,scss,json}": [
     "prettier --write"
