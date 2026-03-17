@@ -1,16 +1,17 @@
-/* eslint-env node */
 module.exports = {
   content: ['./src/**/*.{html,ts,scss}'],
   theme: {
     extend: {
       colors: {
-        'app-accent': '#f9c270',
-        'app-blue': '#003f63',
-        'app-orange': '#e96439',
-        'app-text': '#222222',
-        'app-black': '#050a1e',
-        'menu-default': '#339999',
-        'app-bg': '#f0f0f0',
+        'app-pink': 'var(--app-pink)',
+        'app-success': 'var(--app-success)',
+        'app-slate': 'var(--app-slate)',
+        'app-muted': 'var(--app-muted)',
+        'app-chip': 'var(--app-chip)',
+        'app-tag-dark': 'var(--app-tag-dark)',
+        'app-gray': 'var(--app-gray)',
+        'app-ink': 'var(--app-ink)',
+        'app-indigo': 'var(--app-indigo)',
       },
       screens: {
         'custom-xl': { max: '1100px' },

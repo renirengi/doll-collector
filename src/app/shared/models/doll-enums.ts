@@ -8,7 +8,7 @@ export type DollBrand =
   | 'Rainbow High'
   | 'Other'
   | 'Liv'
-  | 'Lol OMG'
+  | 'L.O.L. Surprise! O.M.G.'
   | 'Shadow High'
   | 'Kurhn'
   | 'Sandra'

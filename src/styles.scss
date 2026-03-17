@@ -9,6 +9,18 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --app-pink: #e91e63;
+  --app-success: #4caf50;
+  --app-slate: #333333;
+  --app-muted: #757575;
+  --app-chip: #f5f5f5;
+  --app-tag-dark: #616161;
+  --app-gray: #64748b;
+  --app-ink: #1e293b;
+  --app-indigo: rgba(79, 70, 229, 0.9);
+}
+
 html {
   @include mat.theme(
     (
@@ -64,4 +76,85 @@ body {
 }
 .gap-6 {
   gap: 1.5rem !important;
+}
+
+.catalog-nav {
+  width: 100%;
+  margin: 2rem 0;
+  background: transparent;
+
+  .nav-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 0 1.5rem;
+  }
+}
+
+.nav-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.5rem;
+}
+
+.nav-btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 140px;
+  height: 4rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  &.img-btn {
+    border-radius: 1.25rem;
+    padding: 0.75rem;
+
+    .nav-logo {
+      height: 3rem;
+      width: auto;
+      object-fit: contain;
+    }
+
+    &.active {
+      transform: scale(1.1);
+      border-color: rgba(50, 50, 53, 0.3) !important;
+      background-color: white !important;
+
+      box-shadow:
+        0 10px 30px -5px var(--app-slate),
+        0 0 15px rgba(50, 50, 53, 0.3) !important;
+    }
+  }
+
+  &.text-btn {
+    border-radius: 9999px;
+    padding: 0.6rem 1.8rem;
+    font-weight: 800;
+    color: #4f46e5;
+
+    border: 2px solid #4f46e5;
+
+    &.active {
+      background-color: #4f46e5 !important;
+      color: white !important;
+      border-color: transparent !important;
+
+      box-shadow:
+        0 10px 30px -5px var(--app-slate),
+        0 0 15px rgba(50, 50, 53, 0.3) !important;
+    }
+  }
 }
