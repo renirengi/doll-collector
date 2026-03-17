@@ -1,33 +1,8 @@
-.manufacturer-nav {
-  padding: 12px 0;
-  background: #fff;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 0;
-  z-index: 10;
-
-  .nav-scroll-container {
-    display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    padding: 4px 16px;
-
-    // Hide scrollbar for cleaner look while keeping functionality
-    &::-webkit-scrollbar {
-      display: none;
-    }
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-
-    button {
-      white-space: nowrap;
-      border-radius: 20px;
-
-      &.active-link {
-        background-color: var(--primary-color, #3f51b5);
-        color: white;
-        border-color: var(--primary-color, #3f51b5);
-      }
-    }
-  }
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }

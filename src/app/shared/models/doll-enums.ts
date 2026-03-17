@@ -25,7 +25,6 @@ export type Manufacturer =
   | 'Disney'
   | 'Other'
   | 'Spin Master'
-  | 'GWToys'
   | 'Jakks Pacific'
   | 'Simba Toys';
 

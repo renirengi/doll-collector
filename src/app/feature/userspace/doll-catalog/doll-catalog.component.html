@@ -1,13 +1,23 @@
-<div class="catalog-container">
-  <header class="catalog-header">
-    <div class="header-main">
-      <h1 class="text-red-600">Doll Collection Cabinet</h1>
-      <span class="count-badge">Total: {{ service.totalCount() }}</span>
+<div class="catalog-container min-h-screen bg-slate-50">
+  <header
+    class="sticky top-0 z-50 bg-white shadow-sm border-b border-slate-200"
+  >
+    <div class="flex items-center justify-between px-4 py-3 max-w-7-xl mx-auto">
+      <h1 class="text-2xl font-bold text-red-600 m-0">
+        Doll Collection Cabinet
+      </h1>
+      <span
+        class="bg-red-50 text-red-700 px-3 py-1 rounded-full text-sm font-semibold border border-red-100"
+      >
+        Total: {{ service.totalCount() }}
+      </span>
     </div>
 
-    <div class="filters-top-panel">
+    <div class="flex flex-col border-t border-slate-50">
       <app-manufacturer-navigation></app-manufacturer-navigation>
-      <app-doll-filters></app-doll-filters>
+      <div class="px-4 pb-4">
+        <app-doll-filters></app-doll-filters>
+      </div>
     </div>
   </header>
 
