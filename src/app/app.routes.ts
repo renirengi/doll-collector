@@ -1,26 +1,25 @@
 import { Routes } from '@angular/router';
-import { DollCatalogComponent } from './feature/userspace/doll-catalog/doll-catalog.component';
+import { DollCatalogComponent } from './feature/userspace/pages/doll-catalog/doll-catalog.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'catalog', pathMatch: 'full' },
-
-  {
-    path: 'catalog',
-    component: DollCatalogComponent,
-  },
-
-  {
-    path: 'catalog/:manufacturer',
-    component: DollCatalogComponent,
-  },
-
-  {
-    path: 'catalog/:manufacturer/:brand',
-    component: DollCatalogComponent,
-  },
-
+  { path: '', redirectTo: 'user', pathMatch: 'full' },
+  // { path: 'auth', loadChildren: () => import('./features/auth/auth.routes').then((m) => m.authRoutes) },
   // {
-  //   path: 'doll/:id',
-  //   loadComponent: () => import('./features/userspace/doll-detail/doll-detail.component').then(m => m.DollDetailComponent)
+  //   path: 'admin-panel',
+  //   loadChildren: () => import('./features/admin-panel/admin-panel.routes').then((m) => m.adminPanelRoutes),
+  //   canActivate: [RoleGuard],
+  //   data: { roles: [UserRoles.Admin, UserRoles.Support] },
   // },
+  {
+    path: 'user',
+    loadChildren: () =>
+      import('./feature/userspace/userspace.routes').then(
+        (m) => m.userspaceRoutes,
+      ),
+    // canActivate: [RoleGuard],
+    // resolve: { userInfo, questions },
+    // data: { roles: [UserRoles.Client, UserRoles.Support, UserRoles.Admin] },
+  },
+  { path: '**', redirectTo: '404', pathMatch: 'full' },
+  // { path: '404', component: NotFoundComponent },
 ];

@@ -5,9 +5,9 @@ import {
   tick,
 } from '@angular/core/testing';
 import { DollFiltersComponent } from './doll-filters.component';
-import { DollService } from '../../../core/services/dollService';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { signal } from '@angular/core';
+import { DollService } from '../../../../core/services/dollService';
 
 class MockDollService {
   public updateFilters = jasmine.createSpy('updateFilters');

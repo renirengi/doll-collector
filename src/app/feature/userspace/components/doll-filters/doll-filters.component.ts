@@ -2,15 +2,15 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { DollService } from '../../../core/services/dollService';
-import { DollFilters } from '../../../shared/models/doll-filters.model';
-import * as T from '../../../shared/models/doll-enums';
+import * as T from '../../../../shared/models/doll-enums';
 import { CommonModule, TitleCasePipe } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { effect } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
+import { DollService } from '../../../../core/services/dollService';
+import { DollFilters } from '../../../../shared/models/doll-filters.model';
 
 interface SortData {
   field: 'price' | 'releaseYear' | 'acquisitionYear';

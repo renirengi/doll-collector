@@ -12,12 +12,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
-
-import { DollCardComponent } from '../doll-card/doll-card.component';
-import { DollFiltersComponent } from '../doll-filters/doll-filters.component';
-import { DollService } from '../../../core/services/dollService';
-import { ManufacturerNavigationComponent } from '../manufacturer-navigation/manufacturer-navigation.component';
+import { DollService } from '../../../../core/services/dollService';
+import { ManufacturerNavigationComponent } from '../../components/manufacturer-navigation/manufacturer-navigation.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DollCardComponent } from '../../components/doll-card/doll-card.component';
+import { DollFiltersComponent } from '../../components/doll-filters/doll-filters.component';
 
 @Component({
   selector: 'app-doll-catalog',

@@ -10,7 +10,10 @@ describe('ManufacturerDetailsComponent', () => {
   let paramsSubject: BehaviorSubject<any>;
 
   beforeEach(async () => {
-    paramsSubject = new BehaviorSubject({ manufacturer: 'Mattel', brand: 'Barbie' });
+    paramsSubject = new BehaviorSubject({
+      manufacturer: 'Mattel',
+      brand: 'Barbie',
+    });
 
     await TestBed.configureTestingModule({
       imports: [ManufacturerDetailsComponent],
@@ -20,9 +23,9 @@ describe('ManufacturerDetailsComponent', () => {
           provide: ActivatedRoute,
           useValue: {
             params: paramsSubject.asObservable(),
-            snapshot: { params: paramsSubject.value }
+            snapshot: { params: paramsSubject.value },
           },
-        }
+        },
       ],
     }).compileComponents();
 

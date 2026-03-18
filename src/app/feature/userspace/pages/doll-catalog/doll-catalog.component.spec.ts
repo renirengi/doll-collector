@@ -5,7 +5,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { DollCatalogComponent } from './doll-catalog.component';
-import { DollService } from '../../../core/services/dollService';
+import { DollService } from '../../../../core/services/dollService';
 import { ActivatedRoute } from '@angular/router';
 import { of, BehaviorSubject } from 'rxjs';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
