@@ -4,6 +4,7 @@ import {
   inject,
   ViewChild,
   OnDestroy,
+  effect,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -13,7 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { DollService } from '../../../../core/services/dollService';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { DollCardComponent } from '../../components/doll-card/doll-card.component';
 import { FilterPanelComponent } from '../../components/filter-panel/filter-panel.component';
 import { UserspaceStateService } from '../../service/userspace-state.service';
@@ -53,6 +54,8 @@ export class DollCatalogComponent implements OnDestroy {
   private readonly route = inject(ActivatedRoute);
   private observer?: IntersectionObserver;
 
+  private params = toSignal(this.route.queryParams);
+
   @ViewChild('infiniteTrigger')
   public set infiniteTrigger(content: ElementRef | undefined) {
     if (content) {
@@ -65,16 +68,20 @@ export class DollCatalogComponent implements OnDestroy {
   }
 
   constructor() {
-    this.route.queryParams.pipe(takeUntilDestroyed()).subscribe((params) => {
-      const manufacturer = params['manufacturer'] || null;
-      const brand = params['brand'] || null;
+    effect(() => {
+      const p = this.params();
+      if (p) {
+        this.dollService.setRawFilters({
+          manufacturer: p['manufacturer'] || null,
+          brand: p['brand'] || null,
+          _page: 1,
+          _limit: 12,
+        });
+      }
+    });
 
-      this.dollService.setRawFilters({
-        manufacturer,
-        brand,
-        _page: 1,
-        _limit: 12,
-      });
+    effect(() => {
+      this.ui.totalDolls.set(this.dollService.totalCount());
     });
   }
 

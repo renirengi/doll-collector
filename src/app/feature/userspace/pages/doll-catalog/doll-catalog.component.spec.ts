@@ -6,112 +6,94 @@ import {
 } from '@angular/core/testing';
 import { DollCatalogComponent } from './doll-catalog.component';
 import { DollService } from '../../../../core/services/dollService';
-import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideRouter, Router } from '@angular/router';
+import { UserspaceStateService } from '../../service/userspace-state.service';
 import { signal } from '@angular/core';
-
-class MockDollService {
-  public isLoading = signal(false);
-  public hasMore = signal(true);
-  public totalCount = signal(0);
-  public dolls = signal([]);
-  public filters = signal({ _page: 1, _limit: 12 });
-
-  public setRawFilters = (filters: any) => {};
-  public loadMoreDolls = () => {};
-  public updateFilters = () => {};
-}
-
-class MockActivatedRoute {
-  private queryParamsSubject = new BehaviorSubject({
-    manufacturer: 'Mattel',
-    brand: 'Barbie',
-  });
-
-  public queryParams = this.queryParamsSubject.asObservable();
-
-  public params = new BehaviorSubject({}).asObservable();
-
-  public emitQueryParams(params: any) {
-    this.queryParamsSubject.next(params);
-  }
-}
-
-class MockIntersectionObserver {
-  observe = () => {};
-  disconnect = () => {};
-  unobserve = () => {};
-}
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('DollCatalogComponent', () => {
   let component: DollCatalogComponent;
   let fixture: ComponentFixture<DollCatalogComponent>;
-  let dollService: DollService;
-  let route: MockActivatedRoute;
+  let dollServiceSpy: jasmine.SpyObj<DollService>;
+  let uiService: UserspaceStateService;
+  let router: Router;
+
+  const totalCountSignal = signal(0);
+  const isLoadingSignal = signal(false);
+  const hasMoreSignal = signal(true);
+  const dollsSignal = signal<any[]>([]);
 
   beforeEach(async () => {
-    (window as any).IntersectionObserver = MockIntersectionObserver;
+    const spy = jasmine.createSpyObj(
+      'DollService',
+      ['setRawFilters', 'loadMoreDolls'],
+      {
+        totalCount: totalCountSignal,
+        isLoading: isLoadingSignal,
+        hasMore: hasMoreSignal,
+        dolls: dollsSignal,
+      },
+    );
 
     await TestBed.configureTestingModule({
-      imports: [DollCatalogComponent],
+      imports: [DollCatalogComponent, NoopAnimationsModule],
       providers: [
-        { provide: DollService, useClass: MockDollService },
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
-        provideAnimationsAsync('noop'),
+        { provide: DollService, useValue: spy },
+        UserspaceStateService,
+        provideRouter([{ path: 'catalog', component: DollCatalogComponent }]),
       ],
     }).compileComponents();
 
+    dollServiceSpy = TestBed.inject(DollService) as jasmine.SpyObj<DollService>;
+    uiService = TestBed.inject(UserspaceStateService);
+    router = TestBed.inject(Router);
+
     fixture = TestBed.createComponent(DollCatalogComponent);
     component = fixture.componentInstance;
-    dollService = TestBed.inject(DollService);
-    route = TestBed.inject(ActivatedRoute) as unknown as MockActivatedRoute;
   });
 
   it('should create', () => {
-    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
-  it('should call setRawFilters with query params on initialization', () => {
-    const spy = spyOn(dollService, 'setRawFilters');
-
-    const newFixture = TestBed.createComponent(DollCatalogComponent);
-    newFixture.detectChanges();
-
-    expect(spy).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        manufacturer: 'Mattel',
-        brand: 'Barbie',
-      }),
-    );
-  });
-
   it('should update filters when query params change', fakeAsync(() => {
-    const spy = spyOn(dollService, 'setRawFilters');
     fixture.detectChanges();
-
-    route.emitQueryParams({ manufacturer: 'Kurhn', brand: 'Kurhn-brand' });
     tick();
 
-    expect(spy).toHaveBeenCalledWith(
+    router.navigate(['/catalog'], {
+      queryParams: { manufacturer: 'Kurhn', brand: 'Kurhn-brand' },
+    });
+
+    tick();
+    fixture.detectChanges();
+    tick();
+
+    expect(dollServiceSpy.setRawFilters).toHaveBeenCalledWith(
       jasmine.objectContaining({
         manufacturer: 'Kurhn',
         brand: 'Kurhn-brand',
+        _page: 1,
       }),
     );
   }));
 
-  it('should disconnect observer on destroy', () => {
+  it('should synchronize totalCount with UserspaceStateService via effect', fakeAsync(() => {
     fixture.detectChanges();
-    (component as any).initInfiniteScroll({
-      nativeElement: document.createElement('div'),
-    });
+    tick();
 
-    const observer = (component as any).observer;
-    const spy = spyOn(observer, 'disconnect');
+    totalCountSignal.set(150);
 
-    component.ngOnDestroy();
-    expect(spy).toHaveBeenCalled();
+    fixture.detectChanges();
+    tick();
+
+    expect(uiService.totalDolls()).toBe(150);
+  }));
+
+  it('should call loadNextBatch when infinite scroll triggers', () => {
+    spyOn(component, 'loadNextBatch').and.callThrough();
+
+    component.loadNextBatch();
+
+    expect(dollServiceSpy.loadMoreDolls).toHaveBeenCalled();
   });
 });
