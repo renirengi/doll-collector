@@ -18,9 +18,16 @@ import { ManufacturerDetailsComponent } from '../manufacturer-details/manufactur
     <nav class="catalog-nav">
       <div class="nav-container">
         <button
-          routerLink="/catalog"
+          [routerLink]="[]"
+          [queryParams]="{ manufacturer: null, brand: null }"
+          queryParamsHandling="merge"
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
+          [routerLinkActiveOptions]="{
+            matrixParams: 'ignored',
+            queryParams: 'ignored',
+            paths: 'exact',
+            fragment: 'ignored',
+          }"
           class="nav-btn text-btn"
         >
           All
@@ -29,7 +36,9 @@ import { ManufacturerDetailsComponent } from '../manufacturer-details/manufactur
         @for (m of manufacturers; track m) {
           @if (m !== 'Other') {
             <button
-              [routerLink]="['/catalog', m]"
+              [routerLink]="[]"
+              [queryParams]="{ manufacturer: m, brand: null }"
+              queryParamsHandling="merge"
               routerLinkActive="active"
               class="nav-btn img-btn"
             >
@@ -45,7 +54,9 @@ import { ManufacturerDetailsComponent } from '../manufacturer-details/manufactur
             </button>
           } @else {
             <button
-              [routerLink]="['/catalog', m]"
+              [routerLink]="[]"
+              [queryParams]="{ manufacturer: m, brand: null }"
+              queryParamsHandling="merge"
               routerLinkActive="active"
               class="nav-btn text-btn"
             >

@@ -35,11 +35,20 @@
   --app-text-sub: #475569; /* Вторичный текст (описание куклы, артикул) */
 
   --app-gradient-sunset: linear-gradient(
-    135deg,
+    180deg,
     #4f46e5 0%,
-    /* Глубокий Индиго (из вашей базы) */ #e91e63 35%,
-    /* Акцентный Розовый (из вашей базы) */ #ff5722 65%,
-    /* Огненный Оранжевый */ #ffc107 100% /* Янтарь/Желтый */
+    /* Сверху: Глубокий Индиго */ #e91e63 35%,
+    /* Розовый */ #ff5722 65%,
+    /* Оранжевый */ #ffc107 100%,
+    /* Желтый/Янтарь */ #4f46e5 100%
+  );
+
+  --app-gradient-sunset-vertical: linear-gradient(
+    180deg,
+    #ffc107 0%,
+    #ff5722 35%,
+    #e91e63 65%,
+    #4f46e5 100%
   );
 
   --app-gradient-twilight: linear-gradient(
@@ -214,5 +223,30 @@ body {
         0 10px 30px -5px var(--app-slate),
         0 0 15px rgba(50, 50, 53, 0.3) !important;
     }
+  }
+
+  .filters-drawer-animation {
+    display: block;
+    overflow: hidden;
+    background: var(--app-bg-card);
+    border-bottom: 1px solid var(--app-border-light);
+    animation: slide-in-bottom 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+
+  @keyframes slide-in-bottom {
+    0% {
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    100% {
+      max-height: 1000px;
+      transform: translateY(0);
+    }
+  }
+
+  app-filter-panel {
+    display: block;
+    padding: 1rem;
   }
 }

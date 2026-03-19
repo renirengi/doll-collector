@@ -1,16 +1,17 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Header } from './components/header/header.component';
 import { RouterOutlet } from '@angular/router';
+import { Sidebar } from './components/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-user-page',
-  imports: [Header, RouterOutlet],
+  imports: [Header, RouterOutlet, Sidebar],
   template: `
     <app-header></app-header>
     <!-- <app-user-sidebar-mobile></app-user-sidebar-mobile> -->
 
     <section class="user-page-container">
-      <!-- <app-sidebar></app-sidebar> -->
+      <app-sidebar></app-sidebar>
       <router-outlet></router-outlet>
     </section>
 

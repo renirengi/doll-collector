@@ -3,8 +3,16 @@
     <img src="assets/logos/DCC-logo.png" alt="DCC Logo" class="header-logo" />
     <h1 class="header-title">Doll Collection <span>Cabinet</span></h1>
   </div>
-
-  <div class="header-stats">
-    <span class="total-badge">Total: 73</span>
+  <div class="w-[30%] flex gap-3 justify-end items-center">
+    <div class="header-stats actions">
+      <button class="filter-toggle" (click)="ui.toggleFilters()">
+        <span class="icon icon-filter"></span>
+      </button>
+    </div>
+    <div class="header-stats main-stats">
+      <span class="total-badge">
+        Total: <strong class="doll-count">{{ ui.totalDolls() }}</strong>
+      </span>
+    </div>
   </div>
 </div>

@@ -7,7 +7,7 @@ import {
 import { DollCatalogComponent } from './doll-catalog.component';
 import { DollService } from '../../../../core/services/dollService';
 import { ActivatedRoute } from '@angular/router';
-import { of, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { signal } from '@angular/core';
 
@@ -18,20 +18,23 @@ class MockDollService {
   public dolls = signal([]);
   public filters = signal({ _page: 1, _limit: 12 });
 
-  public setRawFilters = () => {};
+  public setRawFilters = (filters: any) => {};
   public loadMoreDolls = () => {};
   public updateFilters = () => {};
 }
 
 class MockActivatedRoute {
-  private paramsSubject = new BehaviorSubject({
+  private queryParamsSubject = new BehaviorSubject({
     manufacturer: 'Mattel',
     brand: 'Barbie',
   });
-  public params = this.paramsSubject.asObservable();
 
-  public emitParams(params: any) {
-    this.paramsSubject.next(params);
+  public queryParams = this.queryParamsSubject.asObservable();
+
+  public params = new BehaviorSubject({}).asObservable();
+
+  public emitQueryParams(params: any) {
+    this.queryParamsSubject.next(params);
   }
 }
 
@@ -70,7 +73,7 @@ describe('DollCatalogComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call setRawFilters with route params on initialization', () => {
+  it('should call setRawFilters with query params on initialization', () => {
     const spy = spyOn(dollService, 'setRawFilters');
 
     const newFixture = TestBed.createComponent(DollCatalogComponent);
@@ -84,11 +87,11 @@ describe('DollCatalogComponent', () => {
     );
   });
 
-  it('should update filters when route params change', fakeAsync(() => {
+  it('should update filters when query params change', fakeAsync(() => {
     const spy = spyOn(dollService, 'setRawFilters');
     fixture.detectChanges();
 
-    route.emitParams({ manufacturer: 'Kurhn', brand: 'Kurhn-brand' });
+    route.emitQueryParams({ manufacturer: 'Kurhn', brand: 'Kurhn-brand' });
     tick();
 
     expect(spy).toHaveBeenCalledWith(
@@ -101,6 +104,8 @@ describe('DollCatalogComponent', () => {
 
   it('should disconnect observer on destroy', () => {
     fixture.detectChanges();
+    (component as any).initInfiniteScroll({ nativeElement: document.createElement('div') });
+
     const observer = (component as any).observer;
     const spy = spyOn(observer, 'disconnect');
 

@@ -13,10 +13,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { DollService } from '../../../../core/services/dollService';
-import { ManufacturerNavigationComponent } from '../../components/manufacturer-navigation/manufacturer-navigation.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DollCardComponent } from '../../components/doll-card/doll-card.component';
-import { DollFiltersComponent } from '../../components/doll-filters/doll-filters.component';
+import { FilterPanelComponent } from '../../components/filter-panel/filter-panel.component';
+import { UserspaceStateService } from '../../service/userspace-state.service';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-doll-catalog',
@@ -29,13 +30,25 @@ import { DollFiltersComponent } from '../../components/doll-filters/doll-filters
     MatIconModule,
     MatButtonModule,
     DollCardComponent,
-    DollFiltersComponent,
-    ManufacturerNavigationComponent,
+    FilterPanelComponent,
   ],
   templateUrl: './doll-catalog.component.html',
   styleUrls: ['./doll-catalog.component.scss'],
+  animations: [
+    trigger('dropdown', [
+      transition(':enter', [
+        style({ height: '0', opacity: 0, overflow: 'hidden' }),
+        animate('300ms ease-out', style({ height: '*', opacity: 1 })),
+      ]),
+      transition(':leave', [
+        style({ height: '*', overflow: 'hidden' }),
+        animate('200ms ease-in', style({ height: '0', opacity: 0 })),
+      ]),
+    ]),
+  ],
 })
 export class DollCatalogComponent implements OnDestroy {
+  protected ui = inject(UserspaceStateService);
   private readonly dollService = inject(DollService);
   private readonly route = inject(ActivatedRoute);
   private observer?: IntersectionObserver;
@@ -51,24 +64,20 @@ export class DollCatalogComponent implements OnDestroy {
     return this.dollService;
   }
 
-  /**
-   * Subscribes to route parameters to update filters based on manufacturer and brand from URL.
-   */
   constructor() {
-    this.route.params.pipe(takeUntilDestroyed()).subscribe((params) => {
+    this.route.queryParams.pipe(takeUntilDestroyed()).subscribe((params) => {
+      const manufacturer = params['manufacturer'] || null;
+      const brand = params['brand'] || null;
+
       this.dollService.setRawFilters({
-        manufacturer: params['manufacturer'] || null,
-        brand: params['brand'] || null,
+        manufacturer,
+        brand,
         _page: 1,
         _limit: 12,
       });
     });
   }
 
-  /**
-   * Configures the IntersectionObserver for infinite scrolling.
-   * @param el The ElementRef acting as a trigger at the bottom of the list.
-   */
   private initInfiniteScroll(el: ElementRef): void {
     this.observer?.disconnect();
 
@@ -91,16 +100,10 @@ export class DollCatalogComponent implements OnDestroy {
     this.observer.observe(el.nativeElement);
   }
 
-  /**
-   * Triggers loading of the next batch of dolls via the service.
-   */
   public loadNextBatch(): void {
     this.dollService.loadMoreDolls();
   }
 
-  /**
-   * Cleanup: disconnects the observer to prevent memory leaks.
-   */
   public ngOnDestroy(): void {
     this.observer?.disconnect();
   }

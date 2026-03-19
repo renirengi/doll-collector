@@ -13,14 +13,60 @@
   box-sizing: border-box;
 
   .header-content {
-    max-width: 1200px;
-    margin: 0 auto;
     display: flex;
-    height: 100%;
     justify-content: space-between;
     align-items: center;
   }
 
+  .total-badge {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    .doll-count {
+      color: var(--app-bg-card);
+      font-weight: 700;
+    }
+  }
+
+  .filter-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    position: relative;
+    transition: all 0.25s ease;
+    border-radius: 50%;
+
+    .icon-filter:after {
+      content: "";
+      display: block;
+      width: 24px;
+      height: 24px;
+
+      background-image: url("/assets/icons/instant_mix.svg");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+
+      transition: filter 0.25s ease;
+
+      filter: brightness(0) invert(1) drop-shadow(0 0 10px var(--app-slate));
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+
+      .icon-filter:after {
+        filter: brightness(0) saturate(100%) invert(35%) sepia(93%)
+          saturate(3031%) hue-rotate(231deg) brightness(97%) contrast(92%)
+          drop-shadow(0 0 15px var(--app-slate));
+      }
+    }
+  }
   .logo-wrapper {
     display: flex;
     align-items: center;
@@ -43,15 +89,5 @@
         opacity: 0.9;
       }
     }
-  }
-
-  .total-badge {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(5px);
-    padding: 0.5rem 1rem;
-    border-radius: 2rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    border: 1px solid rgba(255, 255, 255, 0.3);
   }
 }

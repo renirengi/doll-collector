@@ -1,8 +1,7 @@
 :host {
   display: block;
-  max-width: 1400px;
-  margin-top: var(--app-header-height);
-  padding: 0 2rem;
+  width: 100%;
+  padding: 2rem;
 
   .catalog-container {
     display: flex;

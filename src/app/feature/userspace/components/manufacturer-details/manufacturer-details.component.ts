@@ -1,7 +1,8 @@
 import { Component, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule, Params } from '@angular/router';
+import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { filter, map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-manufacturer-details',
@@ -12,7 +13,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
       <nav class="nav-container mt-[2rem]">
         @for (brand of brands(); track brand) {
           <button
-            [routerLink]="['/catalog', manufacturerName(), brand]"
+            [routerLink]="[]"
+            [queryParams]="{ brand: brand }"
+            queryParamsHandling="merge"
             [class.active]="activeBrand() === brand"
             class="nav-btn"
             [class.img-btn]="brand !== 'Other'"
@@ -35,15 +38,25 @@ import { toSignal } from '@angular/core/rxjs-interop';
   styleUrls: ['./manufacturer-details.component.scss'],
 })
 export class ManufacturerDetailsComponent {
-  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
-  private readonly params = toSignal(this.route.params);
-
-  public readonly manufacturerName = computed(
-    () => this.params()?.['manufacturer'],
+  private readonly url = toSignal(
+    this.router.events.pipe(
+      filter((e) => e instanceof NavigationEnd),
+      map(() => this.router.url),
+      startWith(this.router.url),
+    ),
   );
 
-  public readonly activeBrand = computed(() => this.params()?.['brand']);
+  public readonly manufacturerName = computed(() => {
+    const urlTree = this.router.parseUrl(this.url() || '');
+    return urlTree.queryParamMap.get('manufacturer');
+  });
+
+  public readonly activeBrand = computed(() => {
+    const urlTree = this.router.parseUrl(this.url() || '');
+    return urlTree.queryParamMap.get('brand');
+  });
 
   private readonly brandRegistry: Record<string, string[]> = {
     Mattel: ['Barbie', 'Monster High'],
