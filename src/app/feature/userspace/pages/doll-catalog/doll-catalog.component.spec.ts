@@ -104,7 +104,9 @@ describe('DollCatalogComponent', () => {
 
   it('should disconnect observer on destroy', () => {
     fixture.detectChanges();
-    (component as any).initInfiniteScroll({ nativeElement: document.createElement('div') });
+    (component as any).initInfiniteScroll({
+      nativeElement: document.createElement('div'),
+    });
 
     const observer = (component as any).observer;
     const spy = spyOn(observer, 'disconnect');

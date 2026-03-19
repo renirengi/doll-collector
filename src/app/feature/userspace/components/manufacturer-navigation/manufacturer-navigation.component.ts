@@ -24,7 +24,7 @@ import { ManufacturerDetailsComponent } from '../manufacturer-details/manufactur
           routerLinkActive="active"
           [routerLinkActiveOptions]="{
             matrixParams: 'ignored',
-            queryParams: 'ignored',
+            queryParams: 'exact',
             paths: 'exact',
             fragment: 'ignored',
           }"

@@ -13,7 +13,9 @@ describe('ManufacturerDetailsComponent', () => {
       imports: [ManufacturerDetailsComponent],
       providers: [
         // Настраиваем роутер с пустым маршрутом для тестов
-        provideRouter([{ path: '**', component: ManufacturerDetailsComponent }]),
+        provideRouter([
+          { path: '**', component: ManufacturerDetailsComponent },
+        ]),
       ],
     }).compileComponents();
 

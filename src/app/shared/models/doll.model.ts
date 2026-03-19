@@ -16,6 +16,10 @@ export interface Pet {
   name: string;
   notes?: string;
 }
+export interface Hybrid {
+  head: string;
+  body: string;
+}
 
 export interface Doll {
   id: string;
@@ -55,4 +59,6 @@ export interface Doll {
   pets?: Pet[];
   familyNames?: string[];
   gender: T.Gender;
+
+  hybrid?: Hybrid;
 }

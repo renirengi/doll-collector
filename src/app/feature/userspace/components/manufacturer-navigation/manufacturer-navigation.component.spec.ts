@@ -12,7 +12,7 @@ describe('ManufacturerNavigationComponent', () => {
       imports: [ManufacturerNavigationComponent],
       providers: [
         provideRouter([
-          { path: 'catalog', component: ManufacturerNavigationComponent }
+          { path: 'catalog', component: ManufacturerNavigationComponent },
         ]),
       ],
     }).compileComponents();
@@ -26,17 +26,20 @@ describe('ManufacturerNavigationComponent', () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
-    const allButtonDe = fixture.debugElement.queryAll(By.css('.text-btn'))
-      .find(de => de.nativeElement.textContent.trim() === 'All');
+    const allButtonDe = fixture.debugElement
+      .queryAll(By.css('.text-btn'))
+      .find((de) => de.nativeElement.textContent.trim() === 'All');
 
     expect(allButtonDe).toBeTruthy('Button "All" was not found');
 
     const link = allButtonDe?.injector.get(RouterLink);
 
-    expect(link?.queryParams).toEqual(jasmine.objectContaining({
-      manufacturer: null,
-      brand: null
-    }));
+    expect(link?.queryParams).toEqual(
+      jasmine.objectContaining({
+        manufacturer: null,
+        brand: null,
+      }),
+    );
   });
 
   it('should have correct query params for manufacturer buttons', async () => {
@@ -49,24 +52,29 @@ describe('ManufacturerNavigationComponent', () => {
     const kurhnButtonDe = kurhnImg.parent;
     const link = kurhnButtonDe?.injector.get(RouterLink);
 
-    expect(link?.queryParams).toEqual(jasmine.objectContaining({
-      manufacturer: 'Kurhn',
-      brand: null
-    }));
+    expect(link?.queryParams).toEqual(
+      jasmine.objectContaining({
+        manufacturer: 'Kurhn',
+        brand: null,
+      }),
+    );
   });
 
   it('should render "Other" as a text button', async () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
-    const otherButton = fixture.debugElement.queryAll(By.css('.text-btn'))
-      .find(de => de.nativeElement.textContent.trim() === 'Other');
+    const otherButton = fixture.debugElement
+      .queryAll(By.css('.text-btn'))
+      .find((de) => de.nativeElement.textContent.trim() === 'Other');
 
     expect(otherButton).toBeTruthy('Button "Other" should be a text button');
 
     const link = otherButton?.injector.get(RouterLink);
-    expect(link?.queryParams).toEqual(jasmine.objectContaining({
-      manufacturer: 'Other'
-    }));
+    expect(link?.queryParams).toEqual(
+      jasmine.objectContaining({
+        manufacturer: 'Other',
+      }),
+    );
   });
 });
