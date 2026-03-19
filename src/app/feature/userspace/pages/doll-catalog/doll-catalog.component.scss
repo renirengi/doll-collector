@@ -1,12 +1,22 @@
 :host {
   display: block;
   width: 100%;
-  padding: 2rem;
+
+  .filters-drawer-animation {
+    position: sticky;
+    top: var(--app-header-height, 120px);
+    z-index: 1000;
+
+    display: block;
+    overflow: hidden;
+    background: var(--app-bg-card);
+  }
 
   .catalog-container {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    padding: 2rem;
 
     .doll-grid {
       display: grid;
@@ -22,5 +32,9 @@
       padding: 2rem;
       min-height: 100px;
     }
+  }
+
+  .catalog-content {
+    margin: 0 2rem;
   }
 }

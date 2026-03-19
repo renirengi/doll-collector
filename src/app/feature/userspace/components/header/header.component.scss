@@ -1,9 +1,9 @@
 :host {
   display: block;
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 1000;
-  top: 0;
+  left: 0;
+  z-index: 1100;
   height: var(--app-header-height);
   background: var(--app-gradient-sunset);
   width: 100%;
@@ -73,7 +73,7 @@
     gap: 1rem;
 
     .header-logo {
-      height: 100px;
+      height: 70px;
       filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
     }
 

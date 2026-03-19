@@ -15,7 +15,7 @@ import { ManufacturerDetailsComponent } from '../manufacturer-details/manufactur
     ManufacturerDetailsComponent,
   ],
   template: `
-    <nav class="catalog-nav">
+    <nav class="wrapper catalog-nav">
       <div class="nav-container">
         <button
           [routerLink]="[]"

@@ -64,15 +64,18 @@ export class DollService {
     Object.entries(currentFilters).forEach(([key, value]) => {
       if (value === undefined || value === null || value === '') return;
 
+      const paramKey =
+        key === 'purchaseStates' ? 'purchaseCondition.state' : key;
+
       if (Array.isArray(value)) {
         value.forEach((item) => {
-          // Map specific filter keys to the correct backend nested property paths
-          const paramKey =
-            key === 'purchaseStates' ? 'purchaseCondition.state' : key;
           params = params.append(paramKey, item.toString());
         });
+      } else if (key === 'sortData' && typeof value === 'object') {
+        const sort = value as { field: string; order: string };
+        params = params.set('_sort', sort.field).set('_order', sort.order);
       } else {
-        params = params.set(key, value.toString());
+        params = params.set(paramKey, value.toString());
       }
     });
 

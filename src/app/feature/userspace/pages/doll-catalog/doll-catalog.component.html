@@ -1,11 +1,10 @@
+@if (ui.isFilterOpen()) {
+  <div class="filters-drawer-animation" @dropdown>
+    <app-filter-panel></app-filter-panel>
+  </div>
+}
 <div class="catalog-container min-h-screen bg-slate-50">
-  @if (ui.isFilterOpen()) {
-    <div class="filters-drawer-animation" @dropdown>
-      <app-filter-panel></app-filter-panel>
-    </div>
-  }
-
-  <main class="catalog-content w-full" [class.is-loading]="service.isLoading()">
+  <main class="catalog-content" [class.is-loading]="service.isLoading()">
     @if (service.isLoading() && service.dolls().length === 0) {
       <div class="initial-spinner">
         <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>

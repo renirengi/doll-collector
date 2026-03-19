@@ -10,27 +10,23 @@ import { filter, map, startWith } from 'rxjs/operators';
   imports: [CommonModule, RouterModule],
   template: `
     @if (brands().length > 0) {
-      <nav class="nav-container mt-[2rem]">
+      <nav class="wrapper nav-container mt-[1rem]">
         @for (brand of brands(); track brand) {
-          <button
-            [routerLink]="[]"
-            [queryParams]="{ brand: brand }"
-            queryParamsHandling="merge"
-            [class.active]="activeBrand() === brand"
-            class="nav-btn"
-            [class.img-btn]="brand !== 'Other'"
-            [class.text-btn]="brand === 'Other'"
-          >
-            @if (brand !== 'Other') {
+          @if (brand !== 'Other') {
+            <button
+              [routerLink]="[]"
+              [queryParams]="{ brand: brand }"
+              queryParamsHandling="merge"
+              [class.active]="activeBrand() === brand"
+              class="nav-btn img-btn"
+            >
               <img
                 [src]="'assets/brands/' + brand + '.png'"
                 [alt]="brand"
                 class="nav-logo"
               />
-            } @else {
-              <span>Other</span>
-            }
-          </button>
+            </button>
+          }
         }
       </nav>
     }

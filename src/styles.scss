@@ -20,27 +20,27 @@
   --app-ink: #1e293b;
   --app-indigo: rgba(79, 70, 229, 0.9);
 
-  --app-bg-main: #f8fafc; /* Основной фон страницы (чуть холодный белый) */
-  --app-bg-card: #ffffff; /* Фон карточки куклы */
-  --app-bg-overlay: #f1f5f9; /* Фон для папок/вложенных списков */
+  --app-bg-main: #f8fafc;
+  --app-bg-card: #ffffff;
+  --app-bg-overlay: #f1f5f9;
 
-  --app-pink-soft: #fce4ec; /* Светло-розовый для тегов или фона под иконки */
-  --app-pink-hover: #c2185b; /* Темно-розовый для наведения на кнопки */
-  --app-indigo-deep: #3730a3; /* Глубокий индиго для активных пунктов меню */
+  --app-pink-soft: #fce4ec;
+  --app-pink-hover: #c2185b;
+  --app-indigo-deep: #3730a3;
 
-  --app-border-light: #e2e8f0; /* Тонкие границы карточек и инпутов */
-  --app-border-focus: #818cf8; /* Цвет обводки при фокусе (индиго-светлый) */
+  --app-border-light: #e2e8f0;
+  --app-border-focus: #818cf8;
 
-  --app-text-main: #1e293b; /* Основной текст (совпадает с ink) */
-  --app-text-sub: #475569; /* Вторичный текст (описание куклы, артикул) */
+  --app-text-main: #1e293b;
+  --app-text-sub: #475569;
 
   --app-gradient-sunset: linear-gradient(
     180deg,
     #4f46e5 0%,
-    /* Сверху: Глубокий Индиго */ #e91e63 35%,
-    /* Розовый */ #ff5722 65%,
-    /* Оранжевый */ #ffc107 100%,
-    /* Желтый/Янтарь */ #4f46e5 100%
+    #e91e63 35%,
+    #ff5722 65%,
+    #ffc107 100%,
+    #4f46e5 100%
   );
 
   --app-gradient-sunset-vertical: linear-gradient(
@@ -54,38 +54,37 @@
   --app-gradient-twilight: linear-gradient(
     45deg,
     #311b92 0%,
-    /* Темный Насыщенный Фиолетовый */ #ec407a 40%,
-    /* Яркий Маджента/Розовый */ #ff9800 80%,
-    /* Насыщенный Оранжевый */ #ffee58 100% /* Светло-желтый */
+    #ec407a 40%,
+    #ff9800 80%,
+    #ffee58 100%
   );
 
   --app-gradient-radial: radial-gradient(
     circle,
     #ffeb3b 0%,
-    /* Желтый центр */ #ff9800 30%,
-    /* Оранжевое кольцо */ #f48fb1 60%,
-    /* Светло-розовое кольцо */ #5c6bc0 100% /* Индиго край (из вашей базы) */
+    #ff9800 30%,
+    #f48fb1 60%,
+    #5c6bc0 100%
   );
 
   --app-gradient-glass: linear-gradient(
     160deg,
     rgba(79, 70, 229, 0.1) 0%,
-    /* Супер-светлый индиго */ rgba(233, 30, 99, 0.15) 40%,
-    /* Супер-светлый розовый */ rgba(255, 152, 0, 0.1) 80%,
-    /* Супер-светлый оранжевый */ rgba(255, 235, 59, 0.05) 100%
-      /* Супер-светлый желтый */
+    rgba(233, 30, 99, 0.15) 40%,
+    rgba(255, 152, 0, 0.1) 80%,
+    rgba(255, 235, 59, 0.05) 100%
   );
-  backdrop-filter: blur(10px); /* Для эффекта матового стекла */
+  backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
 
   --app-gradient-accent: linear-gradient(
     to right,
     #673ab7 0%,
-    /* Насыщенный Фиолетовый */ #e91e63 45%,
-    /* Твой Розовый (центр) */ #ffc107 100% /* Желтый янтарь */
+    #e91e63 45%,
+    #ffc107 100%
   );
 
-  --app-header-height: 120px;
+  --app-header-height: 75px;
 }
 
 html {
@@ -147,7 +146,7 @@ body {
 
 .catalog-nav {
   width: 100%;
-  margin: 2rem 0;
+  margin: 1rem 0;
   background: transparent;
 
   .nav-container {
@@ -155,8 +154,8 @@ body {
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: 1.5rem;
-    padding: 0 1.5rem;
+    gap: 1rem;
+    padding: 0 1rem;
   }
 }
 
@@ -171,65 +170,57 @@ body {
 
 .nav-btn {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  width: 140px;
-  height: 4rem;
+  width: 100px;
+  height: 50px;
   cursor: pointer;
   border: 1px solid transparent;
   background: white;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 1.25rem;
+  padding: 0.75rem;
 
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   }
 
-  &.img-btn {
-    border-radius: 1.25rem;
-    padding: 0.75rem;
+  &.active {
+    transform: scale(1.1);
+    box-shadow:
+      0 10px 30px -5px var(--app-slate),
+      0 0 15px rgba(50, 50, 53, 0.3) !important;
+  }
 
+  &.img-btn {
     .nav-logo {
-      height: 3rem;
+      height: 2.2rem;
       width: auto;
       object-fit: contain;
     }
 
     &.active {
-      transform: scale(1.1);
       border-color: rgba(50, 50, 53, 0.3) !important;
       background-color: white !important;
-
-      box-shadow:
-        0 10px 30px -5px var(--app-slate),
-        0 0 15px rgba(50, 50, 53, 0.3) !important;
     }
   }
 
   &.text-btn {
-    border-radius: 9999px;
-    padding: 0.6rem 1.8rem;
     font-weight: 800;
+    font-size: 1.1rem;
     color: #4f46e5;
 
-    border: 2px solid #4f46e5;
-
     &.active {
-      background-color: #4f46e5 !important;
-      color: white !important;
-      border-color: transparent !important;
-
-      box-shadow:
-        0 10px 30px -5px var(--app-slate),
-        0 0 15px rgba(50, 50, 53, 0.3) !important;
+      border-color: rgba(50, 50, 53, 0.3) !important;
+      background-color: white !important;
     }
   }
 
   .filters-drawer-animation {
     display: block;
+    padding: 2rem;
     overflow: hidden;
-    background: var(--app-bg-card);
-    border-bottom: 1px solid var(--app-border-light);
     animation: slide-in-bottom 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   }
 

@@ -5,7 +5,8 @@ import { ManufacturerNavigationComponent } from '../manufacturer-navigation/manu
   selector: 'app-sidebar',
   imports: [],
   template: `<div
-    class="w-[150px] flex flex-col justify-start align-middle"
+    class="w-[12
+      0px] flex flex-col justify-start align-middle"
   ></div>`,
   styleUrl: './sidebar.component.scss',
 })
