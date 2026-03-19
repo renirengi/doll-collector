@@ -6,17 +6,25 @@
     position: sticky;
     top: var(--app-header-height, 120px);
     z-index: 1000;
-
     display: block;
     overflow: hidden;
     background: var(--app-bg-card);
+    border-bottom: 1px solid var(--app-border-light);
+    width: 100%;
   }
 
   .catalog-container {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
-    padding: 2rem;
+    padding: 0;
+
+    .catalog-content {
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
 
     .doll-grid {
       display: grid;
@@ -32,9 +40,5 @@
       padding: 2rem;
       min-height: 100px;
     }
-  }
-
-  .catalog-content {
-    margin: 0 2rem;
   }
 }
