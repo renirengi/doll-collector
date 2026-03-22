@@ -43,8 +43,13 @@ export class DollService {
 
     try {
       const response = await DollApiService.getAll(currentFilters);
-      const newDolls: Doll[] = Array.isArray(response) ? response : (response as any)?.data || [];
-      const total: number = (response as any)?.total ?? (response as any)?.totalCount ?? newDolls.length;
+      const newDolls: Doll[] = Array.isArray(response)
+        ? response
+        : (response as any)?.data || [];
+      const total: number =
+        (response as any)?.total ??
+        (response as any)?.totalCount ??
+        newDolls.length;
 
       this.totalCount.set(total);
 
@@ -90,7 +95,10 @@ export class DollService {
    */
   public loadMoreDolls(): void {
     if (!this.isLoading() && this.hasMore()) {
-      const updated = { ...this.filters(), _page: (this.filters()._page || 1) + 1 };
+      const updated = {
+        ...this.filters(),
+        _page: (this.filters()._page || 1) + 1,
+      };
       this.filters.set(updated);
       this.loadDolls(updated);
     }

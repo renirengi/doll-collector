@@ -51,7 +51,10 @@ export class TokenService {
   /**
    * Updates Access and Refresh tokens in state and storage.
    */
-  public setTokens(token: string | null, refreshToken: string | null = null): void {
+  public setTokens(
+    token: string | null,
+    refreshToken: string | null = null,
+  ): void {
     if (token) {
       localStorage.setItem('token', token);
       if (refreshToken) localStorage.setItem('refreshToken', refreshToken);
@@ -85,10 +88,12 @@ export class TokenService {
 
     try {
       // We use firstValueFrom because this is a single "one-shot" request
-      const response = await firstValueFrom(this.authApi.refreshToken(currentRefresh));
+      const response = await firstValueFrom(
+        this.authApi.refreshToken(currentRefresh),
+      );
 
-      this.setTokens(response.token, response.refreshToken);
-      return response.token;
+      this.setTokens(response.access_token, response.refreshToken);
+      return response.access_token;
     } catch (error) {
       this.clearToken();
       return null;

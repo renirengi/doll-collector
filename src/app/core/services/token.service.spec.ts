@@ -9,9 +9,9 @@ describe('TokenService', () => {
   let authApiMock: jasmine.SpyObj<AuthApiService>;
 
   const mockResponse: AuthResponse = {
-    token: 'new-access-token',
+    access_token: 'new-access-token',
     refreshToken: 'new-refresh-token',
-    user: {} as any
+    user: {} as any,
   };
 
   beforeEach(() => {
@@ -22,8 +22,8 @@ describe('TokenService', () => {
     TestBed.configureTestingModule({
       providers: [
         TokenService,
-        { provide: AuthApiService, useValue: authApiMock }
-      ]
+        { provide: AuthApiService, useValue: authApiMock },
+      ],
     });
   });
 
@@ -100,7 +100,9 @@ describe('TokenService', () => {
 
     it('should clear session and return null if API call fails', async () => {
       service.setTokens('access', 'refresh');
-      authApiMock.refreshToken.and.returnValue(throwError(() => new Error('Expired')));
+      authApiMock.refreshToken.and.returnValue(
+        throwError(() => new Error('Expired')),
+      );
 
       const result = await service.refreshTokenCall();
 

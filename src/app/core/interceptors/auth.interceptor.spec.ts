@@ -1,6 +1,13 @@
 import { TestBed, fakeAsync, flush } from '@angular/core/testing';
-import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import {
+  HttpClient,
+  provideHttpClient,
+  withInterceptors,
+} from '@angular/common/http';
+import {
+  HttpTestingController,
+  provideHttpClientTesting,
+} from '@angular/common/http/testing';
 import { authInterceptor } from './auth.interceptor';
 import { TokenService } from '../services/token.services';
 import { signal } from '@angular/core';
@@ -14,15 +21,15 @@ describe('authInterceptor', () => {
 
   beforeEach(() => {
     tokenServiceSpy = jasmine.createSpyObj('TokenService', [], {
-      token: tokenSignal
+      token: tokenSignal,
     });
 
     TestBed.configureTestingModule({
       providers: [
         provideHttpClient(withInterceptors([authInterceptor])),
         provideHttpClientTesting(),
-        { provide: TokenService, useValue: tokenServiceSpy }
-      ]
+        { provide: TokenService, useValue: tokenServiceSpy },
+      ],
     });
 
     httpClient = TestBed.inject(HttpClient);
@@ -46,7 +53,9 @@ describe('authInterceptor', () => {
     flush();
 
     const req = httpTestingController.expectOne('/api/test');
-    expect(req.request.headers.get('Authorization')).toBe(`Bearer ${mockToken}`);
+    expect(req.request.headers.get('Authorization')).toBe(
+      `Bearer ${mockToken}`,
+    );
     req.flush({});
   }));
 

@@ -2,7 +2,11 @@ import { Injectable, inject, signal, computed } from '@angular/core';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { AuthApiService } from '../../../api/services/auth.api';
-import { LoginCredentials, User, AuthResponse } from '../../shared/models/auth.model';
+import {
+  LoginCredentials,
+  User,
+  AuthResponse,
+} from '../../shared/models/auth.model';
 import { TokenService } from './token.services';
 
 /**
@@ -25,8 +29,8 @@ export class AuthService {
    * Reactive helper to check if the user is authenticated.
    * Derived from the presence of both a user profile and a valid token.
    */
-  public readonly isAuthenticated = computed(() =>
-    !!this.currentUser() && this.tokenService.isAuthenticated()
+  public readonly isAuthenticated = computed(
+    () => !!this.currentUser() && this.tokenService.isAuthenticated(),
   );
 
   constructor() {
@@ -40,7 +44,7 @@ export class AuthService {
   public async login(credentials: LoginCredentials): Promise<void> {
     try {
       // Convert Observable to Promise to keep the async/await flow
-      const response = await firstValueFrom(this.authApi.login(credentials));
+      const response = await firstValueFrom(this.authApi.signIn(credentials));
 
       this.setSession(response);
       await this.router.navigate(['/catalog']);
@@ -64,9 +68,12 @@ export class AuthService {
    * Synchronizes AuthResponse data with storage and internal signals.
    */
   private setSession(auth: AuthResponse): void {
-    this.tokenService.setTokens(auth.token);
-    localStorage.setItem('user', JSON.stringify(auth.user));
-    this.currentUser.set(auth.user);
+    this.tokenService.setTokens(auth.access_token, auth.refreshToken || null);
+
+    if (auth.user) {
+      localStorage.setItem('user', JSON.stringify(auth.user));
+      this.currentUser.set(auth.user);
+    }
   }
 
   /**

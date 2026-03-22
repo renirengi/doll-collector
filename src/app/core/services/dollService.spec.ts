@@ -23,7 +23,9 @@ describe('DollService', () => {
 
   it('should load data when init is called', async () => {
     const mockData = [{ id: 1, name: 'Kurhn 1' }];
-    (DollApiService.getAll as jasmine.Spy).and.returnValue(Promise.resolve(mockData));
+    (DollApiService.getAll as jasmine.Spy).and.returnValue(
+      Promise.resolve(mockData),
+    );
 
     // Используем нативный await. Рекурсия ТУТ НЕВОЗМОЖНА.
     await service.init();
@@ -37,14 +39,16 @@ describe('DollService', () => {
     await service.updateFilters({ brand: 'Kurhn' });
 
     expect(DollApiService.getAll).toHaveBeenCalledWith(
-      jasmine.objectContaining({ brand: 'Kurhn', _page: 1 })
+      jasmine.objectContaining({ brand: 'Kurhn', _page: 1 }),
     );
     expect(service.filters().brand).toBe('Kurhn');
   });
 
   it('should handle pagination in loadMoreDolls', async () => {
     // Сначала загружаем первую страницу
-    (DollApiService.getAll as jasmine.Spy).and.returnValue(Promise.resolve([{ id: 1 }]));
+    (DollApiService.getAll as jasmine.Spy).and.returnValue(
+      Promise.resolve([{ id: 1 }]),
+    );
     await service.init();
 
     // Эмулируем, что на сервере есть еще куклы
@@ -55,7 +59,7 @@ describe('DollService', () => {
     await service.loadMoreDolls();
 
     expect(DollApiService.getAll).toHaveBeenCalledWith(
-      jasmine.objectContaining({ _page: 2 })
+      jasmine.objectContaining({ _page: 2 }),
     );
     expect(service.dolls().length).toBe(2);
   });

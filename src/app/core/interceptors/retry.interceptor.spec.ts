@@ -1,6 +1,13 @@
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import {
+  HttpClient,
+  provideHttpClient,
+  withInterceptors,
+} from '@angular/common/http';
+import {
+  HttpTestingController,
+  provideHttpClientTesting,
+} from '@angular/common/http/testing';
 import { retryInterceptor } from './retry.interceptor';
 
 describe('retryInterceptor', () => {
@@ -12,7 +19,7 @@ describe('retryInterceptor', () => {
       providers: [
         provideHttpClient(withInterceptors([retryInterceptor])),
         provideHttpClientTesting(),
-      ]
+      ],
     });
 
     httpClient = TestBed.inject(HttpClient);
@@ -26,7 +33,7 @@ describe('retryInterceptor', () => {
   it('should retry failed requests 2 times and then succeed', fakeAsync(() => {
     let responseData: any;
 
-    httpClient.get('/api/unstable').subscribe(data => responseData = data);
+    httpClient.get('/api/unstable').subscribe((data) => (responseData = data));
 
     const req1 = httpTestingController.expectOne('/api/unstable');
     req1.error(new ProgressEvent('Network error'));
@@ -48,7 +55,7 @@ describe('retryInterceptor', () => {
     let errorMessage: string | undefined;
 
     httpClient.get('/api/broken').subscribe({
-      error: (err) => errorMessage = 'Failed'
+      error: (err) => (errorMessage = 'Failed'),
     });
 
     for (let i = 1; i <= 3; i++) {

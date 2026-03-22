@@ -21,7 +21,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       // Otherwise, we pass the original request (e.g., for login/register).
       const authReq = token ? addAuthHeader(req, token) : req;
       return next(authReq);
-    })
+    }),
   );
 };
 
@@ -30,10 +30,13 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
  * @param req Original HttpRequest
  * @param token JWT string
  */
-function addAuthHeader(req: HttpRequest<unknown>, token: string): HttpRequest<unknown> {
+function addAuthHeader(
+  req: HttpRequest<unknown>,
+  token: string,
+): HttpRequest<unknown> {
   return req.clone({
     setHeaders: {
-      Authorization: `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   });
 }

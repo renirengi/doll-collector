@@ -1,6 +1,13 @@
 import { TestBed, fakeAsync, flush, tick } from '@angular/core/testing';
-import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import {
+  HttpClient,
+  provideHttpClient,
+  withInterceptors,
+} from '@angular/common/http';
+import {
+  HttpTestingController,
+  provideHttpClientTesting,
+} from '@angular/common/http/testing';
 import { refreshInterceptor } from './refresh.interceptor';
 import { TokenService } from '../services/token.services';
 import { signal } from '@angular/core';
@@ -13,17 +20,21 @@ describe('refreshInterceptor', () => {
   const tokenSignal = signal<string | null | undefined>('old-token');
 
   beforeEach(() => {
-    tokenServiceSpy = jasmine.createSpyObj('TokenService', ['refreshTokenCall', 'clearToken'], {
-      token: tokenSignal,
-      refreshToken: 'valid-refresh-token'
-    });
+    tokenServiceSpy = jasmine.createSpyObj(
+      'TokenService',
+      ['refreshTokenCall', 'clearToken'],
+      {
+        token: tokenSignal,
+        refreshToken: 'valid-refresh-token',
+      },
+    );
 
     TestBed.configureTestingModule({
       providers: [
         provideHttpClient(withInterceptors([refreshInterceptor])),
         provideHttpClientTesting(),
-        { provide: TokenService, useValue: tokenServiceSpy }
-      ]
+        { provide: TokenService, useValue: tokenServiceSpy },
+      ],
     });
 
     httpClient = TestBed.inject(HttpClient);
@@ -45,7 +56,6 @@ describe('refreshInterceptor', () => {
     const firstReq = httpTestingController.expectOne('/api/data');
     firstReq.flush('Unauthorized', { status: 401, statusText: 'Unauthorized' });
 
-
     flush();
 
     expect(tokenServiceSpy.refreshTokenCall).toHaveBeenCalled();
@@ -54,7 +64,9 @@ describe('refreshInterceptor', () => {
     flush();
 
     const retryReq = httpTestingController.expectOne('/api/data');
-    expect(retryReq.request.headers.get('Authorization')).toBe(`Bearer ${newToken}`);
+    expect(retryReq.request.headers.get('Authorization')).toBe(
+      `Bearer ${newToken}`,
+    );
 
     retryReq.flush({ success: true });
   }));
@@ -82,8 +94,12 @@ describe('refreshInterceptor', () => {
     const retry1 = httpTestingController.expectOne('/api/1');
     const retry2 = httpTestingController.expectOne('/api/2');
 
-    expect(retry1.request.headers.get('Authorization')).toBe(`Bearer ${newToken}`);
-    expect(retry2.request.headers.get('Authorization')).toBe(`Bearer ${newToken}`);
+    expect(retry1.request.headers.get('Authorization')).toBe(
+      `Bearer ${newToken}`,
+    );
+    expect(retry2.request.headers.get('Authorization')).toBe(
+      `Bearer ${newToken}`,
+    );
 
     retry1.flush({});
     retry2.flush({});

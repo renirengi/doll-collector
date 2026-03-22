@@ -10,7 +10,7 @@ import { retryInterceptor } from './retry.interceptor';
 export const coreInterceptors: HttpInterceptorFn[] = [
   authInterceptor,
   refreshInterceptor,
-  retryInterceptor
+  retryInterceptor,
 ];
 
 export * from './auth.interceptor';

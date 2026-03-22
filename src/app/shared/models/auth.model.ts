@@ -24,9 +24,9 @@ export interface LoginCredentials {
  * Successful authentication response
  */
 export interface AuthResponse {
-  token: string;
-  refreshToken: string;
-  user: User;
+  access_token: string;
+  refreshToken?: string;
+  user?: User;
 }
 
 /**

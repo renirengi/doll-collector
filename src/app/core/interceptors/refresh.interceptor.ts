@@ -1,6 +1,21 @@
-import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandlerFn,
+  HttpInterceptorFn,
+  HttpRequest,
+} from '@angular/common/http';
 import { inject } from '@angular/core';
-import { BehaviorSubject, catchError, filter, from, Observable, switchMap, take, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  filter,
+  from,
+  Observable,
+  switchMap,
+  take,
+  throwError,
+} from 'rxjs';
 import { TokenService } from '../services/token.services';
 
 /**
@@ -27,7 +42,7 @@ export const refreshInterceptor: HttpInterceptorFn = (req, next) => {
       }
 
       return throwError(() => error);
-    })
+    }),
   );
 };
 
@@ -37,9 +52,8 @@ export const refreshInterceptor: HttpInterceptorFn = (req, next) => {
 function handle401Error(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
-  tokenService: TokenService
+  tokenService: TokenService,
 ): Observable<HttpEvent<unknown>> {
-
   if (!isRefreshing) {
     isRefreshing = true;
     refreshTokenSubject.next(null);
@@ -50,7 +64,9 @@ function handle401Error(
 
         if (!newToken) {
           tokenService.clearToken();
-          return throwError(() => new Error('Session expired: Refresh failed.'));
+          return throwError(
+            () => new Error('Session expired: Refresh failed.'),
+          );
         }
 
         refreshTokenSubject.next(newToken);
@@ -61,13 +77,13 @@ function handle401Error(
         isRefreshing = false;
         tokenService.clearToken();
         return throwError(() => err);
-      })
+      }),
     );
   } else {
     return refreshTokenSubject.pipe(
       filter((token) => token !== null),
       take(1),
-      switchMap((newToken) => next(addAuthHeader(req, newToken!)))
+      switchMap((newToken) => next(addAuthHeader(req, newToken!))),
     );
   }
 }
@@ -75,10 +91,13 @@ function handle401Error(
 /**
  * Clones the request with a fresh Authorization header.
  */
-function addAuthHeader(req: HttpRequest<unknown>, token: string): HttpRequest<unknown> {
+function addAuthHeader(
+  req: HttpRequest<unknown>,
+  token: string,
+): HttpRequest<unknown> {
   return req.clone({
     setHeaders: {
-      Authorization: `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   });
 }

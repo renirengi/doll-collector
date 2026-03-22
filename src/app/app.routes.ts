@@ -3,7 +3,11 @@ import { DollCatalogComponent } from './feature/userspace/pages/doll-catalog/dol
 
 export const routes: Routes = [
   { path: '', redirectTo: 'user', pathMatch: 'full' },
-  // { path: 'auth', loadChildren: () => import('./features/auth/auth.routes').then((m) => m.authRoutes) },
+  {
+    path: 'auth',
+    loadChildren: () =>
+      import('./feature/auth/auth.routes').then((m) => m.authRoutes),
+  },
   // {
   //   path: 'admin-panel',
   //   loadChildren: () => import('./features/admin-panel/admin-panel.routes').then((m) => m.adminPanelRoutes),

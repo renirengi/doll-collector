@@ -2,34 +2,46 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_URL } from '../config';
-import { LoginCredentials, AuthResponse, User } from '../../app/shared/models/auth.model';
+import {
+  LoginCredentials,
+  AuthResponse,
+  User,
+} from '../../app/shared/models/auth.model';
 
 /**
  * Service responsible for communicating with the authentication and user endpoints.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthApiService {
   private readonly http = inject(HttpClient);
   private readonly authUrl = `${API_URL}/auth`;
 
   /**
-   * Authenticates a user with the provided credentials.
-   * * @param credentials - The user's email and password.
-   * @returns An Observable containing the authentication token and user profile.
+   * Registers a new user in the system.
+   * * @param credentials - The user's registration data (email and password).
+   * @returns An Observable indicating the completion of the registration process.
    */
-  login(credentials: LoginCredentials): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.authUrl}/login`, credentials);
+  signUp(credentials: LoginCredentials): Observable<any> {
+    return this.http.post(`${this.authUrl}/signup`, credentials);
   }
 
   /**
-   * Retrieves a specific user's profile information by their unique identifier.
-   * * @param id - The UUID or unique string ID of the user.
-   * @returns An Observable containing the User profile data.
+   * Authenticates a user and retrieves an access token.
+   * * @param credentials - The user's login data (email and password).
+   * @returns An Observable containing the AuthResponse with the access_token.
    */
-  getUserById(id: string): Observable<User> {
-    return this.http.get<User>(`${API_URL}/user/${id}`);
+  signIn(credentials: LoginCredentials): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.authUrl}/signin`, credentials);
+  }
+
+  /**
+   * Terminates the current user session.
+   * * @returns An Observable indicating the successful logout on the server side.
+   */
+  logout(): Observable<void> {
+    return this.http.post<void>(`${this.authUrl}/logout`, {});
   }
 
   /**
@@ -38,15 +50,8 @@ export class AuthApiService {
    */
   refreshToken(refreshToken: string): Observable<AuthResponse> {
     // Usually, the refresh token is sent in the body or a specific header
-    return this.http.post<AuthResponse>(`${this.authUrl}/refresh`, { refreshToken });
-  }
-
-  /**
-   * Fetches the profile of the currently authenticated user based on the active session token.
-   * Usually used during app initialization to restore user state.
-   * * @returns An Observable containing the current User's data.
-   */
-  getMe(): Observable<User> {
-    return this.http.get<User>(`${this.authUrl}/me`);
+    return this.http.post<AuthResponse>(`${this.authUrl}/refresh`, {
+      refreshToken,
+    });
   }
 }

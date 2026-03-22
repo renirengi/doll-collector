@@ -12,6 +12,6 @@ export const retryInterceptor: HttpInterceptorFn = (req, next) => {
     retry({
       count: 2,
       delay: (error, retryCount) => timer(retryCount * 1000),
-    })
+    }),
   );
 };

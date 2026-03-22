@@ -39,8 +39,7 @@ export const apiClient = async <T>(
       try {
         const errorData = await response.json();
         errorMessage = errorData.message || errorData.error || errorMessage;
-      } catch {
-      }
+      } catch {}
 
       const error = new Error(errorMessage) as ApiError;
       error.status = response.status;
