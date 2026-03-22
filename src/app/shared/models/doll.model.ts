@@ -5,12 +5,6 @@ export interface DollImage {
   notesImage: string;
 }
 
-export interface DollPurchaseCondition {
-  state: T.DollState;
-  outfit: T.OutfitState;
-  defects?: string[];
-}
-
 export interface Pet {
   type: string;
   name: string;
@@ -38,7 +32,9 @@ export interface Doll {
   bodyVolume: T.BodyVolume;
   footType: T.FootType;
 
-  purchaseCondition: DollPurchaseCondition;
+  dollState: T.DollState;
+  outfitState: T.OutfitState;
+  defects?: string[];
 
   isPlayset: boolean;
   playsetsElements?: string[];

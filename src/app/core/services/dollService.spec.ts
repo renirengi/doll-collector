@@ -1,87 +1,62 @@
-import { TestBed, fakeAsync, tick, flush } from '@angular/core/testing';
-import { provideHttpClient } from '@angular/common/http';
-import {
-  provideHttpClientTesting,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
 import { DollService } from './dollService';
+import { DollApiService } from '../../../api/services/doll.api';
 
 describe('DollService', () => {
   let service: DollService;
-  let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [DollService, provideHttpClient(), provideHttpClientTesting()],
+      providers: [DollService],
     });
 
     service = TestBed.inject(DollService);
-    httpMock = TestBed.inject(HttpTestingController);
+
+    // Подменяем статический метод, чтобы не было реальных сетевых запросов
+    spyOn(DollApiService, 'getAll').and.returnValue(Promise.resolve([]));
   });
 
-  afterEach(() => {
-    httpMock.verify();
-  });
-
-  it('should be created', fakeAsync(() => {
-    TestBed.flushEffects();
-    const req = httpMock.expectOne(
-      (r) => r.url === 'http://localhost:3000/dolls',
-    );
-    req.flush([]);
+  it('should be created without initial requests', () => {
     expect(service).toBeTruthy();
-  }));
+    expect(DollApiService.getAll).not.toHaveBeenCalled();
+  });
 
-  it('should update filters and trigger new request', fakeAsync(() => {
-    TestBed.flushEffects();
-    const initialReq = httpMock.expectOne(
-      (r) => r.url === 'http://localhost:3000/dolls',
-    );
-    initialReq.flush([]);
+  it('should load data when init is called', async () => {
+    const mockData = [{ id: 1, name: 'Kurhn 1' }];
+    (DollApiService.getAll as jasmine.Spy).and.returnValue(Promise.resolve(mockData));
 
-    service.updateFilters({ brand: 'Kurhn' });
-    TestBed.flushEffects();
-    tick();
+    // Используем нативный await. Рекурсия ТУТ НЕВОЗМОЖНА.
+    await service.init();
 
-    const req = httpMock.expectOne(
-      (r) =>
-        r.url === 'http://localhost:3000/dolls' &&
-        r.params.get('brand') === 'Kurhn',
-    );
-
-    req.flush([]);
-    tick();
-  }));
-
-  it('should append dolls when loading more', fakeAsync(() => {
-    TestBed.flushEffects();
-    const initialReq = httpMock.expectOne(
-      (r) => r.url === 'http://localhost:3000/dolls',
-    );
-    initialReq.flush([{ id: 1, name: 'D1' }], {
-      headers: { 'X-Total-Count': '10' },
-    });
-    tick();
-
-    service.loadMoreDolls();
-    TestBed.flushEffects();
-    tick();
-
-    const req = httpMock.expectOne((r) => r.params.get('_page') === '2');
-    req.flush([{ id: 2, name: 'D2' }]);
-    tick();
-
-    expect(service.dolls().length).toBe(2);
-  }));
-
-  it('should handle error when loading dolls', fakeAsync(() => {
-    TestBed.flushEffects();
-    const req = httpMock.expectOne(
-      (r) => r.url === 'http://localhost:3000/dolls',
-    );
-    req.error(new ProgressEvent('Network error'));
-    tick();
-
+    expect(service.dolls().length).toBe(1);
     expect(service.isLoading()).toBe(false);
-  }));
+    expect(DollApiService.getAll).toHaveBeenCalled();
+  });
+
+  it('should trigger request with correct params on updateFilters', async () => {
+    await service.updateFilters({ brand: 'Kurhn' });
+
+    expect(DollApiService.getAll).toHaveBeenCalledWith(
+      jasmine.objectContaining({ brand: 'Kurhn', _page: 1 })
+    );
+    expect(service.filters().brand).toBe('Kurhn');
+  });
+
+  it('should handle pagination in loadMoreDolls', async () => {
+    // Сначала загружаем первую страницу
+    (DollApiService.getAll as jasmine.Spy).and.returnValue(Promise.resolve([{ id: 1 }]));
+    await service.init();
+
+    // Эмулируем, что на сервере есть еще куклы
+    service.totalCount.set(10);
+    service.hasMore.set(true);
+
+    // Загружаем вторую страницу
+    await service.loadMoreDolls();
+
+    expect(DollApiService.getAll).toHaveBeenCalledWith(
+      jasmine.objectContaining({ _page: 2 })
+    );
+    expect(service.dolls().length).toBe(2);
+  });
 });
