@@ -1,12 +1,9 @@
 export const API_URL = 'http://localhost:3000';
 
-export interface ApiError {
-  message: string;
+export interface ApiError extends Error {
   status?: number;
   data?: unknown;
 }
-
-export const BASE_URL = API_URL;
 
 export const apiClient = async <T>(
   endpoint: string,
@@ -14,51 +11,51 @@ export const apiClient = async <T>(
 ): Promise<T> => {
   const token = localStorage.getItem('token');
 
-  const headers = {
+  const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    ...options.headers,
+    ...(options.headers as Record<string, string>),
   };
 
-  const response = await fetch(`${API_URL}${endpoint}`, {
-    ...options,
-    headers,
-  });
+  try {
+    const response = await fetch(`${API_URL}${endpoint}`, {
+      ...options,
+      headers,
+    });
 
-  if (!response.ok) {
     if (response.status === 401) {
       localStorage.removeItem('token');
+      localStorage.removeItem('user');
 
       const currentPath = window.location.pathname;
       if (currentPath !== '/' && currentPath !== '/login') {
-        window.location.href = '/';
+        window.location.href = '/login';
       }
-
       throw new Error('Unauthorized');
     }
 
-    let errorMessage = 'Request failed';
-    try {
-      const errorResponse = await response.json();
-      errorMessage =
-        errorResponse.message || errorResponse.error || errorMessage;
-    } catch {
-      errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+    if (!response.ok) {
+      let errorMessage = `Error ${response.status}`;
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.message || errorData.error || errorMessage;
+      } catch {
+      }
+
+      const error = new Error(errorMessage) as ApiError;
+      error.status = response.status;
+      throw error;
     }
 
-    const error = new Error(errorMessage) as Error & ApiError;
-    error.status = response.status;
-    throw error;
-  }
+    if (response.status === 204) return null as T;
 
-  if (response.status === 204) {
+    const contentType = response.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+      return await response.json();
+    }
+
     return null as T;
+  } catch (err) {
+    throw err;
   }
-
-  const contentType = response.headers.get('content-type');
-  if (!contentType || !contentType.includes('application/json')) {
-    return null as T;
-  }
-
-  return response.json();
 };
