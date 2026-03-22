@@ -21,8 +21,7 @@
         "outfit": "original"
       },
       "isPlayset": false,
-
-  "gender":"Female",
+      "gender":"Female",
       "familyNames": ["20"],
       "photos": [
         { "imageUrl": "assets/doll-photos/1avatar.jpg", "notesImage": "Avatar" },
@@ -1224,7 +1223,7 @@
   "footType": "Heeled",
   "purchaseCondition": {
     "state": "Used-Child",
-    "outfit": "incomplete",
+    "outfit": "original",
     "defects": [
       "Missing jacket",
       "Missing earrings",
@@ -2145,6 +2144,7 @@
       "Missing stand"
     ]
   },
+  "gender":"Female",
   "isPlayset": false,
   "photos": [
    { "imageUrl": "assets/doll-photos/52avatar.jpg", "notesImage": "Avatar" },
@@ -2512,7 +2512,7 @@
   "bodyVolume": "Curvy",
   "footType": "Heeled",
   "purchaseCondition": {
-    "state": "NewInBox",
+    "state": "New",
     "outfit": "original"
   },
   "isPlayset": false,
@@ -2955,7 +2955,7 @@
   "bodyVolume": "Standard",
   "footType": "Heeled",
   "purchaseCondition": {
-    "state": "Used-Gift",
+    "state": "Used-Child",
     "outfit": "original",
     "defects": [
       "Originally missing tail (replaced)",
@@ -3037,7 +3037,7 @@
   "bodyVolume": "Tall",
   "footType": "Heeled",
   "purchaseCondition": {
-    "state": "NewInBox",
+    "state": "New",
     "outfit": "original"
   },
   "isPlayset": false,
@@ -3163,7 +3163,7 @@
   "bodyVolume": "Standard",
   "footType": "Heeled",
   "purchaseCondition": {
-    "state": "NewInBox",
+    "state": "New",
     "outfit": "original"
   },
   "isPlayset": false,
@@ -3200,7 +3200,7 @@
   "brand": "Monster High",
   "series": "Boo-riginal Creeproduction",
   "manufacturer": "Mattel",
-  "generation": "G1 (Reproduction)",
+  "generation": "G1",
   "mold": "Toralei Stripe",
   "releaseYear": 2024,
   "acquisitionYear": 2025,
