@@ -1,49 +1,52 @@
-import { apiClient } from '../config';
-import {
-  LoginCredentials,
-  AuthResponse,
-  User
-} from '../../app/shared/models/auth.model';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { API_URL } from '../config';
+import { LoginCredentials, AuthResponse, User } from '../../app/shared/models/auth.model';
 
+/**
+ * Service responsible for communicating with the authentication and user endpoints.
+ */
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthApiService {
-  private static readonly authUrl = '/auth';
-  private readonly userUrl = '/user';
+  private readonly http = inject(HttpClient);
+  private readonly authUrl = `${API_URL}/auth`;
 
   /**
-   * Authenticate user and receive a JWT token with user profile.
-   * @param credentials - User email and password.
-   * @returns Promise with AuthResponse (token + user data).
+   * Authenticates a user with the provided credentials.
+   * * @param credentials - The user's email and password.
+   * @returns An Observable containing the authentication token and user profile.
    */
-  static async login(credentials: LoginCredentials): Promise<AuthResponse> {
-    return apiClient<AuthResponse>(`${this.authUrl}/login`, {
-      method: 'POST',
-      body: JSON.stringify(credentials),
-    });
+  login(credentials: LoginCredentials): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.authUrl}/login`, credentials);
   }
 
   /**
-   * Fetch user profile data by their unique ID.
-   * @param id - The UUID of the user.
-   * @returns Promise with the User object.
+   * Retrieves a specific user's profile information by their unique identifier.
+   * * @param id - The UUID or unique string ID of the user.
+   * @returns An Observable containing the User profile data.
    */
-  static async getUserById(id: string): Promise<User> {
-    return apiClient<User>(`/user/${id}`);
+  getUserById(id: string): Observable<User> {
+    return this.http.get<User>(`${API_URL}/user/${id}`);
   }
 
   /**
-   * Fetch user profile data by their unique username.
-   * @param username - The unique username string.
-   * @returns Promise with the User object.
+   * Exchanges a Refresh Token for a new pair of Access and Refresh tokens.
+   * @param refreshToken The current refresh token string.
    */
-  static async getUserByUsername(username: string): Promise<User> {
-    return apiClient<User>(`/user/${username}`);
+  refreshToken(refreshToken: string): Observable<AuthResponse> {
+    // Usually, the refresh token is sent in the body or a specific header
+    return this.http.post<AuthResponse>(`${this.authUrl}/refresh`, { refreshToken });
   }
 
   /**
-   * Optional: Fetch the currently authenticated user's profile.
-   * Usually mapped to /auth/me or /user/profile depending on backend.
+   * Fetches the profile of the currently authenticated user based on the active session token.
+   * Usually used during app initialization to restore user state.
+   * * @returns An Observable containing the current User's data.
    */
-  static async getMe(): Promise<User> {
-    return apiClient<User>(`${this.authUrl}/me`);
+  getMe(): Observable<User> {
+    return this.http.get<User>(`${this.authUrl}/me`);
   }
 }

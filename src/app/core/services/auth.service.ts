@@ -1,76 +1,88 @@
-import { Injectable, signal, computed, inject } from '@angular/core';
+import { Injectable, inject, signal, computed } from '@angular/core';
 import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 import { AuthApiService } from '../../../api/services/auth.api';
 import { LoginCredentials, User, AuthResponse } from '../../shared/models/auth.model';
+import { TokenService } from './token.services';
 
+/**
+ * High-level service managing user session and authentication state.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private readonly router = inject(Router);
+  private readonly authApi = inject(AuthApiService);
+  private readonly tokenService = inject(TokenService);
 
   /**
-   * Current authenticated user. Initialized as null.
+   * Current authenticated user profile.
    */
   public readonly currentUser = signal<User | null>(null);
 
   /**
-   * Reactive helper to check if the user is logged in.
+   * Reactive helper to check if the user is authenticated.
+   * Derived from the presence of both a user profile and a valid token.
    */
-  public readonly isAuthenticated = computed(() => !!this.currentUser());
+  public readonly isAuthenticated = computed(() =>
+    !!this.currentUser() && this.tokenService.isAuthenticated()
+  );
 
   constructor() {
-    /**
-     * Optional: Auto-login logic if token exists in localStorage.
-     * You can call a 'me' or 'profile' endpoint here.
-     */
     this.restoreSession();
   }
 
   /**
-   * Performs login, stores the JWT, and updates the user signal.
-   * @param credentials - email and password.
+   * Authenticates user, updates token and profile state, then navigates to catalog.
+   * @param credentials Email and password.
    */
   public async login(credentials: LoginCredentials): Promise<void> {
     try {
-      const response: AuthResponse = await AuthApiService.login(credentials);
+      // Convert Observable to Promise to keep the async/await flow
+      const response = await firstValueFrom(this.authApi.login(credentials));
 
       this.setSession(response);
-      this.router.navigate(['/catalog']);
+      await this.router.navigate(['/catalog']);
     } catch (error) {
       console.error('Login error:', error);
-      throw error; // Re-throw to handle error messages in the UI
+      throw error;
     }
   }
 
   /**
-   * Logs out the user by clearing local storage and resetting the signal.
+   * Clears all session data and redirects to the login page.
    */
   public logout(): void {
-    localStorage.removeItem('token');
+    this.tokenService.clearToken();
     localStorage.removeItem('user');
     this.currentUser.set(null);
     this.router.navigate(['/login']);
   }
 
   /**
-   * Updates the session data in localStorage and the signal.
+   * Synchronizes AuthResponse data with storage and internal signals.
    */
   private setSession(auth: AuthResponse): void {
-    localStorage.setItem('token', auth.token);
+    this.tokenService.setTokens(auth.token);
     localStorage.setItem('user', JSON.stringify(auth.user));
     this.currentUser.set(auth.user);
   }
 
   /**
-   * Attempts to restore the user session from localStorage on app start.
+   * Restores session from storage on service initialization.
    */
   private restoreSession(): void {
     const savedUser = localStorage.getItem('user');
-    const token = localStorage.getItem('token');
 
-    if (savedUser && token) {
-      this.currentUser.set(JSON.parse(savedUser));
+    // We only restore the user signal if the TokenService already has a token.
+    // (TokenService initializes itself from localStorage in its constructor).
+    if (savedUser && this.tokenService.token()) {
+      try {
+        this.currentUser.set(JSON.parse(savedUser));
+      } catch {
+        this.logout();
+      }
     }
   }
 }

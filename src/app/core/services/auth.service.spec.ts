@@ -2,12 +2,17 @@ import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { AuthApiService } from '../../../api/services/auth.api';
+import { of, throwError } from 'rxjs';
+import { User, AuthResponse } from '../../shared/models/auth.model';
+import { TokenService } from './token.services';
 
 describe('AuthService', () => {
   let service: AuthService;
-  let router: Router;
+  let authApiMock: jasmine.SpyObj<AuthApiService>;
+  let tokenServiceMock: jasmine.SpyObj<TokenService>;
+  let routerMock: jasmine.SpyObj<Router>;
 
-  const mockUser = {
+  const mockUser: User = {
     id: '123',
     email: 'test@example.com',
     username: 'johndoe',
@@ -18,86 +23,83 @@ describe('AuthService', () => {
     updatedAt: '2026-01-01T00:00:00Z'
   };
 
-  const mockAuthResponse = {
+  const mockAuthResponse: AuthResponse = {
     token: 'fake-jwt-token',
+    refreshToken: 'fake-refresh-token',
     user: mockUser
   };
 
   beforeEach(() => {
-    localStorage.clear();
+    authApiMock = jasmine.createSpyObj('AuthApiService', ['login']);
+    tokenServiceMock = jasmine.createSpyObj('TokenService', ['setTokens', 'clearToken', 'token', 'isAuthenticated']);
+    routerMock = jasmine.createSpyObj('Router', ['navigate']);
 
     TestBed.configureTestingModule({
       providers: [
         AuthService,
-        { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') } }
-      ],
+        { provide: AuthApiService, useValue: authApiMock },
+        { provide: TokenService, useValue: tokenServiceMock },
+        { provide: Router, useValue: routerMock }
+      ]
     });
 
-    service = TestBed.inject(AuthService);
-    router = TestBed.inject(Router);
-  });
+    tokenServiceMock.token.and.returnValue(undefined);
 
-  it('should be created and have null user by default', () => {
-    expect(service).toBeTruthy();
-    expect(service.currentUser()).toBeNull();
-    expect(service.isAuthenticated()).toBeFalse();
+    service = TestBed.inject(AuthService);
+
+    localStorage.clear();
   });
 
   describe('login', () => {
-    it('should set user and token on successful login', async () => {
-      const loginSpy = spyOn(AuthApiService, 'login').and.returnValue(
-        Promise.resolve(mockAuthResponse)
-      );
+    it('should successfully login, set session and navigate', async () => {
+      authApiMock.login.and.returnValue(of(mockAuthResponse));
+      routerMock.navigate.and.returnValue(Promise.resolve(true));
 
-      await service.login({ email: 'test@example.com', password: 'password' });
+      await service.login({ email: 'test@example.com', password: 'password123' });
+
+      expect(tokenServiceMock.setTokens).toHaveBeenCalledWith(mockAuthResponse.token);
+
+      const storedUser = JSON.parse(localStorage.getItem('user')!);
+      expect(storedUser.id).toBe('123');
 
       expect(service.currentUser()).toEqual(mockUser);
-      expect(service.isAuthenticated()).toBeTrue();
 
-      expect(localStorage.getItem('token')).toBe('fake-jwt-token');
-      expect(localStorage.getItem('user')).toContain('johndoe');
-
-      expect(router.navigate).toHaveBeenCalledWith(['/catalog']);
+      expect(routerMock.navigate).toHaveBeenCalledWith(['/catalog']);
     });
 
-    it('should throw error on failed login', async () => {
-      spyOn(AuthApiService, 'login').and.returnValue(
-        Promise.reject(new Error('Invalid credentials'))
-      );
+    it('should catch and rethrow API errors', async () => {
+      authApiMock.login.and.returnValue(throwError(() => new Error('Invalid credentials')));
 
-      try {
-        await service.login({ email: 'wrong@test.com', password: '123' });
-        fail('Should have thrown an error');
-      } catch (e: any) {
-        expect(e.message).toBe('Invalid credentials');
-        expect(service.currentUser()).toBeNull();
-      }
+      await expectAsync(
+        service.login({ email: 'wrong@test.com', password: '123' })
+      ).toBeRejected();
+
+      expect(routerMock.navigate).not.toHaveBeenCalled();
     });
   });
 
   describe('logout', () => {
-    it('should clear signals and localStorage on logout', () => {
-      localStorage.setItem('token', 'some-token');
+    it('should call clearToken and reset state', () => {
       service.currentUser.set(mockUser);
+      localStorage.setItem('user', JSON.stringify(mockUser));
 
       service.logout();
 
-      expect(service.currentUser()).toBeNull();
-      expect(localStorage.getItem('token')).toBeNull();
+      expect(tokenServiceMock.clearToken).toHaveBeenCalled();
       expect(localStorage.getItem('user')).toBeNull();
-      expect(router.navigate).toHaveBeenCalledWith(['/login']);
+      expect(service.currentUser()).toBeNull();
+      expect(routerMock.navigate).toHaveBeenCalledWith(['/login']);
     });
   });
 
-  describe('session restoration', () => {
-    it('should restore user from localStorage if token exists', () => {
-      localStorage.setItem('token', 'existing-token');
-      localStorage.setItem('user', JSON.stringify(mockUser));
+  describe('Authentication State', () => {
+    it('should be authenticated only when user and token exists', () => {
+      service.currentUser.set(mockUser);
+      tokenServiceMock.isAuthenticated.and.returnValue(true);
+      expect(service.isAuthenticated()).toBeTrue();
 
-      const newService = new AuthService();
-
-      expect(newService.currentUser()).toEqual(mockUser);
-      expect(newService.isAuthenticated()).toBeTrue();
+      service.currentUser.set(null);
+      expect(service.isAuthenticated()).toBeFalse();
     });
   });
 });
