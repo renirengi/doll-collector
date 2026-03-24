@@ -1,10 +1,4 @@
-import {
-  Injectable,
-  signal,
-  WritableSignal,
-  Signal,
-  computed,
-} from '@angular/core';
+import { Injectable, signal, WritableSignal, Signal } from '@angular/core';
 import { Doll } from '../../shared/models/doll.model';
 import { DollFilters } from '../../shared/models/doll-filters.model';
 import { DollApiService } from '../../../api/services/doll.api';
@@ -18,9 +12,12 @@ export class DollService {
   public readonly totalCount: WritableSignal<number> = signal<number>(0);
   public readonly hasMore: WritableSignal<boolean> = signal<boolean>(false);
 
+  /**
+   * Current catalog filters state.
+   */
   public readonly filters: WritableSignal<DollFilters> = signal<DollFilters>({
     _page: 1,
-    _limit: 10,
+    _limit: 12,
   });
 
   public readonly dolls: Signal<Doll[]> = this.dollsSignal.asReadonly();
@@ -28,17 +25,48 @@ export class DollService {
   constructor() {}
 
   /**
-   * Initial data load.
+   * Resets the catalog to the first page with new filters.
+   * @param baseFilters - Filter parameters from the URL or filter panel.
    */
-  public async init(): Promise<void> {
-    return this.loadDolls(this.filters());
+  public async setRawFilters(baseFilters: DollFilters): Promise<void> {
+    const updated = {
+      ...baseFilters,
+      _page: 1,
+      _limit: 12,
+    };
+    this.filters.set(updated);
+    return this.loadDolls(updated);
   }
 
   /**
-   * Core method to fetch data.
+   * Updates partial filters and reloads the first page.
+   * @param newFilters - Changes to apply to current filters.
+   */
+  public updateFilters(newFilters: Partial<DollFilters>): void {
+    const updated = { ...this.filters(), ...newFilters, _page: 1 };
+    this.filters.set(updated);
+    this.loadDolls(updated);
+  }
+
+  /**
+   * Fetches the next page of dolls.
+   */
+  public loadMoreDolls(): void {
+    if (this.isLoading() || !this.hasMore()) return;
+
+    const updated = {
+      ...this.filters(),
+      _page: (this.filters()._page || 1) + 1,
+    };
+    this.filters.set(updated);
+    this.loadDolls(updated);
+  }
+
+  /**
+   * Core data fetching logic with loading state management.
+   * @param currentFilters - Filters used for the specific API call.
    */
   private async loadDolls(currentFilters: DollFilters): Promise<void> {
-    if (this.isLoading()) return;
     this.isLoading.set(true);
 
     try {
@@ -46,10 +74,9 @@ export class DollService {
       const newDolls: Doll[] = Array.isArray(response)
         ? response
         : (response as any)?.data || [];
+
       const total: number =
-        (response as any)?.total ??
-        (response as any)?.totalCount ??
-        newDolls.length;
+        (response as any)?.total ?? (response as any)?.totalCount ?? 0;
 
       this.totalCount.set(total);
 
@@ -64,43 +91,6 @@ export class DollService {
       console.error('API Error:', error);
     } finally {
       this.isLoading.set(false);
-    }
-  }
-
-  /**
-   * Reset all filters to new values and reload from page 1.
-   * @param baseFilters - New set of filters.
-   */
-  public setRawFilters(baseFilters: DollFilters): void {
-    const updated = {
-      _page: 1,
-      _limit: 10,
-      ...baseFilters,
-    };
-    this.filters.set(updated);
-    this.loadDolls(updated);
-  }
-
-  /**
-   * Update partial filters and reload.
-   */
-  public updateFilters(newFilters: Partial<DollFilters>): void {
-    const updated = { ...this.filters(), ...newFilters, _page: 1 };
-    this.filters.set(updated);
-    this.loadDolls(updated);
-  }
-
-  /**
-   * Next page load.
-   */
-  public loadMoreDolls(): void {
-    if (!this.isLoading() && this.hasMore()) {
-      const updated = {
-        ...this.filters(),
-        _page: (this.filters()._page || 1) + 1,
-      };
-      this.filters.set(updated);
-      this.loadDolls(updated);
     }
   }
 }

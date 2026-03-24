@@ -4,32 +4,28 @@ import {
   inject,
   ViewChild,
   OnDestroy,
+  OnInit,
   effect,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { trigger, transition, style, animate } from '@angular/animations';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { Subscription } from 'rxjs';
+
 import { DollService } from '../../../../core/services/dollService';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { UserspaceStateService } from '../../service/userspace-state.service';
 import { DollCardComponent } from '../../components/doll-card/doll-card.component';
 import { FilterPanelComponent } from '../../components/filter-panel/filter-panel.component';
-import { UserspaceStateService } from '../../service/userspace-state.service';
-import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-doll-catalog',
   standalone: true,
   imports: [
     CommonModule,
-    MatSidenavModule,
-    MatPaginatorModule,
     MatProgressSpinnerModule,
     MatIconModule,
-    MatButtonModule,
     DollCardComponent,
     FilterPanelComponent,
   ],
@@ -48,13 +44,12 @@ import { trigger, transition, style, animate } from '@angular/animations';
     ]),
   ],
 })
-export class DollCatalogComponent implements OnDestroy {
+export class DollCatalogComponent implements OnInit, OnDestroy {
   protected ui = inject(UserspaceStateService);
   private readonly dollService = inject(DollService);
   private readonly route = inject(ActivatedRoute);
   private observer?: IntersectionObserver;
-
-  private params = toSignal(this.route.queryParams);
+  private routeSub?: Subscription;
 
   @ViewChild('infiniteTrigger')
   public set infiniteTrigger(content: ElementRef | undefined) {
@@ -68,50 +63,50 @@ export class DollCatalogComponent implements OnDestroy {
   }
 
   constructor() {
-    effect(() => {
-      const p = this.params();
-      if (p) {
-        this.dollService.setRawFilters({
-          manufacturer: p['manufacturer'] || null,
-          brand: p['brand'] || null,
-          _page: 1,
-          _limit: 12,
-        });
-      }
-    });
-
+    /**
+     * Effect to update total dolls count in UI state.
+     */
     effect(() => {
       this.ui.totalDolls.set(this.dollService.totalCount());
     });
   }
 
+  ngOnInit(): void {
+    /**
+     * Manually subscribe to query params to trigger loading.
+     * This avoids the circular dependency of the Signals effect.
+     */
+    this.routeSub = this.route.queryParams.subscribe((p) => {
+      this.dollService.setRawFilters({
+        manufacturer: p['manufacturer'] || null,
+        brand: p['brand'] || null,
+      });
+    });
+  }
+
+  /**
+   * Setup IntersectionObserver for infinite scrolling.
+   * @param el - Trigger element.
+   */
   private initInfiniteScroll(el: ElementRef): void {
     this.observer?.disconnect();
-
     this.observer = new IntersectionObserver(
-      (entries: IntersectionObserverEntry[]) => {
+      ([entry]) => {
         if (
-          entries[0].isIntersecting &&
-          !this.dollService.isLoading() &&
-          this.dollService.hasMore()
+          entry.isIntersecting &&
+          !this.service.isLoading() &&
+          this.service.hasMore()
         ) {
-          this.loadNextBatch();
+          this.service.loadMoreDolls();
         }
       },
-      {
-        threshold: 0.1,
-        rootMargin: '100px',
-      },
+      { threshold: 0.1, rootMargin: '100px' },
     );
-
     this.observer.observe(el.nativeElement);
   }
 
-  public loadNextBatch(): void {
-    this.dollService.loadMoreDolls();
-  }
-
-  public ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.observer?.disconnect();
+    this.routeSub?.unsubscribe();
   }
 }
