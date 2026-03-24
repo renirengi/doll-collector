@@ -1,0 +1,256 @@
+@use "./mixins" as *;
+
+:host {
+  /* Colors */
+  --background-color: var(--astral-navy);
+  --app-ink: var(--antique-linen);
+
+  /* Page */
+  --page-background:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 25%,
+      var(--astral-navy) 40%
+    ),
+    var(--background-color) url("/assets/backgrounds/login-bg-removebg.png") top
+      center/70% 50% no-repeat;
+  --page-padding: 100px 2rem 1rem 2rem;
+
+  /* H1 */
+  --h1-font-size: 1.75rem;
+  --h1-align: left;
+
+  /* Logo */
+  --logo-size: 53px;
+  --logo-inset: 25px auto auto 25px;
+
+  /* Input labels */
+  --input-label-font: var(--secondary-font);
+  --input-label-font-size: 1.1rem;
+  --input-label-margin: 1rem 0 0.5rem;
+
+  /* Input field variables */
+  --input-color: #333;
+  --input-font-size: 0.95rem;
+  --input-padding: 15px 17px;
+  --input-placeholder-color: #878787;
+  --input-background-color: var(--app-chip);
+  --input-invalid-background-color: var(--warm-marigold);
+  --input-validation-message-color: #d42b2b;
+
+  /* Submit button */
+  --submit-button-font-color: var(--app-ink);
+  --submit-button-background: linear-gradient(
+    180deg,
+    #4f46e5 0%,
+    #e91e63 35%,
+    #ff5722 65%,
+    #ffc107 100%,
+    #4f46e5 100%
+  );
+  --submit-button-font-size: 1.1rem;
+  --submit-button-font-weight: 700;
+
+  /* Forgot password link */
+  --forgot-password-font-color: var(--app-ink);
+  --forgot-password-font-family: var(--secondary-font);
+  --forgot-password-font-size: 0.75rem;
+  --forgot-password-font-weight: 700;
+  --forgot-password-margin: 0.5rem 0 1rem;
+
+  /* Redirect link */
+  --redirect-link-font-size: 0.875rem;
+  --redirect-link-color: var(--app-pink);
+
+  & {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: var(--page-background);
+    color: var(--app-ink);
+    font-family: var(--main-font);
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    min-height: 100vh;
+    padding: var(--page-padding);
+    position: relative;
+    width: 100vw;
+  }
+
+  h1 {
+    font-size: var(--h1-font-size);
+    color: var(--app-ink);
+    margin: 0;
+    text-align: var(--h1-align);
+  }
+
+  p.forgot-password {
+    color: var(--forgot-password-font-color);
+    font-family: var(--forgot-password-font-family);
+    font-size: var(--forgot-password-font-size);
+    font-weight: var(--forgot-password-font-weight);
+    margin: var(--forgot-password-margin);
+    text-align: right;
+
+    a {
+      color: var(--forgot-password-font-color);
+    }
+  }
+
+  p.redirect-link {
+    font-size: var(--redirect-link-font-size);
+    text-align: center;
+
+    a {
+      margin-left: 0.4rem;
+      color: var(--redirect-link-color);
+    }
+  }
+
+  form {
+    margin-top: 0.5rem;
+
+    label {
+      display: block;
+      font-family: var(--input-label-font);
+      font-size: var(--input-label-font-size);
+      font-weight: 600;
+      margin: var(--input-label-margin);
+
+      &.agreement {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+
+        & input {
+          width: auto;
+        }
+      }
+    }
+
+    input {
+      display: block;
+      width: 100%;
+      padding: var(--input-padding);
+      color: var(--input-color);
+      font-family: var(--main-font);
+      font-style: normal;
+      font-size: var(--input-font-size);
+
+      font-weight: 400;
+      border-radius: 5px;
+      border: 1px solid #b1b1b1;
+      background: var(--input-background-color);
+      transition: border 0.3s;
+
+      &::placeholder {
+        color: var(--input-placeholder-color);
+        font-family: var(--main-font);
+        font-weight: 300;
+      }
+
+      &.ng-invalid.ng-touched + .validation-message {
+        visibility: visible;
+      }
+
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover,
+      &:-webkit-autofill:focus,
+      &:-webkit-autofill:active,
+      &:autofill {
+        -webkit-box-shadow: 0 0 0 50px transparent inset !important;
+        box-shadow: 0 0 0 50px transparent inset !important;
+        -webkit-text-fill-color: var(--input-color) !important;
+        transition: background-color 5000s ease-in-out 0s;
+      }
+    }
+
+    .validation-message {
+      display: block;
+      visibility: hidden;
+      color: var(--input-validation-message-color);
+      font-size: 0.875rem;
+      padding: 0.5rem 0 0 4px;
+    }
+
+    button {
+      background: var(--submit-button-background);
+      border-radius: 15px;
+      border: none;
+      color: var(--submit-button-font-color);
+      display: block;
+      font-family: var(--main-font);
+      font-size: var(--submit-button-font-size);
+      font-weight: var(--submit-button-font-weight);
+      margin: 2rem 0 1.5rem;
+      padding: 0.9rem;
+      width: 100%;
+
+      &:hover {
+        opacity: 0.9;
+      }
+
+      &:active {
+        opacity: 0.8;
+      }
+    }
+  }
+
+  /* Logo */
+  &::before {
+    content: "";
+    background: url("/assets/logos/DCC-logo-dark-bg.png") center/contain
+      no-repeat;
+    display: block;
+    position: absolute;
+    inset: var(--logo-inset);
+    width: var(--logo-size);
+    height: var(--logo-size);
+    z-index: 1;
+  }
+
+  @include desktop {
+    --background-color: #fff;
+    --app-ink: var(--celestial-ink);
+
+    /* Page */
+    --page-background: var(--background-color)
+      url("/assets/backgrounds/login-bg.png") right center/50% 100% no-repeat;
+    --page-padding: 140px 50% 0 0;
+
+    --h1-font-size: 1.9rem;
+    --h1-align: center;
+    --submit-button-font-color: #fff;
+    --submit-button-font-size: 1.4rem;
+    --submit-button-font-weight: 400;
+
+    --forgot-password-font-color: #8e8e8e;
+    --forgot-password-font-size: 0.8rem;
+    --forgot-password-font-weight: 400;
+
+    /* Logo */
+    --logo-size: 120px;
+    --logo-inset: 40px auto auto calc(25% - var(--logo-size) / 1.8);
+
+    /* Input labels */
+    --input-font-size: 1rem;
+    --input-padding: 16px 18px;
+
+    --input-background-color: #fff;
+    --redirect-link-font-size: 0.9rem;
+    --redirect-link-color: var(--app-pink);
+
+    align-items: center;
+    &::before {
+      content: "";
+      background: url("/assets/logos/DCC-logo-big.png") center/contain no-repeat;
+    }
+
+    & > * {
+      width: 100%;
+      max-width: 400px;
+    }
+  }
+}

@@ -1,0 +1,18 @@
+// Define breakpoints
+$breakpoint-mobile: 600px;
+$breakpoint-tablet: 900px;
+$breakpoint-max: 1200px;
+
+// Mixin for tablet styles (between mobile +1 and tablet max)
+@mixin tablet {
+  @media (min-width: ($breakpoint-mobile + 1px)) and (max-width: $breakpoint-tablet) {
+    @content;
+  }
+}
+
+// Mixin for desktop styles (min-width tablet +1)
+@mixin desktop {
+  @media (min-width: ($breakpoint-tablet + 1px)) {
+    @content;
+  }
+}

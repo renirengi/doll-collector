@@ -61,7 +61,7 @@ describe('SignInPageComponent', () => {
       password: 'password123',
     });
 
-    component.onSubmit();
+    component.submit();
     tick();
 
     expect(authApiSpy.signIn).toHaveBeenCalledWith({
@@ -84,7 +84,7 @@ describe('SignInPageComponent', () => {
       password: 'wrongpassword',
     });
 
-    component.onSubmit();
+    component.submit();
     tick();
 
     expect(window.alert).toHaveBeenCalledWith(

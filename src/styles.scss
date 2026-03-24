@@ -1,13 +1,21 @@
-// Include theming for Angular Material with `mat.theme()`.
-// This Sass mixin will define CSS variables that are used for styling Angular Material
-// components according to the Material 3 design spec.
-// Learn more about theming and how to use it for your application's
-// custom components at https://material.angular.dev/guide/theming
+@use "sass:color";
+@use "./styles/_mixins.scss" as *;
 
 @use "@angular/material" as mat;
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+// Primary font import
+@import url("https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap");
+// Secondary font imports
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
+// Chat font import
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
+
+// Icon font import - should be deleted when no longer needed
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
 :root {
   --app-pink: #e91e63;
@@ -33,6 +41,12 @@
 
   --app-text-main: #1e293b;
   --app-text-sub: #475569;
+  --warm-marigold: #f9c271;
+  --antique-linen: #e8e3d0;
+  --astral-navy: #050a1e;
+  --burnt-citrus: #e96438;
+  --celestial-ink: #070f2f;
+  --shadow-navy: #171822;
 
   --app-gradient-sunset: linear-gradient(
     180deg,
@@ -85,6 +99,15 @@
   );
 
   --app-header-height: 75px;
+  /* Fonts */
+  --main-font:
+    "Lato", ui-sans-serif, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --secondary-font:
+    "Nunito Sans", ui-sans-serif, -apple-system, "Segoe UI", Roboto, Arial,
+    sans-serif;
+  --chat-font:
+    "Instrument Sans", ui-sans-serif, -apple-system, "Segoe UI", Roboto, Arial,
+    sans-serif;
 }
 
 html {
@@ -94,7 +117,6 @@ html {
         primary: mat.$magenta-palette,
         tertiary: mat.$violet-palette,
       ),
-      typography: Roboto,
       density: 0,
     )
   );
@@ -109,10 +131,8 @@ body {
   // Set a default background, font and text colors for the application using
   // Angular Material's system-level CSS variables. Learn more about these
   // variables at https://material.angular.dev/guide/system-variables
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
-  font: var(--mat-sys-body-medium);
-
+  background-color: var(--app-pink-soft);
+  color: var(--app-ink);
   // Reset the user agent margin.
   margin: 0;
 }
@@ -123,7 +143,7 @@ body {
 }
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: var(--main-font);
 }
 
 html,
@@ -132,7 +152,6 @@ body {
 }
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 .flex {
   display: flex !important;
