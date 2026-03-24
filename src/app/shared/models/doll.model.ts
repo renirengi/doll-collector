@@ -26,21 +26,30 @@ export interface Doll {
   generation?: T.DollGeneration;
   mold?: string;
   releaseYear?: number;
-  acquisitionYear?: number;
 
   articulation: T.ArticulationType;
   bodyVolume: T.BodyVolume;
   footType: T.FootType;
-
-  dollState: T.DollState;
-  outfitState: T.OutfitState;
-  defects?: string[];
 
   isPlayset: boolean;
   playsetsElements?: string[];
   playsetDollsIds?: string[];
 
   photos?: DollImage[];
+
+  pets?: Pet[];
+  gender: T.Gender;
+}
+
+export interface UserDoll {
+  id: string;
+  acquisitionYear?: number;
+
+  dollState: T.DollState;
+  outfitState: T.OutfitState;
+  defects?: string[];
+
+  userPhotos?: DollImage[];
   notes?: string[];
   coupleId?: string;
   coupleName?: string;
@@ -52,9 +61,6 @@ export interface Doll {
   soldPrice?: number;
   soldDate?: Date | string;
 
-  pets?: Pet[];
   familyNames?: string[];
-  gender: T.Gender;
-
   hybrid?: Hybrid;
 }

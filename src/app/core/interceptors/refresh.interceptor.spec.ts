@@ -1,4 +1,4 @@
-import { TestBed, fakeAsync, flush, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync, flush } from '@angular/core/testing';
 import {
   HttpClient,
   provideHttpClient,
@@ -17,6 +17,7 @@ describe('refreshInterceptor', () => {
   let httpTestingController: HttpTestingController;
   let tokenServiceSpy: jasmine.SpyObj<TokenService>;
 
+  // Initial state for each test
   const tokenSignal = signal<string | null | undefined>('old-token');
 
   beforeEach(() => {
@@ -44,6 +45,7 @@ describe('refreshInterceptor', () => {
   });
 
   afterEach(() => {
+    // Crucial: check that no requests are outstanding
     httpTestingController.verify();
   });
 
@@ -56,12 +58,10 @@ describe('refreshInterceptor', () => {
     const firstReq = httpTestingController.expectOne('/api/data');
     firstReq.flush('Unauthorized', { status: 401, statusText: 'Unauthorized' });
 
+    // Wait for refreshTokenCall promise
     flush();
 
-    expect(tokenServiceSpy.refreshTokenCall).toHaveBeenCalled();
-
-    tokenSignal.set(newToken);
-    flush();
+    expect(tokenServiceSpy.refreshTokenCall).toHaveBeenCalledTimes(1);
 
     const retryReq = httpTestingController.expectOne('/api/data');
     expect(retryReq.request.headers.get('Authorization')).toBe(
@@ -73,24 +73,27 @@ describe('refreshInterceptor', () => {
 
   it('should queue multiple 401 requests and retry them all after one refresh', fakeAsync(() => {
     const newToken = 'shared-new-token';
+    // Return promise that we can control
     tokenServiceSpy.refreshTokenCall.and.returnValue(Promise.resolve(newToken));
 
+    // Fire two requests simultaneously
     httpClient.get('/api/1').subscribe();
     httpClient.get('/api/2').subscribe();
 
     const req1 = httpTestingController.expectOne('/api/1');
     const req2 = httpTestingController.expectOne('/api/2');
 
+    // Both fail with 401
     req1.flush('Err', { status: 401, statusText: 'UA' });
     req2.flush('Err', { status: 401, statusText: 'UA' });
 
+    // Process the refresh call
     flush();
 
+    // The key assertion: only ONE refresh call should be made
     expect(tokenServiceSpy.refreshTokenCall).toHaveBeenCalledTimes(1);
 
-    tokenSignal.set(newToken);
-    flush();
-
+    // Both requests should be retried
     const retry1 = httpTestingController.expectOne('/api/1');
     const retry2 = httpTestingController.expectOne('/api/2');
 
@@ -101,7 +104,9 @@ describe('refreshInterceptor', () => {
       `Bearer ${newToken}`,
     );
 
-    retry1.flush({});
-    retry2.flush({});
+    retry1.flush({ id: 1 });
+    retry2.flush({ id: 2 });
+
+    flush();
   }));
 });

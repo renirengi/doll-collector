@@ -1,6 +1,11 @@
-import { HttpInterceptorFn, HttpRequest } from '@angular/common/http';
+import {
+  HttpInterceptorFn,
+  HttpRequest,
+  HttpHandlerFn,
+  HttpEvent,
+} from '@angular/common/http';
 import { inject } from '@angular/core';
-import { filter, switchMap, take } from 'rxjs';
+import { Observable, filter, switchMap, take } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { TokenService } from '../services/token.services';
 
@@ -8,19 +13,35 @@ import { TokenService } from '../services/token.services';
  * Interceptor that injects the JWT token into the Authorization header.
  * It waits for the token signal to be initialized before proceeding with the request.
  */
-export const authInterceptor: HttpInterceptorFn = (req, next) => {
+export const authInterceptor: HttpInterceptorFn = (
+  req: HttpRequest<unknown>,
+  next: HttpHandlerFn,
+): Observable<HttpEvent<unknown>> => {
   const tokenService = inject(TokenService);
 
-  // We convert the signal to an observable to use RxJS operators.
-  // We filter out 'undefined' to wait for the initial check from localStorage.
+  /**
+   * We convert the signal to an observable to use RxJS operators.
+   * We filter out 'undefined' to wait for the initial check from localStorage.
+   * We use take(1) to ensure the stream completes after obtaining the current token state.
+   */
   return toObservable(tokenService.token).pipe(
-    filter((token) => token !== undefined),
-    take(1), // Important: complete the stream after getting the first valid value
+    filter((token): token is string | null => token !== undefined),
+    take(1),
     switchMap((token) => {
-      // If a token exists, we clone the request and add the header.
-      // Otherwise, we pass the original request (e.g., for login/register).
-      const authReq = token ? addAuthHeader(req, token) : req;
-      return next(authReq);
+      // We only add the header if the token exists and the request is local/API-related.
+      // This prevents leaking the token to third-party domains.
+      if (
+        token &&
+        (req.url.startsWith('/') ||
+          req.url.includes('localhost') ||
+          req.url.includes('127.0.0.1'))
+      ) {
+        const authReq = addAuthHeader(req, token);
+        return next(authReq);
+      }
+
+      // Otherwise, we pass the original request (e.g., for login, register, or external assets).
+      return next(req);
     }),
   );
 };

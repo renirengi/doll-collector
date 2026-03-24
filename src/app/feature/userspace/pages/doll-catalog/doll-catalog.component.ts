@@ -8,11 +8,12 @@ import {
   effect,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { Subscription } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 import { DollService } from '../../../../core/services/dollService';
 import { UserspaceStateService } from '../../service/userspace-state.service';
@@ -51,6 +52,10 @@ export class DollCatalogComponent implements OnInit, OnDestroy {
   private observer?: IntersectionObserver;
   private routeSub?: Subscription;
 
+  /**
+   * Setter for the infinite scroll trigger element.
+   * Re-initializes the observer whenever the trigger element is rendered.
+   */
   @ViewChild('infiniteTrigger')
   public set infiniteTrigger(content: ElementRef | undefined) {
     if (content) {
@@ -58,13 +63,16 @@ export class DollCatalogComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Getter to access DollService in the template.
+   */
   public get service(): DollService {
     return this.dollService;
   }
 
   constructor() {
     /**
-     * Effect to update total dolls count in UI state.
+     * Effect to update the global total dolls count signal.
      */
     effect(() => {
       this.ui.totalDolls.set(this.dollService.totalCount());
@@ -73,25 +81,35 @@ export class DollCatalogComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     /**
-     * Manually subscribe to query params to trigger loading.
-     * This avoids the circular dependency of the Signals effect.
+     * Subscribe to query parameters changes.
+     * distinctUntilChanged is used to prevent redundant loads if params haven't actually changed.
      */
-    this.routeSub = this.route.queryParams.subscribe((p) => {
-      this.dollService.setRawFilters({
-        manufacturer: p['manufacturer'] || null,
-        brand: p['brand'] || null,
+    this.routeSub = this.route.queryParams
+      .pipe(
+        distinctUntilChanged(
+          (prev, curr) => JSON.stringify(prev) === JSON.stringify(curr),
+        ),
+      )
+      .subscribe((p: Params) => {
+        this.dollService.setRawFilters({
+          manufacturer: p['manufacturer'] || null,
+          brand: p['brand'] || null,
+        });
       });
-    });
   }
 
   /**
-   * Setup IntersectionObserver for infinite scrolling.
-   * @param el - Trigger element.
+   * Initializes the IntersectionObserver for infinite scrolling logic.
+   * @param el - The element acting as a scroll trigger.
    */
   private initInfiniteScroll(el: ElementRef): void {
     this.observer?.disconnect();
     this.observer = new IntersectionObserver(
       ([entry]) => {
+        /**
+         * Trigger loading more data only if the element is visible,
+         * no current loading is in progress, and there are more items to fetch.
+         */
         if (
           entry.isIntersecting &&
           !this.service.isLoading() &&
@@ -100,11 +118,17 @@ export class DollCatalogComponent implements OnInit, OnDestroy {
           this.service.loadMoreDolls();
         }
       },
-      { threshold: 0.1, rootMargin: '100px' },
+      {
+        threshold: 0,
+        rootMargin: '200px', // Pre-load content 200px before it enters the viewport
+      },
     );
     this.observer.observe(el.nativeElement);
   }
 
+  /**
+   * Cleanup on component destruction to prevent memory leaks.
+   */
   ngOnDestroy(): void {
     this.observer?.disconnect();
     this.routeSub?.unsubscribe();
