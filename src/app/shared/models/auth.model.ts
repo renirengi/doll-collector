@@ -1,16 +1,4 @@
-/**
- * Core User profile data from the server
- */
-export interface User {
-  id: string;
-  email: string;
-  username: string;
-  firstName: string;
-  lastName: string;
-  avatar: string | null;
-  createdAt: string; // ISO Date string
-  updatedAt: string; // ISO Date string
-}
+import { User } from "./user.model";
 
 /**
  * Credentials for the login request
@@ -21,7 +9,17 @@ export interface LoginCredentials {
 }
 
 /**
+ * Credentials for the registration request
+ * Based on POST /auth/signup schema
+ */
+export interface RegisterCredentials extends LoginCredentials {
+  username: string;
+  confirmPassword: string;
+}
+
+/**
  * Successful authentication response
+ * Note: backend returns only access_token by default
  */
 export interface AuthResponse {
   access_token: string;
@@ -33,6 +31,19 @@ export interface AuthResponse {
  * Common structure for API errors
  */
 export interface AuthError {
-  message: string;
+  message: string | string[];
   statusCode: number;
+  error?: string;
+}
+
+/**
+ * Type guard to check if a response is an AuthError
+ */
+export function isAuthError(error: unknown): error is AuthError {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'message' in error &&
+    'statusCode' in error
+  );
 }

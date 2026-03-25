@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { DollCatalogComponent } from './feature/userspace/pages/doll-catalog/doll-catalog.component';
+import { RoleGuard } from './core/guards/role.guard';
+import { UserRoles } from './shared/models';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'user', pathMatch: 'full' },
@@ -16,13 +18,12 @@ export const routes: Routes = [
   // },
   {
     path: 'user',
+    canActivate: [RoleGuard],
     loadChildren: () =>
       import('./feature/userspace/userspace.routes').then(
         (m) => m.userspaceRoutes,
       ),
-    // canActivate: [RoleGuard],
-    // resolve: { userInfo, questions },
-    // data: { roles: [UserRoles.Client, UserRoles.Support, UserRoles.Admin] },
+    data: { roles: [UserRoles.Client, UserRoles.Admin] },
   },
   { path: '**', redirectTo: '404', pathMatch: 'full' },
   // { path: '404', component: NotFoundComponent },

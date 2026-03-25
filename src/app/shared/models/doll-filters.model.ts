@@ -1,5 +1,4 @@
 import * as T from './doll-enums';
-import { Hybrid } from './doll.model';
 
 export interface DollCatalogFilters {
   // Pagination

@@ -83,26 +83,28 @@ describe('SignUpPageComponent', () => {
       confirmPassword: 'password123',
     };
 
-    it('should call signUp and signIn on success and navigate', fakeAsync(() => {
-      authApiSpy.signUp.and.returnValue(of({ message: 'Success' }));
-      authApiSpy.signIn.and.returnValue(of({ access_token: 'fake-token' }));
-      spyOn(router, 'navigate');
+   it('should call signUp and signIn on success and navigate', fakeAsync(() => {
+  authApiSpy.signUp.and.returnValue(of(undefined));
+  authApiSpy.signIn.and.returnValue(of({ access_token: 'fake-token' }));
+  spyOn(router, 'navigate');
 
-      component.signUpForm.setValue(validData);
-      component.submit();
+  component.signUpForm.setValue(validData);
+  component.submit();
 
-      expect(component.isLoading).toBeTrue();
-      tick();
+  expect(component.isLoading).toBeTrue();
+  tick();
 
-      expect(authApiSpy.signUp).toHaveBeenCalledWith(validData);
-      expect(authApiSpy.signIn).toHaveBeenCalledWith({
-        email: validData.email,
-        password: validData.password,
-      });
-      expect(tokenServiceSpy.setTokens).toHaveBeenCalledWith('fake-token');
-      expect(router.navigate).toHaveBeenCalledWith(['/dolls']);
-      expect(component.isLoading).toBeFalse();
-    }));
+  expect(authApiSpy.signUp).toHaveBeenCalledWith(validData);
+  expect(authApiSpy.signIn).toHaveBeenCalledWith({
+    email: validData.email,
+    password: validData.password,
+  });
+
+  expect(tokenServiceSpy.setTokens).toHaveBeenCalledWith('fake-token');
+
+  expect(router.navigate).toHaveBeenCalledWith(['/dolls']);
+  expect(component.isLoading).toBeFalse();
+}));
 
     it('should show alert and reset loading on error', fakeAsync(() => {
       authApiSpy.signUp.and.returnValue(
