@@ -88,22 +88,6 @@ describe('DollCatalogComponent', () => {
   });
 
   /**
-   * Test: Verify the effect that synchronizes total dolls count with the global UI state.
-   */
-  describe('UI State Synchronization', () => {
-    it('should update UserspaceStateService.totalDolls when service.totalCount changes', fakeAsync(() => {
-      fixture.detectChanges(); // Trigger constructor effect
-
-      totalCountSignal.set(150);
-
-      fixture.detectChanges();
-      tick(); // Let the effect run
-
-      expect(uiService.totalDolls()).toBe(150);
-    }));
-  });
-
-  /**
    * Test: IntersectionObserver and Infinite Scroll logic.
    */
   describe('Infinite Scroll', () => {

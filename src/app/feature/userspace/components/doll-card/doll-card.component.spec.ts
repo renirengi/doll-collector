@@ -8,11 +8,11 @@ describe('DollCardComponent', () => {
 
   const mockDoll = {
     id: 1,
-    name: 'Classic Barbie',
+    originalName: 'Classic Barbie',
     manufacturer: 'Mattel',
     brand: 'Barbie',
     series: 'Fashionistas',
-    year: 2023,
+    releaseYear: 2023,
     image: 'barbie.png',
     description: 'Lovely doll',
   } as any;
@@ -25,7 +25,9 @@ describe('DollCardComponent', () => {
 
     fixture = TestBed.createComponent(DollCardComponent);
     component = fixture.componentInstance;
+
     component.doll = mockDoll;
+
     fixture.detectChanges();
   });
 
@@ -36,7 +38,6 @@ describe('DollCardComponent', () => {
   it('should display doll name', () => {
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-
     const nameElement = compiled.querySelector('.doll-name');
 
     expect(nameElement).toBeTruthy();
@@ -50,9 +51,11 @@ describe('DollCardComponent', () => {
 
     expect(brandElement?.textContent?.trim()).toBe('Barbie');
   });
+
   it('should log message on click', () => {
     const spy = spyOn(console, 'log');
+
     component.onCardClick();
-    expect(spy).toHaveBeenCalledWith('Клик по кукле:', mockDoll.name);
+    expect(spy).toHaveBeenCalledWith('Клик по кукле:', 'Classic Barbie');
   });
 });

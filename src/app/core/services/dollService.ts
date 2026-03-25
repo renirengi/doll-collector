@@ -1,19 +1,21 @@
 import {
   Injectable,
   signal,
+  inject,
   WritableSignal,
   Signal,
-  inject,
 } from '@angular/core';
-import { Doll } from '../../shared/models/doll.model';
-import { DollFilters } from '../../shared/models/doll-filters.model';
+import { Doll, UserDoll } from '../../shared/models/doll.model';
+import { DollCatalogFilters } from '../../shared/models/doll-filters.model';
 import { DollApiService } from '../../../api/services/doll.api';
+import { UserspaceStateService } from '../../feature/userspace/service/userspace-state.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DollService {
   private readonly apiService = inject(DollApiService);
+  private readonly uiState = inject(UserspaceStateService);
 
   private readonly dollsSignal: WritableSignal<Doll[]> = signal<Doll[]>([]);
   public readonly isLoading: WritableSignal<boolean> = signal<boolean>(false);
@@ -21,43 +23,49 @@ export class DollService {
   public readonly hasMore: WritableSignal<boolean> = signal<boolean>(false);
 
   /**
-   * Internal key to track the last successful or pending request filters.
-   * Prevents duplicate API calls and infinite loops when dealing with cached 304 responses.
+   * Current active filters. Defaults to first page with standard limit.
+   * userFilters is optional in the interface, so no error here.
    */
-  private lastRequestKey: string = '';
-
-  /**
-   * Current catalog filters state.
-   */
-  public readonly filters: WritableSignal<DollFilters> = signal<DollFilters>({
-    _page: 1,
-    _limit: 12,
-  });
+  public readonly filters: WritableSignal<DollCatalogFilters> =
+    signal<DollCatalogFilters>({
+      _page: 1,
+      _limit: 12,
+    });
 
   public readonly dolls: Signal<Doll[]> = this.dollsSignal.asReadonly();
 
+  constructor() {}
+
   /**
-   * Resets the catalog to the first page with new filters.
-   * @param baseFilters - Filter parameters from the URL or filter panel.
+   * Fully replaces the filter state and triggers a reset load.
+   * @param baseFilters - New filter configuration.
    */
-  public async setRawFilters(baseFilters: DollFilters): Promise<void> {
+  public async setRawFilters(baseFilters: DollCatalogFilters): Promise<void> {
     const updated = { ...baseFilters, _page: 1, _limit: 12 };
     this.filters.set(updated);
-    return this.loadDolls(updated);
+    return this.runLoadSequence(updated);
   }
 
   /**
-   * Updates partial filters and reloads the catalog from the first page.
-   * @param newFilters - Changes to apply to current filters.
+   * Merges partial updates into the existing filter state.
+   * Ensures nested userFilters are preserved or updated correctly.
+   * @param newFilters - Partial filters to merge.
    */
-  public updateFilters(newFilters: Partial<DollFilters>): void {
-    const updated = { ...this.filters(), ...newFilters, _page: 1 };
+  public updateFilters(newFilters: Partial<DollCatalogFilters>): void {
+    const current = this.filters();
+    const updated: DollCatalogFilters = {
+      ...current,
+      ...newFilters,
+      _page: 1,
+      userFilters: newFilters.userFilters || current.userFilters,
+    };
+
     this.filters.set(updated);
-    this.loadDolls(updated);
+    this.runLoadSequence(updated);
   }
 
   /**
-   * Fetches the next page of dolls for infinite scrolling.
+   * Fetches the next page of results and appends them to the current list.
    */
   public loadMoreDolls(): void {
     if (this.isLoading() || !this.hasMore()) return;
@@ -67,27 +75,24 @@ export class DollService {
       _page: (this.filters()._page || 1) + 1,
     };
     this.filters.set(updated);
-    this.loadDolls(updated);
+    this.runLoadSequence(updated);
   }
 
   /**
-   * Core data fetching logic with duplicate request prevention and loading state management.
-   * @param currentFilters - Filters used for the specific API call.
+   * Internal execution logic for API requests.
+   * Handles pagination, response mapping, and UI state synchronization.
+   * @param currentFilters - The filters to be sent to the backend.
    */
-  private async loadDolls(currentFilters: DollFilters): Promise<void> {
-    const requestKey = JSON.stringify(currentFilters);
-
-    /**
-     * Guard: Prevent redundant calls if identical request is pending or was just loaded.
-     */
-    if (this.isLoading() || this.lastRequestKey === requestKey) {
-      return;
-    }
+  private async runLoadSequence(
+    currentFilters: DollCatalogFilters,
+  ): Promise<void> {
+    // Priority check: reset (page 1) overrides current loading
+    if (this.isLoading() && currentFilters._page !== 1) return;
 
     this.isLoading.set(true);
-    this.lastRequestKey = requestKey;
 
     try {
+      // apiService.getAll must be updated to accept DollCatalogFilters
       const response = await this.apiService.getAll(currentFilters);
 
       const newDolls: Doll[] = Array.isArray(response)
@@ -97,20 +102,56 @@ export class DollService {
       const total: number =
         (response as any)?.total ?? (response as any)?.totalCount ?? 0;
 
-      this.totalCount.set(total);
-
       if (currentFilters._page === 1) {
         this.dollsSignal.set(newDolls);
+        const effectiveTotal = total > 0 ? total : newDolls.length;
+        this.totalCount.set(effectiveTotal);
+        this.uiState.totalDolls.set(effectiveTotal);
       } else {
         this.dollsSignal.update((old) => [...old, ...newDolls]);
       }
 
-      this.hasMore.set(this.dolls().length < total);
+      const limit = currentFilters._limit || 12;
+      const currentLoadedCount = this.dollsSignal().length;
+
+      if (total > 0) {
+        this.hasMore.set(currentLoadedCount < total);
+      } else {
+        this.hasMore.set(newDolls.length === limit && newDolls.length > 0);
+      }
     } catch (error) {
-      this.lastRequestKey = ''; // Allow retry on failure
-      console.error('API Error:', error);
+      this.hasMore.set(false);
+      if (currentFilters._page === 1) {
+        this.dollsSignal.set([]);
+        this.totalCount.set(0);
+        this.uiState.totalDolls.set(0);
+      }
     } finally {
       this.isLoading.set(false);
     }
+  }
+
+  /**
+   * Enriches user-specific doll data with master record details from the catalog.
+   * This prevents data duplication in the API by fetching catalog details by ID.
+   *
+   * @param userDolls - Array of user-owned doll records containing dollId references.
+   * @returns A promise resolving to a collection of user dolls merged with their catalog information.
+   */
+  private async enrichUserDolls(userDolls: UserDoll[]): Promise<any[]> {
+    const catalogIds = [
+      ...new Set(userDolls.map((ud) => ud.dollId).filter(Boolean)),
+    ];
+
+    const catalogData = await Promise.all(
+      catalogIds.map((id) => this.apiService.getById(id!)),
+    );
+
+    const catalogMap = new Map(catalogData.map((d) => [d.id, d]));
+
+    return userDolls.map((ud) => ({
+      ...ud,
+      catalogInfo: catalogMap.get(ud.dollId!),
+    }));
   }
 }

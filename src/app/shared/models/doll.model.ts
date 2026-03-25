@@ -19,7 +19,7 @@ export interface Doll {
   id: string;
   itemNumber?: string;
   originalName: string;
-  name?: string;
+
   brand: T.DollBrand;
   series: string;
   manufacturer: T.Manufacturer;
@@ -43,8 +43,9 @@ export interface Doll {
 
 export interface UserDoll {
   id: string;
+  dollId: string;
   acquisitionYear?: number;
-
+  name?: string;
   dollState: T.DollState;
   outfitState: T.OutfitState;
   defects?: string[];
@@ -64,3 +65,9 @@ export interface UserDoll {
   familyNames?: string[];
   hybrid?: Hybrid;
 }
+
+export interface EnrichedUserDoll extends UserDoll {
+  catalogInfo: Doll;
+}
+
+export type DollDataType = Doll | EnrichedUserDoll;

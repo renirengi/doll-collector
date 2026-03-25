@@ -1,24 +1,35 @@
 <mat-card class="doll-card" (click)="onCardClick()">
   <div class="image-container">
-    <img [src]="doll.photos?.[0]?.imageUrl" [alt]="doll.name" />
-    <div class="body-badge">{{ doll.bodyVolume }}</div>
+    <img [src]="d.photos?.[0]?.imageUrl" [alt]="d.originalName" />
+    <div class="body-badge">{{ d.bodyVolume }}</div>
   </div>
 
   <mat-card-content class="info-content">
-    <div class="brand-label">{{ doll.brand }}</div>
-    <h3 class="doll-name">{{ doll.name || "No Name" }}</h3>
-    <p class="original-name">{{ doll.originalName }}</p>
+    <div class="brand-label">{{ d.brand }}</div>
+
+    <h3 class="doll-name">
+      @if (isUserDoll(doll)) {
+        {{ doll.name || "No Name" }}
+      } @else {
+        {{ d.originalName }}
+      }
+    </h3>
+
+    <p class="original-name">{{ d.originalName }}</p>
 
     <div class="tags-container">
-      <span class="tag">{{ doll.mold }}</span>
-      <span class="tag">{{ doll.footType }}</span>
+      <span class="tag">{{ d.mold }}</span>
+      <span class="tag">{{ d.footType }}</span>
     </div>
   </mat-card-content>
 
   <div class="card-footer">
-    <span>#{{ doll.itemNumber }}</span>
-    <!-- <span [class.status-active]="doll.status === 'active'">
-      ● {{ doll.status }}
-    </span> -->
+    <span>#{{ d.itemNumber }}</span>
+
+    @if (isUserDoll(doll)) {
+      <span [class.status-active]="doll.status === 'active'">
+        ● {{ doll.status }}
+      </span>
+    }
   </div>
 </mat-card>

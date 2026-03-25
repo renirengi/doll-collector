@@ -5,7 +5,6 @@ import {
   ViewChild,
   OnDestroy,
   OnInit,
-  effect,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -52,10 +51,6 @@ export class DollCatalogComponent implements OnInit, OnDestroy {
   private observer?: IntersectionObserver;
   private routeSub?: Subscription;
 
-  /**
-   * Setter for the infinite scroll trigger element.
-   * Re-initializes the observer whenever the trigger element is rendered.
-   */
   @ViewChild('infiniteTrigger')
   public set infiniteTrigger(content: ElementRef | undefined) {
     if (content) {
@@ -63,27 +58,11 @@ export class DollCatalogComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * Getter to access DollService in the template.
-   */
   public get service(): DollService {
     return this.dollService;
   }
 
-  constructor() {
-    /**
-     * Effect to update the global total dolls count signal.
-     */
-    effect(() => {
-      this.ui.totalDolls.set(this.dollService.totalCount());
-    });
-  }
-
   ngOnInit(): void {
-    /**
-     * Subscribe to query parameters changes.
-     * distinctUntilChanged is used to prevent redundant loads if params haven't actually changed.
-     */
     this.routeSub = this.route.queryParams
       .pipe(
         distinctUntilChanged(
@@ -91,6 +70,7 @@ export class DollCatalogComponent implements OnInit, OnDestroy {
         ),
       )
       .subscribe((p: Params) => {
+        console.log('[Catalog] Route Params changed:', p);
         this.dollService.setRawFilters({
           manufacturer: p['manufacturer'] || null,
           brand: p['brand'] || null,
@@ -106,30 +86,30 @@ export class DollCatalogComponent implements OnInit, OnDestroy {
     this.observer?.disconnect();
     this.observer = new IntersectionObserver(
       ([entry]) => {
-        /**
-         * Trigger loading more data only if the element is visible,
-         * no current loading is in progress, and there are more items to fetch.
-         */
-        if (
+        const canLoad =
           entry.isIntersecting &&
           !this.service.isLoading() &&
-          this.service.hasMore()
-        ) {
+          this.service.hasMore();
+
+        if (canLoad) {
+          console.log(
+            '[Catalog] Infinite Scroll Triggered. Loading next page...',
+          );
           this.service.loadMoreDolls();
         }
       },
       {
-        threshold: 0,
-        rootMargin: '200px', // Pre-load content 200px before it enters the viewport
+        threshold: 0.1, // Trigger when 10% of the element is visible
+        rootMargin: '100px', // Slightly reduced to prevent over-eager loading
       },
     );
     this.observer.observe(el.nativeElement);
   }
 
-  /**
-   * Cleanup on component destruction to prevent memory leaks.
-   */
   ngOnDestroy(): void {
+    console.log(
+      '[Catalog] Destroying component, cleaning up observer and subs.',
+    );
     this.observer?.disconnect();
     this.routeSub?.unsubscribe();
   }

@@ -6,11 +6,13 @@ import {
 } from '@angular/core/testing';
 import { DollFiltersComponent } from './doll-filters.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideRouter, Router } from '@angular/router';
 import { signal } from '@angular/core';
 import { DollService } from '../../../../core/services/dollService';
 
 class MockDollService {
   public updateFilters = jasmine.createSpy('updateFilters');
+  public setRawFilters = jasmine.createSpy('setRawFilters');
   public isLoading = signal(false);
 }
 
@@ -18,12 +20,14 @@ describe('DollFiltersComponent', () => {
   let component: DollFiltersComponent;
   let fixture: ComponentFixture<DollFiltersComponent>;
   let dollService: MockDollService;
+  let router: Router;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [DollFiltersComponent],
       providers: [
         { provide: DollService, useClass: MockDollService },
+        provideRouter([]),
         provideAnimationsAsync('noop'),
       ],
     }).compileComponents();
@@ -31,71 +35,72 @@ describe('DollFiltersComponent', () => {
     fixture = TestBed.createComponent(DollFiltersComponent);
     component = fixture.componentInstance;
     dollService = TestBed.inject(DollService) as unknown as MockDollService;
+    router = TestBed.inject(Router);
+  });
+
+  it('should include userFilters when in userspace', fakeAsync(() => {
+    spyOnProperty(router, 'url', 'get').and.returnValue(
+      '/userspace/collection',
+    );
     fixture.detectChanges();
-  });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    expect(component.isUserspace()).toBeTrue();
 
-  it('should call updateFilters when form changes after debounce', fakeAsync(() => {
     component.filterForm.patchValue({
-      articulation: ['FullyArticulated'],
-      sortData: { field: 'price', order: 'asc' },
+      status: 'active',
+      acquisitionYear: 2026,
+      hasCouple: true,
     });
 
+    component.onFilterChange();
     tick(400);
+
+    const lastCall = dollService.updateFilters.calls.mostRecent().args[0];
+
+    expect(lastCall.userFilters).toBeDefined();
+    expect(lastCall.userFilters.status).toEqual(['active']);
+    expect(lastCall.userFilters.hasCouple).toBeTrue();
+  }));
+
+  it('should set hasCouple and hybrid to null by default in userFilters', fakeAsync(() => {
+    spyOnProperty(router, 'url', 'get').and.returnValue(
+      '/userspace/collection',
+    );
     fixture.detectChanges();
+
+    component.onFilterChange();
+    tick(400);
+
+    const lastCall = dollService.updateFilters.calls.mostRecent().args[0];
+    expect(lastCall.userFilters.hasCouple).toBeNull();
+    expect(lastCall.userFilters.hybrid).toBeNull();
+  }));
+
+  it('should call updateFilters with base filters', fakeAsync(() => {
+    fixture.detectChanges();
+
+    component.filterForm.patchValue({
+      articulation: 'FullyArticulated',
+    });
+
+    component.onFilterChange();
+    tick(400);
 
     expect(dollService.updateFilters).toHaveBeenCalledWith(
       jasmine.objectContaining({
         articulation: ['FullyArticulated'],
-        _sort: 'price',
-        _order: 'asc',
       }),
     );
   }));
 
-  it('should not call updateFilters if values are same (distinctUntilChanged)', fakeAsync(() => {
-    component.filterForm.patchValue({ status: ['active'] });
-    tick(400);
+  it('should reset form to default values', () => {
     fixture.detectChanges();
-    dollService.updateFilters.calls.reset();
-
-    component.filterForm.patchValue({ status: ['active'] });
-    tick(400);
-    fixture.detectChanges();
-
-    expect(dollService.updateFilters).not.toHaveBeenCalled();
-  }));
-
-  it('should reset form and call updateFilters with empty values', fakeAsync(() => {
-    component.filterForm.patchValue({ status: ['sold'] });
-    tick(400);
-    fixture.detectChanges();
-    dollService.updateFilters.calls.reset();
+    component.filterForm.patchValue({ articulation: 'Basic', hasCouple: true });
 
     component.resetFilters();
-    tick(400);
-    fixture.detectChanges();
 
-    expect(component.filterForm.pristine).toBeTrue();
-    expect(dollService.updateFilters).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        status: [],
-      }),
-    );
-  }));
-
-  it('should disable reset button when form is pristine', () => {
-    const resetButton: HTMLButtonElement = fixture.nativeElement.querySelector(
-      'button[type="button"]',
-    );
-    expect(resetButton.disabled).toBeTrue();
-
-    component.filterForm.markAsDirty();
-    fixture.detectChanges();
-
-    expect(resetButton.disabled).toBeFalse();
+    expect(component.filterForm.value.articulation).toBeNull();
+    expect(component.filterForm.value.hasCouple).toBeFalse();
+    expect(dollService.setRawFilters).toHaveBeenCalled();
   });
 });

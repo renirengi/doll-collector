@@ -1,6 +1,7 @@
 import * as T from './doll-enums';
+import { Hybrid } from './doll.model';
 
-export interface DollFilters {
+export interface DollCatalogFilters {
   // Pagination
   _page?: number;
   _limit?: number;
@@ -19,11 +20,23 @@ export interface DollFilters {
   articulation?: T.ArticulationType[];
   bodyVolume?: T.BodyVolume[];
   footType?: T.FootType[];
-  purchaseStates?: T.DollState[];
-  status?: T.DollStatus[];
 
   // Optional filters
   releaseYear?: number | number[];
   gender?: T.Gender[];
+
+  userFilters?: DollUsersFilters;
+}
+
+export interface DollUsersFilters {
+  acquisitionYear: number | number[];
+  bodyVolume?: T.BodyVolume[];
+  footType?: T.FootType[];
+  purchaseStates?: T.DollState[];
+  status?: T.DollStatus[];
+
   hasCouple?: boolean | null;
+
+  outfitState?: T.OutfitState[];
+  hybrid?: boolean | null;
 }
