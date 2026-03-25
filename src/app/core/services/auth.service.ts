@@ -2,11 +2,7 @@ import { Injectable, inject, signal, computed } from '@angular/core';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { AuthApiService } from '../../../api/services/auth.api';
-import {
-  LoginCredentials,
-  AuthResponse,
-  User
-} from '../../shared/models';
+import { LoginCredentials, AuthResponse, User } from '../../shared/models';
 import { TokenService } from './token.services';
 
 /**
@@ -30,8 +26,8 @@ export class AuthService {
    * Computed signal that determines if the user is authenticated
    * based on the validity of the access token.
    */
-  public readonly isAuthenticated = computed(
-    () => this.tokenService.isAuthenticated()
+  public readonly isAuthenticated = computed(() =>
+    this.tokenService.isAuthenticated(),
   );
 
   constructor() {

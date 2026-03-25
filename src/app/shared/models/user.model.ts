@@ -1,10 +1,9 @@
-import { UserDoll } from "./doll.model";
+import { UserDoll } from './doll.model';
 
 export enum UserRoles {
   Admin = 'ADMIN',
   Client = 'CLIENT',
 }
-
 
 export interface User {
   id: string;
@@ -12,9 +11,9 @@ export interface User {
   role: UserRoles;
   username: string;
   firstName: string;
-  lastName:string;
+  lastName: string;
   avatar: string | null;
   createdAt: string;
-  updatedAt:string;
+  updatedAt: string;
   ownedDoll?: UserDoll[];
 }

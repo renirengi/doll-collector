@@ -96,7 +96,10 @@ describe('DollFiltersComponent', () => {
 
   it('should reset form to default values', () => {
     fixture.detectChanges();
-    component.filterForm.patchValue({ articulation: 'Basic' as any, hasCouple: true });
+    component.filterForm.patchValue({
+      articulation: 'Basic' as any,
+      hasCouple: true,
+    });
 
     component.resetFilters();
 

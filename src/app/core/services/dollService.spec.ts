@@ -16,7 +16,10 @@ describe('DollService', () => {
   ];
 
   beforeEach(() => {
-    const apiSpy = jasmine.createSpyObj('DollApiService', ['getAll', 'getById']);
+    const apiSpy = jasmine.createSpyObj('DollApiService', [
+      'getAll',
+      'getById',
+    ]);
     const uiSpy = jasmine.createSpyObj('UserspaceStateService', [], {
       totalDolls: signal(0),
     });
@@ -30,13 +33,19 @@ describe('DollService', () => {
     });
 
     service = TestBed.inject(DollService);
-    apiServiceSpy = TestBed.inject(DollApiService) as jasmine.SpyObj<DollApiService>;
-    uiStateSpy = TestBed.inject(UserspaceStateService) as jasmine.SpyObj<UserspaceStateService>;
+    apiServiceSpy = TestBed.inject(
+      DollApiService,
+    ) as jasmine.SpyObj<DollApiService>;
+    uiStateSpy = TestBed.inject(
+      UserspaceStateService,
+    ) as jasmine.SpyObj<UserspaceStateService>;
   });
 
- describe('runLoadSequence Logic via setRawFilters', () => {
+  describe('runLoadSequence Logic via setRawFilters', () => {
     it('should set hasMore to true if response length equals limit', fakeAsync(() => {
-      const twelveDolls = Array(12).fill({}).map((_, i) => ({ id: `${i}` } as Doll));
+      const twelveDolls = Array(12)
+        .fill({})
+        .map((_, i) => ({ id: `${i}` }) as Doll);
       apiServiceSpy.getAll.and.resolveTo(twelveDolls);
 
       service.setRawFilters({ _limit: 12 } as any);
@@ -48,7 +57,9 @@ describe('DollService', () => {
     }));
 
     it('should set hasMore to false if response length is less than limit', fakeAsync(() => {
-      const fiveDolls = Array(5).fill({}).map((_, i) => ({ id: `${i}` } as Doll));
+      const fiveDolls = Array(5)
+        .fill({})
+        .map((_, i) => ({ id: `${i}` }) as Doll);
       apiServiceSpy.getAll.and.resolveTo(fiveDolls);
 
       service.setRawFilters({ _limit: 12 } as any);

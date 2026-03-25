@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { DollCatalogComponent } from './feature/userspace/pages/doll-catalog/doll-catalog.component';
+import { DollCatalogComponent } from './feature/userspace/pages/doll-catalog-page/doll-catalog.component';
 import { RoleGuard } from './core/guards/role.guard';
 import { UserRoles } from './shared/models';
 

@@ -10,10 +10,46 @@ export const userspaceRoutes: Routes = [
       {
         path: 'catalog',
         loadComponent: () =>
-          import('./pages/doll-catalog/doll-catalog.component').then(
+          import('./pages/doll-catalog-page/doll-catalog.component').then(
             (m) => m.DollCatalogComponent,
           ),
       },
+       {
+        path: 'favorites',
+        loadComponent: () =>
+          import('./pages/user-favorites-page/user-favorites-page').then(
+            (m) => m.UserFavoritesPage,
+          ),
+      },
+      {
+        path: 'shelf',
+        loadComponent: () =>
+          import('./pages/user-shelf-page/user-shelf-page').then(
+            (m) => m.UserShelfPage,
+          ),
+      },
+      {
+        path: 'shop',
+        loadComponent: () =>
+          import('./pages/user-shop-page/user-shop-page').then(
+            (m) => m.UserShopPage,
+          ),
+      },
+       {
+        path: 'shop',
+        loadComponent: () =>
+          import('./pages/user-shop-page/user-shop-page').then(
+            (m) => m.UserShopPage,
+          ),
+      },
+      {
+        path: 'sold-doll',
+        loadComponent: () =>
+          import('./pages/user-sold-doll-page/user-sold-doll-page').then(
+            (m) => m.UserSoldDollPage,
+          ),
+      },
+
     ],
   },
   { path: '**', redirectTo: '../404' },

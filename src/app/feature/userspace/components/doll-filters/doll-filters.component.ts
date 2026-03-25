@@ -70,20 +70,38 @@ export class DollFiltersComponent {
   });
 
   public readonly articulationOptions: T.ArticulationType[] = [
-    'Basic', 'LegsArticulated', 'ArmsArticulated', 'FullyArticulated', 'SuperArticulated', 'Other',
+    'Basic',
+    'LegsArticulated',
+    'ArmsArticulated',
+    'FullyArticulated',
+    'SuperArticulated',
+    'Other',
   ];
   public readonly bodyOptions: T.BodyVolume[] = [
-    'Standard', 'Tall', 'Petite', 'Curvy', 'SuperCurvy', 'Other',
+    'Standard',
+    'Tall',
+    'Petite',
+    'Curvy',
+    'SuperCurvy',
+    'Other',
   ];
   public readonly footOptions: T.FootType[] = [
-    'Flat Standard', 'Flat Non-Standard', 'Heeled', 'Small Heeled', 'Universal',
+    'Flat Standard',
+    'Flat Non-Standard',
+    'Heeled',
+    'Small Heeled',
+    'Universal',
   ];
   public readonly stateOptions: T.DollState[] = [
-    'New', 'Used-Collector', 'Used-Child',
+    'New',
+    'Used-Collector',
+    'Used-Child',
   ];
   public readonly statusOptions: T.DollStatus[] = ['active', 'sold', 'gifted'];
   public readonly outfitOptions: T.OutfitState[] = [
-    'original', 'nude', 'custom',
+    'original',
+    'nude',
+    'custom',
   ];
 
   public onFilterChange(): void {

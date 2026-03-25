@@ -1,5 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  Router,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
 import { RoleGuard } from './role.guard';
 import { AuthService } from '../services/auth.service';
 import { UserRoles } from '../../shared/models';
@@ -9,21 +14,23 @@ describe('RoleGuard', () => {
   let authServiceSpy: jasmine.SpyObj<AuthService>;
   let routerSpy: jasmine.SpyObj<Router>;
 
-  const executeGuard = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) =>
-    TestBed.runInInjectionContext(() => RoleGuard(route, state));
+  const executeGuard = (
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot,
+  ) => TestBed.runInInjectionContext(() => RoleGuard(route, state));
 
   beforeEach(() => {
     authServiceSpy = jasmine.createSpyObj('AuthService', [], {
       currentUser: signal(null),
-      isAuthenticated: signal(false)
+      isAuthenticated: signal(false),
     });
     routerSpy = jasmine.createSpyObj('Router', ['createUrlTree']);
 
     TestBed.configureTestingModule({
       providers: [
         { provide: AuthService, useValue: authServiceSpy },
-        { provide: Router, useValue: routerSpy }
-      ]
+        { provide: Router, useValue: routerSpy },
+      ],
     });
   });
 
@@ -31,7 +38,9 @@ describe('RoleGuard', () => {
     (authServiceSpy as any).currentUser.set({ role: UserRoles.Admin });
     (authServiceSpy as any).isAuthenticated.set(true);
 
-    const route = { data: { roles: [UserRoles.Admin, UserRoles.Client] } } as any;
+    const route = {
+      data: { roles: [UserRoles.Admin, UserRoles.Client] },
+    } as any;
     const state = {} as RouterStateSnapshot;
 
     const result = executeGuard(route, state);

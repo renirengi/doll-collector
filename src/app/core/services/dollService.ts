@@ -5,7 +5,11 @@ import {
   WritableSignal,
   Signal,
 } from '@angular/core';
-import { Doll, UserDoll, EnrichedUserDoll } from '../../shared/models/doll.model';
+import {
+  Doll,
+  UserDoll,
+  EnrichedUserDoll,
+} from '../../shared/models/doll.model';
 import { DollCatalogFilters } from '../../shared/models/doll-filters.model';
 import { DollApiService } from '../../../api/services/doll.api';
 import { UserspaceStateService } from '../../feature/userspace/service/userspace-state.service';
@@ -38,7 +42,11 @@ export class DollService {
    * @param baseFilters - New filter configuration.
    */
   public async setRawFilters(baseFilters: DollCatalogFilters): Promise<void> {
-    const updated: DollCatalogFilters = { ...baseFilters, _page: 1, _limit: 12 };
+    const updated: DollCatalogFilters = {
+      ...baseFilters,
+      _page: 1,
+      _limit: 12,
+    };
     this.filters.set(updated);
     return this.runLoadSequence(updated);
   }
@@ -99,7 +107,6 @@ export class DollService {
 
       const limit = currentFilters._limit || 12;
       this.hasMore.set(response.length === limit);
-
     } catch (error) {
       this.hasMore.set(false);
       if (currentFilters._page === 1) {
@@ -117,22 +124,27 @@ export class DollService {
    * @param userDolls - Array of user-owned doll records.
    * @returns A promise resolving to enriched user dolls.
    */
-  private async enrichUserDolls(userDolls: UserDoll[]): Promise<EnrichedUserDoll[]> {
+  private async enrichUserDolls(
+    userDolls: UserDoll[],
+  ): Promise<EnrichedUserDoll[]> {
     const catalogIds: string[] = [
-      ...new Set(userDolls.map((ud) => ud.dollId).filter((id): id is string => !!id)),
+      ...new Set(
+        userDolls.map((ud) => ud.dollId).filter((id): id is string => !!id),
+      ),
     ];
 
     const catalogData: Doll[] = await Promise.all(
       catalogIds.map((id) => this.apiService.getById(id)),
     );
 
-    const catalogMap = new Map<string, Doll>(
-      catalogData.map((d) => [d.id, d])
-    );
+    const catalogMap = new Map<string, Doll>(catalogData.map((d) => [d.id, d]));
 
-    return userDolls.map((ud) => ({
-      ...ud,
-      catalogInfo: ud.dollId ? catalogMap.get(ud.dollId) : undefined,
-    } as EnrichedUserDoll));
+    return userDolls.map(
+      (ud) =>
+        ({
+          ...ud,
+          catalogInfo: ud.dollId ? catalogMap.get(ud.dollId) : undefined,
+        }) as EnrichedUserDoll,
+    );
   }
 }
