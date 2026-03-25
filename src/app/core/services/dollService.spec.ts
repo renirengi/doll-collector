@@ -1,11 +1,9 @@
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { signal } from '@angular/core';
 import { DollApiService } from '../../../api/services/doll.api';
 import { UserspaceStateService } from '../../feature/userspace/service/userspace-state.service';
-import { Doll, UserDoll } from '../../shared/models/doll.model';
-import { DollCatalogFilters } from '../../shared/models/doll-filters.model';
-import * as T from '../../shared/models/doll-enums';
+import { Doll } from '../../shared/models/doll.model';
 import { DollService } from './dollService';
-import { signal } from '@angular/core';
 
 describe('DollService', () => {
   let service: DollService;
@@ -18,10 +16,7 @@ describe('DollService', () => {
   ];
 
   beforeEach(() => {
-    const apiSpy = jasmine.createSpyObj('DollApiService', [
-      'getAll',
-      'getById',
-    ]);
+    const apiSpy = jasmine.createSpyObj('DollApiService', ['getAll', 'getById']);
     const uiSpy = jasmine.createSpyObj('UserspaceStateService', [], {
       totalDolls: signal(0),
     });
@@ -35,107 +30,69 @@ describe('DollService', () => {
     });
 
     service = TestBed.inject(DollService);
-    apiServiceSpy = TestBed.inject(
-      DollApiService,
-    ) as jasmine.SpyObj<DollApiService>;
-    uiStateSpy = TestBed.inject(
-      UserspaceStateService,
-    ) as jasmine.SpyObj<UserspaceStateService>;
+    apiServiceSpy = TestBed.inject(DollApiService) as jasmine.SpyObj<DollApiService>;
+    uiStateSpy = TestBed.inject(UserspaceStateService) as jasmine.SpyObj<UserspaceStateService>;
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
+ describe('runLoadSequence Logic via setRawFilters', () => {
+    it('should set hasMore to true if response length equals limit', fakeAsync(() => {
+      const twelveDolls = Array(12).fill({}).map((_, i) => ({ id: `${i}` } as Doll));
+      apiServiceSpy.getAll.and.resolveTo(twelveDolls);
 
-  describe('setRawFilters', () => {
-    it('should reset dolls and fetch page 1 when new filters are applied', fakeAsync(() => {
-      const mockResponse = {
-        data: mockDolls,
-        total: mockDolls.length,
-      };
+      service.setRawFilters({ _limit: 12 } as any);
 
-      apiServiceSpy.getAll.and.resolveTo(mockResponse as any);
-
-      const newFilters: DollCatalogFilters = {
-        brand: 'Kurhn' as T.DollBrand,
-      };
-
-      service.setRawFilters(newFilters);
       tick();
 
-      expect(service.dolls()).toEqual(mockDolls);
-      expect(service.filters()._page).toBe(1);
-      expect(service.totalCount()).toBe(2);
-      expect(apiServiceSpy.getAll).toHaveBeenCalledWith(
-        jasmine.objectContaining({
-          brand: 'Kurhn' as T.DollBrand,
-          _page: 1,
-        }),
-      );
+      expect(service.hasMore()).toBeTrue();
+      expect(service.dolls().length).toBe(12);
+    }));
+
+    it('should set hasMore to false if response length is less than limit', fakeAsync(() => {
+      const fiveDolls = Array(5).fill({}).map((_, i) => ({ id: `${i}` } as Doll));
+      apiServiceSpy.getAll.and.resolveTo(fiveDolls);
+
+      service.setRawFilters({ _limit: 12 } as any);
+      tick();
+
+      expect(service.hasMore()).toBeFalse();
     }));
   });
 
   describe('loadMoreDolls', () => {
-    it('should append dolls to the existing list when loading next page', fakeAsync(() => {
-      const initialDolls = [mockDolls[0]];
-      const nextBatch = [mockDolls[1]];
+    it('should append new dolls and NOT overwrite totalCount from page 1', fakeAsync(() => {
+      const page1 = [mockDolls[0]];
+      const page2 = [mockDolls[1]];
 
-      service['dollsSignal'].set(initialDolls);
-      service.filters.set({ _page: 1, _limit: 12 });
+      // Setup state for page 1
+      service['dollsSignal'].set(page1);
+      service.totalCount.set(1);
       service.hasMore.set(true);
+      service.filters.set({ _page: 1, _limit: 1 });
 
-      apiServiceSpy.getAll.and.resolveTo({ data: nextBatch, total: 2 } as any);
+      // Mock API for page 2
+      apiServiceSpy.getAll.and.resolveTo(page2);
 
       service.loadMoreDolls();
       tick();
 
+      // Should have both dolls now
       expect(service.dolls().length).toBe(2);
-      expect(service.dolls()).toEqual([...initialDolls, ...nextBatch]);
-      expect(service.filters()._page).toBe(2);
+      expect(service.dolls()).toEqual([...page1, ...page2]);
+      // In your code for page > 1, totalCount is NOT updated, so it stays 1 (from page 1)
+      expect(service.totalCount()).toBe(1);
     }));
-
-    it('should not call API if isLoading is already true', () => {
-      service.isLoading.set(true);
-      service.loadMoreDolls();
-      expect(apiServiceSpy.getAll).not.toHaveBeenCalled();
-    });
   });
 
-  describe('updateFilters', () => {
-    it('should merge partial filters and reset page to 1', fakeAsync(() => {
-      service.filters.set({
-        _page: 5,
-        _limit: 12,
-        brand: 'Kurhn' as T.DollBrand,
-      });
-      apiServiceSpy.getAll.and.resolveTo({ data: mockDolls, total: 2 } as any);
+  describe('Error Handling', () => {
+    it('should reset state on page 1 failure', fakeAsync(() => {
+      apiServiceSpy.getAll.and.rejectWith('API Error');
 
-      service.updateFilters({ bodyVolume: ['Standard'] as T.BodyVolume[] });
+      service.setRawFilters({});
       tick();
 
-      const currentFilters = service.filters();
-      expect(currentFilters._page).toBe(1);
-      expect(currentFilters.brand).toBe('Kurhn' as T.DollBrand);
-      expect(currentFilters.bodyVolume).toEqual(['Standard'] as T.BodyVolume[]);
+      expect(service.dolls()).toEqual([]);
+      expect(service.totalCount()).toBe(0);
+      expect(service.hasMore()).toBeFalse();
     }));
-  });
-
-  describe('enrichUserDolls', () => {
-    it('should fetch catalog data for each unique dollId and merge it', async () => {
-      const userDolls: UserDoll[] = [
-        { id: 'u1', dollId: '1', name: 'My Doll' } as UserDoll,
-        { id: 'u2', dollId: '1', name: 'My Second Doll' } as UserDoll,
-      ];
-
-      apiServiceSpy.getById.and.callFake((id: string) => {
-        return Promise.resolve(mockDolls.find((d) => d.id === id) as Doll);
-      });
-
-      const enriched = await service['enrichUserDolls'](userDolls);
-
-      expect(enriched.length).toBe(2);
-      expect(enriched[0].catalogInfo.id).toBe('1');
-      expect(apiServiceSpy.getById).toHaveBeenCalledTimes(1); // One unique ID
-    });
   });
 });

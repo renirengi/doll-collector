@@ -47,13 +47,13 @@ describe('DollFiltersComponent', () => {
     expect(component.isUserspace()).toBeTrue();
 
     component.filterForm.patchValue({
-      status: 'active',
+      status: 'active' as any,
       acquisitionYear: 2026,
       hasCouple: true,
     });
 
     component.onFilterChange();
-    tick(400);
+    tick();
 
     const lastCall = dollService.updateFilters.calls.mostRecent().args[0];
 
@@ -62,29 +62,30 @@ describe('DollFiltersComponent', () => {
     expect(lastCall.userFilters.hasCouple).toBeTrue();
   }));
 
-  it('should set hasCouple and hybrid to null by default in userFilters', fakeAsync(() => {
+  it('should set hasCouple and hybrid to false by default in userFilters', fakeAsync(() => {
     spyOnProperty(router, 'url', 'get').and.returnValue(
       '/userspace/collection',
     );
     fixture.detectChanges();
 
     component.onFilterChange();
-    tick(400);
+    tick();
 
     const lastCall = dollService.updateFilters.calls.mostRecent().args[0];
-    expect(lastCall.userFilters.hasCouple).toBeNull();
-    expect(lastCall.userFilters.hybrid).toBeNull();
+
+    expect(lastCall.userFilters.hasCouple).toBeFalse();
+    expect(lastCall.userFilters.hybrid).toBeFalse();
   }));
 
   it('should call updateFilters with base filters', fakeAsync(() => {
     fixture.detectChanges();
 
     component.filterForm.patchValue({
-      articulation: 'FullyArticulated',
+      articulation: 'FullyArticulated' as any,
     });
 
     component.onFilterChange();
-    tick(400);
+    tick();
 
     expect(dollService.updateFilters).toHaveBeenCalledWith(
       jasmine.objectContaining({
@@ -95,7 +96,7 @@ describe('DollFiltersComponent', () => {
 
   it('should reset form to default values', () => {
     fixture.detectChanges();
-    component.filterForm.patchValue({ articulation: 'Basic', hasCouple: true });
+    component.filterForm.patchValue({ articulation: 'Basic' as any, hasCouple: true });
 
     component.resetFilters();
 

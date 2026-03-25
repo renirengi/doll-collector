@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 import { AuthApiService } from '../../../api/services/auth.api';
 import { TokenService } from './token.services';
 import { of, throwError } from 'rxjs';
-import { User, AuthResponse } from '../../shared/models/auth.model';
+import { User, AuthResponse, UserRoles } from '../../shared/models';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -18,6 +18,7 @@ describe('AuthService', () => {
     username: 'johndoe',
     firstName: 'John',
     lastName: 'Doe',
+    role: UserRoles.Client,
     avatar: null,
     createdAt: '2026-01-01T00:00:00Z',
     updatedAt: '2026-01-01T00:00:00Z',
@@ -57,7 +58,7 @@ describe('AuthService', () => {
   });
 
   describe('login', () => {
-    it('should successfully login, set session and navigate to catalog', async () => {
+    it('should successfully login, set session and navigate to /user/catalog', async () => {
       authApiMock.signIn.and.returnValue(of(mockAuthResponse));
 
       const credentials = {
@@ -74,8 +75,7 @@ describe('AuthService', () => {
       const storedUser = JSON.parse(localStorage.getItem('user')!);
       expect(storedUser.email).toBe('test@example.com');
       expect(service.currentUser()).toEqual(mockUser);
-
-      expect(routerMock.navigate).toHaveBeenCalledWith(['/catalog']);
+      expect(routerMock.navigate).toHaveBeenCalledWith(['/user/catalog']);
     });
 
     it('should catch and rethrow API errors', async () => {
@@ -92,7 +92,7 @@ describe('AuthService', () => {
   });
 
   describe('logout', () => {
-    it('should clear token, storage and redirect to login', () => {
+    it('should clear token, storage and redirect to /auth/signin', () => {
       localStorage.setItem('user', JSON.stringify(mockUser));
       service.currentUser.set(mockUser);
 
@@ -101,21 +101,19 @@ describe('AuthService', () => {
       expect(tokenServiceMock.clearToken).toHaveBeenCalled();
       expect(localStorage.getItem('user')).toBeNull();
       expect(service.currentUser()).toBeNull();
-      expect(routerMock.navigate).toHaveBeenCalledWith(['/login']);
+      expect(routerMock.navigate).toHaveBeenCalledWith(['/auth/signin']);
     });
   });
 
   describe('isAuthenticated', () => {
-    it('should return true when user exists and token is valid', () => {
-      service.currentUser.set(mockUser);
+    it('should return true when token is valid', () => {
       tokenServiceMock.isAuthenticated.and.returnValue(true);
 
       expect(service.isAuthenticated()).toBeTrue();
     });
 
-    it('should return false when user is missing', () => {
-      service.currentUser.set(null);
-      tokenServiceMock.isAuthenticated.and.returnValue(true);
+    it('should return false when token is invalid', () => {
+      tokenServiceMock.isAuthenticated.and.returnValue(false);
 
       expect(service.isAuthenticated()).toBeFalse();
     });
