@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { UserspaceStateService } from '../../service/userspace-state.service';
-import { MatIcon } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  imports: [],
+  imports: [RouterLink],
   standalone: true,
   templateUrl: './header.component.html',
   styleUrl: 'header.component.scss',

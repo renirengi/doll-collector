@@ -1,38 +1,53 @@
 @use "./styles/_mixins.scss" as *;
 @use "./styles/_icon-basic.scss" as *;
 
+$app-header-edge-glow: #ff8c00;
+
 :host {
   display: block;
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1100;
+  z-index: 1200;
   height: var(--app-header-height);
   background: var(--app-gradient-sunset);
   width: 100%;
-  padding: 0 2rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 0 2rem 0 0.3rem;
+  border-bottom: 1px solid #ffc107;
+
   color: white;
   box-sizing: border-box;
+
+  backdrop-filter: blur(10px);
+
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    height: 15px;
+
+    background: linear-gradient(
+      to bottom,
+      $app-header-edge-glow 0%,
+      rgba($app-header-edge-glow, 1) 95%,
+      transparent 100%
+    );
+
+    filter: blur(8px);
+
+    z-index: -1;
+    pointer-events: none;
+  }
 
   .header-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-
-  .total-badge {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(5px);
-    padding: 0.5rem 1rem;
-    border-radius: 50px;
-    font-size: 0.85rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-
-    .doll-count {
-      color: var(--app-bg-card);
-      font-weight: 700;
-    }
+    height: 100%;
+    position: relative;
+    z-index: 1;
   }
 
   .logo-wrapper {
@@ -40,22 +55,38 @@
     align-items: center;
     gap: 1rem;
 
-    .header-logo {
-      height: 70px;
-      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
-    }
+    .logo-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      cursor: pointer;
+      outline: none;
 
-    .header-title {
-      font-family: "Poppins", sans-serif;
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin: 0;
-      letter-spacing: 0.5px;
-
-      span {
-        font-weight: 300;
-        opacity: 0.9;
+      &:hover .header-logo {
+        transform: scale(1.05);
       }
     }
+
+    .header-logo {
+      position: absolute;
+      top: 0.4rem;
+      left: 0;
+      height: 70px;
+      width: 70px;
+      border-bottom: 5px solid var(--celestial-ink);
+
+      filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.2));
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  .header-stats {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
   }
 }

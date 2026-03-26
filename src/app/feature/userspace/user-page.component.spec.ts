@@ -7,12 +7,10 @@ describe('UserPageComponent', () => {
   let component: UserPageComponent;
   let fixture: ComponentFixture<UserPageComponent>;
 
- beforeEach(async () => {
+  beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [UserPageComponent],
-      providers: [
-        provideRouter([])
-      ]
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(UserPageComponent);
