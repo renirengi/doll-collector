@@ -14,7 +14,7 @@ export const userspaceRoutes: Routes = [
             (m) => m.DollCatalogComponent,
           ),
       },
-       {
+      {
         path: 'favorites',
         loadComponent: () =>
           import('./pages/user-favorites-page/user-favorites-page').then(
@@ -35,13 +35,6 @@ export const userspaceRoutes: Routes = [
             (m) => m.UserShopPage,
           ),
       },
-       {
-        path: 'shop',
-        loadComponent: () =>
-          import('./pages/user-shop-page/user-shop-page').then(
-            (m) => m.UserShopPage,
-          ),
-      },
       {
         path: 'sold-doll',
         loadComponent: () =>
@@ -49,7 +42,6 @@ export const userspaceRoutes: Routes = [
             (m) => m.UserSoldDollPage,
           ),
       },
-
     ],
   },
   { path: '**', redirectTo: '../404' },

@@ -1,3 +1,28 @@
+@use "./styles/icon-basic" as *;
 :host {
   background: var(--app-gradient-sunset-vertical);
+  width: 70px;
+  min-height: 100vh;
+
+  aside.user-sidebar {
+    margin-top: calc(0px - var(--header-height));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    ul.sidebar-menu {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 80px;
+      padding: 80px 0 0 0;
+    }
+
+    li {
+      :hover {
+        cursor: pointer;
+        outline: none;
+      }
+    }
+  }
 }
