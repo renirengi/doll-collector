@@ -1,7 +1,10 @@
 @use "./styles/icon-basic" as *;
 
+$colon-bg: #1a152e;
+$accent-purple: #9d50bb;
+
 :host {
-  background: var(--app-gradient-sunset-vertical);
+  background: $colon-bg;
   width: 75px;
   height: 100vh;
   position: fixed;
@@ -9,55 +12,28 @@
   left: 0;
   z-index: 1000;
   display: block;
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
 
   aside.user-sidebar {
-    padding-top: var(--app-header-height);
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-top: var(--app-header-height, 80px);
 
     ul.sidebar-menu {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 80px;
-
-      margin: 130px 0;
+      gap: 30px;
+      padding: 50px 0 0 0;
+      margin: 0;
     }
 
     li {
       display: flex;
       justify-content: center;
-
-      &:hover {
-        cursor: pointer;
-        outline: none;
-      }
-    }
-
-    .icon-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      text-decoration: none;
-      box-sizing: border-box;
-      transition: all 0.2s ease-in-out;
-
-      .icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      &.active {
-        background: white;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      }
     }
   }
 }

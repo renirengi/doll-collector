@@ -10,7 +10,7 @@ import { Sidebar } from './components/sidebar/sidebar.component';
     <app-header></app-header>
     <!-- <app-user-sidebar-mobile></app-user-sidebar-mobile> -->
 
-    <section class="user-page-container">
+    <section class="user-page-container ml-[75px]">
       <app-sidebar></app-sidebar>
       <router-outlet></router-outlet>
     </section>

@@ -48,46 +48,14 @@
   --celestial-ink: #070f2f;
   --shadow-navy: #171822;
 
-  --app-gradient-sunset: linear-gradient(
-    180deg,
-    #4f46e5 0%,
-    #e91e63 35%,
-    #ff5722 65%,
-    #ffc107 100%,
-    #4f46e5 100%
-  );
-
-  --app-gradient-sunset-vertical: linear-gradient(
-    180deg,
-    #ffc107 0%,
-    #ff5722 35%,
-    #e91e63 65%,
-    #4f46e5 100%
-  );
-
-  --app-gradient-twilight: linear-gradient(
-    45deg,
-    #311b92 0%,
-    #ec407a 40%,
-    #ff9800 80%,
-    #ffee58 100%
-  );
-
-  --app-gradient-radial: radial-gradient(
-    circle,
-    #ffeb3b 0%,
-    #ff9800 30%,
-    #f48fb1 60%,
-    #5c6bc0 100%
-  );
-
-  --app-gradient-glass: linear-gradient(
-    160deg,
-    rgba(79, 70, 229, 0.1) 0%,
-    rgba(233, 30, 99, 0.15) 40%,
-    rgba(255, 152, 0, 0.1) 80%,
-    rgba(255, 235, 59, 0.05) 100%
-  );
+  --app-header-gradient: linear-gradient(90deg, $dawn-start 0%, $dawn-end 100%)
+    --app-gradient-glass: linear-gradient(
+      160deg,
+      rgba(79, 70, 229, 0.1) 0%,
+      rgba(233, 30, 99, 0.15) 40%,
+      rgba(255, 152, 0, 0.1) 80%,
+      rgba(255, 235, 59, 0.05) 100%
+    );
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
 
@@ -99,6 +67,13 @@
   );
 
   --app-header-height: 75px;
+  --app-sidebar-bg: #1a152e;
+
+  --app-header-grad-start: #ffccac;
+  --app-header-grad-end: #d4a5ff;
+
+  --app-accent-glow: #9d50bb;
+  --app-border-orange: #ffc107;
   /* Fonts */
   --main-font:
     "Lato", ui-sans-serif, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
