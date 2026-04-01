@@ -4,57 +4,79 @@ import { firstValueFrom } from 'rxjs';
 import { DollCatalogFilters } from '../../app/shared/models/doll-filters.model';
 import { Doll } from '../../app/shared/models';
 
+/**
+ * Service responsible for interacting with the /dolls API endpoints.
+ * Handles filtering, sorting, and CRUD operations for the doll collection.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class DollApiService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = '/doll';
+  private readonly apiUrl = '/dolls';
 
   /**
-   * Fetches dolls from the server based on catalog and user-specific filters.
-   * Uses POST /doll/filter if selection criteria are provided,
-   * otherwise falls back to GET /doll/all for simple fetching.
-   * Pagination parameters (_page, _limit) are always sent as query parameters.
-   * @param filters - Selection criteria (including nested userFilters) and pagination parameters.
-   * @returns A promise that resolves to an array of dolls.
+   * Orchestrates doll data fetching by deciding between simple listing,
+   * complex filtering, or specialized sorting endpoints.
+   * * @param filters - Configuration object containing pagination, sorting, and criteria.
+   * @returns A promise resolving to an array of Doll objects.
+   * @throws Will throw an error if the backend returns a non-2xx response.
    */
   public async getAll(filters: DollCatalogFilters): Promise<Doll[]> {
     const { _page, _limit, _sort, _order, userFilters, ...catalogCriteria } =
       filters;
 
-    /**
-     * Merge catalog-level criteria with nested user-specific filters into a single body.
-     * This creates a flat object for the POST body as required by the backend.
-     */
+    // 1. Specialized Sorting Logic
+    // If sort parameters are present, bypass standard filters and use sorting endpoints.
+    if (_sort && _order) {
+      const isOwned = !!userFilters;
+      const url = isOwned ? `${this.apiUrl}/sortOwned` : `${this.apiUrl}/sort`;
+
+      const sortBody = isOwned
+        ? { ownedDollSortBy: _sort, dollSortOrder: _order }
+        : { dollSortBy: _sort, dollSortOrder: _order };
+
+      return firstValueFrom(this.http.post<Doll[]>(url, sortBody));
+    }
+
+    // 2. Criteria Mapping & Flattening
+    // Merge catalog-level criteria with user-specific filters into a flat object.
     const combinedCriteria = {
       ...catalogCriteria,
       ...(userFilters || {}),
     };
 
-    // Filter out null, undefined, empty strings, and empty arrays from the criteria body
+    /**
+     * Map frontend property names to match the backend Swagger naming convention.
+     * purchaseStates -> purchaseState
+     * status -> dollStatus
+     */
+    const mappedCriteria: any = { ...combinedCriteria };
+    if (mappedCriteria.purchaseStates) {
+      mappedCriteria.purchaseState = mappedCriteria.purchaseStates;
+      delete mappedCriteria.purchaseStates;
+    }
+    if (mappedCriteria.status) {
+      mappedCriteria.dollStatus = mappedCriteria.status;
+      delete mappedCriteria.status;
+    }
+
+    // Remove empty arrays, nulls, and undefined values to keep the request body clean.
     const cleanCriteria = Object.fromEntries(
-      Object.entries(combinedCriteria).filter(([_, v]) => {
+      Object.entries(mappedCriteria).filter(([_, v]) => {
         if (Array.isArray(v)) return v.length > 0;
         return v !== undefined && v !== null && v !== '';
       }),
     );
 
-    const hasCriteria = Object.keys(cleanCriteria).length > 0;
-
-    // Build pagination and sorting query parameters
-    let params = new HttpParams()
+    // 3. Request Execution
+    // Set pagination query parameters.
+    const params = new HttpParams()
       .set('_page', _page?.toString() || '1')
       .set('_limit', _limit?.toString() || '12');
 
-    if (_sort) params = params.set('_sort', _sort);
-    if (_order) params = params.set('_order', _order);
-
-    if (hasCriteria) {
-      /**
-       * Use POST method for complex filtering as per Swagger documentation.
-       * Combined criteria are sent in the request body, while pagination stays in query params.
-       */
+    // Use POST /filter for complex criteria, otherwise fallback to GET /all.
+    if (Object.keys(cleanCriteria).length > 0) {
       return firstValueFrom(
         this.http.post<Doll[]>(`${this.apiUrl}/filter`, cleanCriteria, {
           params,
@@ -62,46 +84,41 @@ export class DollApiService {
       );
     }
 
-    /**
-     * Default to GET /all if no filters are selected.
-     */
     return firstValueFrom(
       this.http.get<Doll[]>(`${this.apiUrl}/all`, { params }),
     );
   }
 
   /**
-   * Fetches a single doll by its unique identifier.
-   * @param id - The unique UUID of the doll.
-   * @returns A promise that resolves to the doll object.
+   * Retrieves a single doll record by its unique identifier.
+   * @param id - The UUID of the doll.
    */
   public async getById(id: string): Promise<Doll> {
     return firstValueFrom(this.http.get<Doll>(`${this.apiUrl}/${id}`));
   }
 
   /**
-   * Creates a new doll entry in the user's collection.
-   * @param data - Partial doll data to be saved.
-   * @returns A promise that resolves to the newly created doll.
+   * Persists a new doll entry.
+   * @param data - Partial doll data for creation.
    */
   public async create(data: Partial<Doll>): Promise<Doll> {
     return firstValueFrom(this.http.post<Doll>(this.apiUrl, data));
   }
 
   /**
-   * Updates an existing doll's information via partial update (PATCH).
-   * @param id - The unique UUID of the doll to update.
+   * Performs a partial update on an existing doll record.
+   * @param id - The UUID of the target doll.
    * @param data - The fields to be updated.
-   * @returns A promise that resolves to the updated doll object.
    */
   public async update(id: string, data: Partial<Doll>): Promise<Doll> {
-    return firstValueFrom(this.http.patch<Doll>(`${this.apiUrl}/${id}`, data));
+    return firstValueFrom(
+      this.http.patch<Doll>(`${this.apiUrl}/${id}/update`, data),
+    );
   }
 
   /**
-   * Removes a doll from the user's collection.
-   * @param id - The unique UUID of the doll to be deleted.
-   * @returns A promise that resolves when the deletion is complete.
+   * Permanently deletes a doll record and its associated metadata.
+   * @param id - The UUID of the doll to remove.
    */
   public async delete(id: string): Promise<void> {
     return firstValueFrom(this.http.delete<void>(`${this.apiUrl}/${id}`));

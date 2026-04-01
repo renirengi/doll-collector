@@ -1,6 +1,6 @@
 <mat-card class="doll-card" (click)="onCardClick()">
   <div class="image-container">
-    <img [src]="d.photos?.[0]?.imageUrl" [alt]="d.originalName" />
+    <img [src]="d.photos?.[0]?.url" [alt]="d.originalName" />
     <div class="body-badge">{{ d.bodyVolume }}</div>
   </div>
 

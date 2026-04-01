@@ -16,10 +16,13 @@ import {
   DollUsersFilters,
 } from '../../../../shared/models/doll-filters.model';
 
+/**
+ * Interface for the internal Reactive Form state.
+ */
 interface FilterForm {
   sortData: FormControl<{
-    field: 'price' | 'releaseYear' | 'acquisitionYear';
-    order: 'asc' | 'desc';
+    field: 'releaseYear' | 'soldPrice' | 'acquisitionYear' | 'createdAt';
+    order: 'ASC' | 'DESC';
   } | null>;
   articulation: FormControl<T.ArticulationType | null>;
   bodyVolume: FormControl<T.BodyVolume | null>;
@@ -52,8 +55,13 @@ export class DollFiltersComponent {
   private readonly router = inject(Router);
   public readonly dollService = inject(DollService);
 
-  public readonly isUserspace = computed(() =>
-    this.router.url.includes('userspace'),
+  /**
+   * Determine if we are in the user's personal shelf context based on the URL.
+   */
+  public readonly isUserspace = computed(
+    () =>
+      this.router.url.includes('shelf') ||
+      this.router.url.includes('userspace'),
   );
 
   public readonly filterForm = new FormGroup<FilterForm>({
@@ -69,6 +77,7 @@ export class DollFiltersComponent {
     acquisitionYear: new FormControl(null),
   });
 
+  // Options for dropdowns sourced from enums
   public readonly articulationOptions: T.ArticulationType[] = [
     'Basic',
     'LegsArticulated',
@@ -104,38 +113,51 @@ export class DollFiltersComponent {
     'custom',
   ];
 
+  /**
+   * Triggers when any filter value changes.
+   * Maps form values to DollCatalogFilters structure.
+   */
   public onFilterChange(): void {
     const raw = this.filterForm.getRawValue();
 
+    // Mapping base catalog filters
     const filters: DollCatalogFilters = {
       _page: 1,
       _limit: 12,
       articulation: raw.articulation ? [raw.articulation] : undefined,
       bodyVolume: raw.bodyVolume ? [raw.bodyVolume] : undefined,
       footType: raw.footType ? [raw.footType] : undefined,
-      _sort: raw.sortData?.field ?? undefined,
-      _order: raw.sortData?.order ?? undefined,
+      _sort: raw.sortData?.field,
+      _order: raw.sortData?.order,
     };
 
+    // Mapping user-specific shelf filters if in userspace
     if (this.isUserspace()) {
-      const userFilters: DollUsersFilters = {
-        acquisitionYear: raw.acquisitionYear ? [raw.acquisitionYear] : [],
-        purchaseStates: raw.purchaseStates ? [raw.purchaseStates] : undefined,
-        status: raw.status ? [raw.status] : undefined,
+      filters.userFilters = {
+        // Backend expects years as an array [2024]
+        acquisitionYear: raw.acquisitionYear
+          ? [raw.acquisitionYear]
+          : undefined,
+        // Aligning property names with Swagger expected keys
+        purchaseState: raw.purchaseStates ? [raw.purchaseStates] : undefined,
+        dollStatus: raw.status ? [raw.status] : undefined,
         outfitState: raw.outfitState ? [raw.outfitState] : undefined,
         hasCouple: raw.hasCouple ?? null,
         hybrid: raw.hybrid ?? null,
       };
-      filters.userFilters = userFilters;
     }
 
     this.dollService.updateFilters(filters);
   }
 
+  /**
+   * Resets the form to its initial state and clears service filters.
+   */
   public resetFilters(): void {
     this.filterForm.reset({
       hasCouple: false,
       hybrid: false,
+      sortData: null,
     });
 
     this.filterForm.markAsPristine();

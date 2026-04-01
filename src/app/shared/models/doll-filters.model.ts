@@ -1,41 +1,51 @@
 import * as T from './doll-enums';
 
+/**
+ * Represents the combined filtering and pagination state
+ * for both the global catalog and the user's personal shelf.
+ */
 export interface DollCatalogFilters {
-  // Pagination
+  // Pagination (Query params)
   _page?: number;
   _limit?: number;
 
   // Sorting
-  _sort?: 'price' | 'releaseYear' | 'acquisitionYear';
-  _order?: 'asc' | 'desc';
+  // For /dolls/sort use 'releaseYear'
+  // For /dolls/sortOwned use 'soldPrice' or 'acquisitionYear'
+  _sort?: 'releaseYear' | 'soldPrice' | 'acquisitionYear' | 'createdAt';
+  _order?: 'ASC' | 'DESC'; // Strict uppercase for backend compatibility
 
-  // Context fields (from URL or navigation)
+  // Catalog Criteria
   manufacturer?: string | T.Manufacturer | null;
-
-  // Multi-select or single value from URL
   brand?: T.DollBrand | T.DollBrand[] | null;
-
-  // Multi-select filters
   articulation?: T.ArticulationType[];
   bodyVolume?: T.BodyVolume[];
   footType?: T.FootType[];
-
-  // Optional filters
   releaseYear?: number | number[];
   gender?: T.Gender[];
 
+  // Nested User-Specific Filters
   userFilters?: DollUsersFilters;
 }
 
+/**
+ * Represents ownership-specific filters.
+ * Field names are aligned with POST /dolls/filter request body.
+ */
 export interface DollUsersFilters {
-  acquisitionYear: number | number[];
+  // Array of years as per Swagger example [0]
+  acquisitionYear?: number[];
+
+  // Property names must match backend expected keys
+  purchaseState?: T.DollState[]; // Renamed from purchaseStates
+  dollStatus?: T.DollStatus[]; // Renamed from status
+  outfitState?: T.OutfitState[];
+
+  // Boolean flags
+  hasCouple?: boolean | null;
+  hybrid?: boolean | null;
+
+  // Additional fields if inherited from base Doll
   bodyVolume?: T.BodyVolume[];
   footType?: T.FootType[];
-  purchaseStates?: T.DollState[];
-  status?: T.DollStatus[];
-
-  hasCouple?: boolean | null;
-
-  outfitState?: T.OutfitState[];
-  hybrid?: boolean | null;
 }

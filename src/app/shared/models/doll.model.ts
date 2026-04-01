@@ -1,8 +1,8 @@
 import * as T from './doll-enums';
 
 export interface DollImage {
-  imageUrl: string;
-  notesImage: string;
+  url: string;
+  description: string | null;
 }
 
 export interface Pet {

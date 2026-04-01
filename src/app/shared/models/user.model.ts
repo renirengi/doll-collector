@@ -13,7 +13,7 @@ export interface User {
   firstName: string;
   lastName: string;
   avatar: string | null;
-  createdAt: string;
-  updatedAt: string;
-  ownedDoll?: UserDoll[];
+  createdAt?: string;
+  updatedAt?: string;
+  dollIds?: UserDoll[];
 }
