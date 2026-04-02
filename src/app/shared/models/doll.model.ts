@@ -6,8 +6,11 @@ export interface DollImage {
 }
 
 export interface Pet {
+  id?: string;
+  dollsId: Doll[];
+  version?: string;
   type: string;
-  name: string;
+  name?: string;
   notes?: string;
 }
 export interface Hybrid {

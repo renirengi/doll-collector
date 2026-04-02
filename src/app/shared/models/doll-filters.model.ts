@@ -1,3 +1,4 @@
+import { FormControl } from '@angular/forms';
 import * as T from './doll-enums';
 
 /**
@@ -48,4 +49,25 @@ export interface DollUsersFilters {
   // Additional fields if inherited from base Doll
   bodyVolume?: T.BodyVolume[];
   footType?: T.FootType[];
+}
+
+export interface FilterForm {
+  sortData: FormControl<{
+    field: 'releaseYear' | 'soldPrice' | 'acquisitionYear' | 'createdAt';
+    order: 'ASC' | 'DESC';
+  } | null>;
+  articulation: FormControl<T.ArticulationType | null>;
+  bodyVolume: FormControl<T.BodyVolume | null>;
+  footType: FormControl<T.FootType | null>;
+  status: FormControl<T.DollStatus | null>;
+  purchaseStates: FormControl<T.DollState | null>;
+  outfitState: FormControl<T.OutfitState | null>;
+  hasCouple: FormControl<boolean | null>;
+  hybrid: FormControl<boolean | null>;
+  acquisitionYear: FormControl<number | null>;
+}
+
+export interface SortValue {
+  field: string;
+  order: 'ASC' | 'DESC';
 }

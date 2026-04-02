@@ -39,13 +39,13 @@ describe('DollFiltersComponent', () => {
   });
 
   it('should include userFilters when in userspace', fakeAsync(() => {
-    // Симулируем переход в userspace
-    spyOnProperty(router, 'url', 'get').and.returnValue('/userspace/collection');
+    spyOnProperty(router, 'url', 'get').and.returnValue(
+      '/userspace/collection',
+    );
     fixture.detectChanges();
 
     expect(component.isUserspace()).toBeTrue();
 
-    // Заполняем форму
     component.filterForm.patchValue({
       status: 'active' as any,
       acquisitionYear: 2026,
@@ -58,15 +58,15 @@ describe('DollFiltersComponent', () => {
     const lastCall = dollService.updateFilters.calls.mostRecent().args[0];
 
     expect(lastCall.userFilters).toBeDefined();
-    // ПРАВКА: теперь поле называется dollStatus, а не status
     expect(lastCall.userFilters.dollStatus).toEqual(['active']);
     expect(lastCall.userFilters.hasCouple).toBeTrue();
-    // ПРАВКА: проверка года как массива [2026]
     expect(lastCall.userFilters.acquisitionYear).toEqual([2026]);
   }));
 
   it('should set hasCouple and hybrid to false by default in userFilters', fakeAsync(() => {
-    spyOnProperty(router, 'url', 'get').and.returnValue('/userspace/collection');
+    spyOnProperty(router, 'url', 'get').and.returnValue(
+      '/userspace/collection',
+    );
     fixture.detectChanges();
 
     component.onFilterChange();
@@ -113,7 +113,7 @@ describe('DollFiltersComponent', () => {
     fixture.detectChanges();
 
     component.filterForm.patchValue({
-      sortData: { field: 'releaseYear', order: 'DESC' } as any
+      sortData: { field: 'releaseYear', order: 'DESC' } as any,
     });
 
     component.onFilterChange();

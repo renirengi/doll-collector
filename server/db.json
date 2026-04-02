@@ -1,4 +1,191 @@
-{
+{ "pets": [
+  {
+    "id": "3ba28766-0744-469b-98f9-46738914b7e1",
+    "dollsId": ["Barbie Extra No. 7 in Daisy Pattern Top & Shorts"],
+    "type": "Dog",
+    "notes": "Included with the doll"
+  },
+  {
+    "id": "7b2d1a44-8e31-4c6a-a234-5f129c8e4011",
+    "dollsId": ["Barbie Extra No. 4 in Blue Curly Hair & Skateboard"],
+    "type": "Cat",
+    "notes": "Twin cat 1"
+  },
+  {
+    "id": "bc9f23e1-45d2-4912-9e8c-120934ab67f4",
+    "dollsId": ["Barbie Extra No. 4 in Blue Curly Hair & Skateboard"],
+    "type": "Cat",
+    "notes": "Twin cat 2"
+  },
+  {
+    "id": "a1e5d3c2-bf10-4e1a-8d74-92c103f456b2",
+    "dollsId": ["Barbie Extra No. 3 in Pink Coat with Pet Pig"],
+    "type": "Pig",
+    "notes": "With crown and wings"
+  },
+  {
+    "id": "e8c2a1b9-56d4-4f32-bc91-2a10b4c891e5",
+    "dollsId": ["Barbie Extra No. 12 in Floral Two-Piece Outfit & Bunny"],
+    "type": "Bunny",
+    "notes": "Included with the doll"
+  },
+  {
+    "id": "f2d9c3a8-44e2-47b1-90c5-11d23e4f7a69",
+    "dollsId": ["Barbie Extra No. 15 in Leopard Print Jacket & Pet Puppy"],
+    "type": "Dog",
+    "notes": "Dalmatian with heart-shaped sunglasses"
+  },
+  {
+    "id": "d4e7f8a1-b2c3-4d5e-a6b7-c8d9e0f1a2b3",
+    "dollsId": ["Barbie Extra No. 17 in Blue Floral Outfit"],
+    "type": "Dog",
+    "notes": "Included with the doll"
+  },
+  {
+    "id": "9f8e7d6c-5b4a-3f2e-1d0c-9b8a7f6e5d4c",
+    "dollsId": ["Barbie Cutie Reveal Wave 1 - Panda"],
+    "type": "Panda",
+    "notes": "Small panda pet from Cutie Reveal set"
+  },
+  {
+    "id": "c5b2a4d1-e6f7-4a8b-9c0d-1e2f3a4b5c6d",
+    "dollsId": ["Monster High Signature - Cleo de Nile"],
+    "version": "G1",
+    "type": "Snake",
+    "name": "Hissette",
+    "notes": "Egyptian cobra with a crown"
+  },
+  {
+    "id": "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6",
+    "dollsId": ["Monster High Signature - Deuce Gorgon"],
+    "version": "G1",
+    "type": "Rat",
+    "name": "Perseus",
+    "notes": "Two-tailed rat"
+  },
+  {
+    "id": "b7d8c9e0-f1a2-4b3c-9d8e-7f6a5b4c3d2e",
+    "dollsId": ["Monster High Signature - Draculaura"],
+    "version": "G1",
+    "type": "Bat",
+    "name": "Count Fabulous"
+  },
+    {
+    "id": "b7d8c9e0-f1a2-4b3c-9d8e-7f6a5b4c3d2e",
+    "dollsId": ["Monster High Creepover Party - Draculaura"],
+    "version": "G3",
+    "type": "Bat",
+    "name": "Count Fabulous"
+  },
+  {
+    "id": "6e5d4c3b-2a10-4f9e-8d7c-6b5a4f3e2d1c",
+    "dollsId": ["Monster High Signature - Lagoona Blue","Monster High 13 Wishes - Lagoona Blue"],
+    "type": "Piranha",
+    "version": "G1",
+    "name": "Neptuna"
+  },
+  {
+    "id": "1a2b3c4d-5e6f-7a8b-9c0d-e1f2a3b4c5d6",
+    "dollsId": ["Monster High 13 Wishes - Howleen Wolf"],
+    "type": "Hedgehog",
+    "version": "G1",
+    "name": "Cushion",
+    "notes": "Original pet included"
+  },
+  {
+    "id": "f5e4d3c2-b1a0-4a9b-8c7d-6e5f4a3b2c1d",
+    "dollsId": ["Monster High 13 Wishes - Twyla"],
+    "type": "Bunny",
+    "version": "G1",
+    "name": "Dustin",
+    "notes": "Dust Bunny"
+  },
+  {
+    "id": "d9e8c7f6-a5b4-4e3d-2c1b-0a9b8c7d6e5f",
+    "dollsId": ["Monster High Signature (Wave 3) - Nefera de Nile"],
+    "type": "Scarab beetle",
+    "version": "G1",
+    "name": "Azura",
+    "notes": "Original pet included"
+  },
+  {
+    "id": "7a3f5e92-d1c8-4b0a-9e2f-6d4b5c8a1e3f",
+    "dollsId": ["Monster High Signature (Wave 4) - Robecca Steam"],
+    "type": "Penguin",
+    "version": "G1",
+    "name": "Captain Penny",
+    "notes": "Mechanical penguin"
+  },
+  {
+    "id": "4b5c6d7e-8f9a-0b1c-2d3e-4f5a6b7c8d9e",
+    "dollsId": ["Monster High Signature (Wave 4) - Rochelle Goyle"],
+    "type": "Gargoyle Griffin",
+    "version": "G1",
+    "name": "Roux",
+    "notes": "Original pet included"
+  },
+  {
+    "id": "2e3d4c5b-6a7f-8e9d-0c1b-2a3f4e5d6c7b",
+    "dollsId": ["Monster High Signature (Wave 4) - Venus McFlytrap"],
+    "type": "Venus Flytrap",
+    "version": "G1",
+    "name": "Chewliette",
+    "notes": "Original pet included"
+  },
+  {
+    "id": "e4d3c2b1-a0f9-4b8a-7c6d-5e4f3a2b1c0d",
+    "dollsId": ["Monster High Original Favorites - Clawdeen Wolf"],
+    "type": "Kitten",
+    "version": "G1",
+    "name": "Crescent",
+    "notes": "Original pet included"
+  },
+  {
+    "id": "3f2a1b0c-d9e8-4a7b-6c5d-4e3f2a1b0c9d",
+    "dollsId": ["Monster High Original Ghouls Collection - Frankie Stein"],
+    "type": "Dog",
+    "version": "G1",
+    "name": "Watzit",
+    "notes": "Hybrid dog"
+  },
+  {
+    "id": "8b9a0c1d-2e3f-4a5b-6c7d-8e9f0a1b2c3d",
+    "dollsId": ["Monster High G3 - Abbey Bominable"],
+    "type": "Mammoth",
+    "version": "G3",
+    "name": "Tundra",
+    "notes": "Wooly Mammoth"
+  },
+  {
+    "id": "c1d2e3f4-a5b6-4c7d-8e9f-0a1b2c3d4e5f",
+    "dollsId": ["Monster High G3 Core - Spectra Vondergeist"],
+    "type": "Ferret",
+    "version": "G3",
+    "name": "Rhuen",
+    "notes": "Original ghost ferret included"
+  },
+  {
+    "id": "d5e6f7a8-b9c0-4d1e-2f3a-4b5c6d7e8f9a",
+    "dollsId": ["Monster High Boo-riginal Creeproduction - Toralei Strip"],
+    "type": "Saber-tooth Tiger Cub",
+    "version": "G1",
+    "name": "Sweet Fang",
+    "notes": "Included in the set"
+  },
+  {
+    "id": "f2a1b3c4-e5d6-47b8-a9c0-d1e2f3a4b5c6",
+    "dollsId": ["Monster High Signature Wave 3 - Operetta"],
+    "version": "G1",
+    "type": "Spider",
+    "name": "Memphis “Daddy O” Longlegs"
+  },
+  {
+    "id": "9d8c7b6a-5e4d-3c2b-1a0f-9e8d7c6b5a4f",
+    "dollsId": ["Barbie Extra No. 2"],
+    "type": "Dog",
+    "notes": "Pit bull"
+  }
+],
   "dolls": [
     {
       "id": "1",
@@ -306,7 +493,7 @@
         {
           "type": "Pig",
           "name": "Rarity",
-          "notes": "With crown"
+          "notes": "With crown and wings"
         }
       ],
       "coupleName": "16",
