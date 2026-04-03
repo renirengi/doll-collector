@@ -24,7 +24,7 @@ export interface RegisterCredentials extends LoginCredentials {
 export interface AuthResponse {
   access_token: string;
   refreshToken?: string;
-  user?: User;
+  userId: string;
 }
 
 /**

@@ -1,39 +1,27 @@
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
-import { SignInPageComponent } from './signin-page.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Router, provideRouter } from '@angular/router';
-import { AuthApiService } from '../../../../../api/services/auth.api';
-import { TokenService } from '../../../../core/services/token.services';
-import { of, throwError } from 'rxjs';
+import { provideRouter } from '@angular/router';
+import { SignInPageComponent } from './signin-page.component';
+import { AuthService } from '../../../../core/services/auth.service';
 
 describe('SignInPageComponent', () => {
   let component: SignInPageComponent;
   let fixture: ComponentFixture<SignInPageComponent>;
-  let authApiSpy: jasmine.SpyObj<AuthApiService>;
-  let tokenServiceSpy: jasmine.SpyObj<TokenService>;
-  let router: Router;
+  let authServiceSpy: jasmine.SpyObj<AuthService>;
 
   beforeEach(async () => {
-    authApiSpy = jasmine.createSpyObj('AuthApiService', ['signIn']);
-    tokenServiceSpy = jasmine.createSpyObj('TokenService', ['setTokens']);
+    authServiceSpy = jasmine.createSpyObj('AuthService', ['login']);
 
     await TestBed.configureTestingModule({
       imports: [SignInPageComponent, ReactiveFormsModule],
       providers: [
-        { provide: AuthApiService, useValue: authApiSpy },
-        { provide: TokenService, useValue: tokenServiceSpy },
         provideRouter([]),
+        { provide: AuthService, useValue: authServiceSpy },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SignInPageComponent);
     component = fixture.componentInstance;
-    router = TestBed.inject(Router);
     fixture.detectChanges();
   });
 
@@ -42,54 +30,53 @@ describe('SignInPageComponent', () => {
   });
 
   it('should be invalid when empty', () => {
-    expect(component.signInForm.valid).toBeFalsy();
+    expect(component.signInForm.valid).toBeFalse();
   });
 
   it('should validate email format', () => {
     const email = component.signInForm.controls['email'];
     email.setValue('invalid-email');
-    expect(email.hasError('email')).toBeTruthy();
+    expect(email.hasError('email')).toBeTrue();
+
+    email.setValue('test@example.com');
+    expect(email.errors).toBeNull();
   });
 
-  it('should call authApi.signIn and navigate on success', fakeAsync(() => {
-    const mockResponse = { access_token: 'fake-jwt-token' };
-    authApiSpy.signIn.and.returnValue(of(mockResponse));
-    spyOn(router, 'navigate');
+  it('should call authService.login and handle loading state', async () => {
+    authServiceSpy.login.and.returnValue(Promise.resolve());
 
     component.signInForm.setValue({
       email: 'test@example.com',
       password: 'password123',
     });
 
-    component.submit();
-    tick();
+    const submitPromise = component.submit();
 
-    expect(authApiSpy.signIn).toHaveBeenCalledWith({
+    expect(component.isLoading()).toBeTrue();
+
+    await submitPromise;
+
+    expect(authServiceSpy.login).toHaveBeenCalledWith({
       email: 'test@example.com',
       password: 'password123',
     });
-    expect(tokenServiceSpy.setTokens).toHaveBeenCalledWith('fake-jwt-token');
-    expect(router.navigate).toHaveBeenCalledWith(['/user/catalog']);
-    expect(component.isLoading).toBeFalse();
-  }));
+    expect(component.isLoading()).toBeFalse();
+  });
 
-  it('should show alert on login failure', fakeAsync(() => {
-    authApiSpy.signIn.and.returnValue(
-      throwError(() => new Error('401 Unauthorized')),
-    );
+  it('should show alert on login failure', async () => {
     spyOn(window, 'alert');
+    authServiceSpy.login.and.returnValue(Promise.reject('Error'));
 
     component.signInForm.setValue({
-      email: 'wrong@example.com',
-      password: 'wrongpassword',
+      email: 'test@example.com',
+      password: 'password123',
     });
 
-    component.submit();
-    tick();
+    await component.submit();
 
     expect(window.alert).toHaveBeenCalledWith(
-      'Login failed. Please check your email and password.',
+      'Login failed. Please check your credentials.',
     );
-    expect(component.isLoading).toBeFalse();
-  }));
+    expect(component.isLoading()).toBeFalse();
+  });
 });

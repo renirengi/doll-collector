@@ -85,7 +85,9 @@ describe('SignUpPageComponent', () => {
 
     it('should call signUp and signIn on success and navigate', fakeAsync(() => {
       authApiSpy.signUp.and.returnValue(of(undefined));
-      authApiSpy.signIn.and.returnValue(of({ access_token: 'fake-token' }));
+      authApiSpy.signIn.and.returnValue(
+        of({ access_token: 'fake-token', userId: '1' }),
+      );
       spyOn(router, 'navigate');
 
       component.signUpForm.setValue(validData);

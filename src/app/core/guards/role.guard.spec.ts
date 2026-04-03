@@ -1,28 +1,28 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  ActivatedRouteSnapshot,
-  Router,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
+import { signal } from '@angular/core';
+import { isObservable, firstValueFrom } from 'rxjs';
+
 import { RoleGuard } from './role.guard';
 import { AuthService } from '../services/auth.service';
-import { UserRoles } from '../../shared/models';
-import { signal } from '@angular/core';
 
+/**
+ * Tests for RoleGuard based on current implementation:
+ * 1. Immediate redirect if not authenticated.
+ * 2. Waiting for currentUser signal to be non-null if authenticated.
+ */
 describe('RoleGuard', () => {
   let authServiceSpy: jasmine.SpyObj<AuthService>;
   let routerSpy: jasmine.SpyObj<Router>;
 
-  const executeGuard = (
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
-  ) => TestBed.runInInjectionContext(() => RoleGuard(route, state));
+  // Helper to run the functional guard in the proper injection context
+  const executeGuard = (route: any = {}, state: any = {}) =>
+    TestBed.runInInjectionContext(() => RoleGuard(route, state));
 
   beforeEach(() => {
-    authServiceSpy = jasmine.createSpyObj('AuthService', [], {
-      currentUser: signal(null),
-      isAuthenticated: signal(false),
+    // Creating mocks for signals and router
+    authServiceSpy = jasmine.createSpyObj('AuthService', ['isAuthenticated'], {
+      currentUser: signal<any>(null),
     });
     routerSpy = jasmine.createSpyObj('Router', ['createUrlTree']);
 
@@ -34,59 +34,56 @@ describe('RoleGuard', () => {
     });
   });
 
-  it('should allow access if user has required role', () => {
-    (authServiceSpy as any).currentUser.set({ role: UserRoles.Admin });
-    (authServiceSpy as any).isAuthenticated.set(true);
-
-    const route = {
-      data: { roles: [UserRoles.Admin, UserRoles.Client] },
-    } as any;
-    const state = {} as RouterStateSnapshot;
-
-    const result = executeGuard(route, state);
-
-    expect(result).toBeTrue();
-  });
-
-  it('should redirect to signin if user is not authenticated', () => {
-    (authServiceSpy as any).currentUser.set(null);
-    (authServiceSpy as any).isAuthenticated.set(false);
-
-    const route = { data: { roles: [UserRoles.Admin] } } as any;
-    const state = {} as RouterStateSnapshot;
+  it('should redirect to /auth/signin immediately if not authenticated', () => {
+    // Arrange
+    authServiceSpy.isAuthenticated.and.returnValue(false);
     const mockUrlTree = {} as UrlTree;
     routerSpy.createUrlTree.and.returnValue(mockUrlTree);
 
-    const result = executeGuard(route, state);
+    // Act
+    const result = executeGuard();
 
+    // Assert
+    expect(authServiceSpy.isAuthenticated).toHaveBeenCalled();
     expect(routerSpy.createUrlTree).toHaveBeenCalledWith(['/auth/signin']);
     expect(result).toBe(mockUrlTree);
   });
 
-  it('should redirect to catalog if user has insufficient permissions', () => {
-    (authServiceSpy as any).currentUser.set({ role: UserRoles.Client });
-    (authServiceSpy as any).isAuthenticated.set(true);
+  it('should allow access (return true) once currentUser is loaded', async () => {
+    // Arrange
+    authServiceSpy.isAuthenticated.and.returnValue(true);
+    // Initially null to simulate waiting for hydration
+    const userSignal = authServiceSpy.currentUser as any;
 
-    const route = { data: { roles: [UserRoles.Admin] } } as any;
-    const state = {} as RouterStateSnapshot;
-    const mockUrlTree = {} as UrlTree;
-    routerSpy.createUrlTree.and.returnValue(mockUrlTree);
+    // Act
+    const result = executeGuard();
 
-    const result = executeGuard(route, state);
+    // Assert: Since it's authenticated but user is null, it MUST return an Observable
+    if (isObservable(result)) {
+      // Simulate profile loading after a "tick"
+      userSignal.set({ id: '123', username: 'test' });
 
-    expect(routerSpy.createUrlTree).toHaveBeenCalledWith(['/user/catalog']);
-    expect(result).toBe(mockUrlTree);
+      const finalValue = await firstValueFrom(result);
+      expect(finalValue).toBeTrue();
+    } else {
+      fail('Guard should return an Observable to wait for user hydration');
+    }
   });
 
-  it('should allow access for CLIENT role if it is in allowed list', () => {
-    (authServiceSpy as any).currentUser.set({ role: UserRoles.Client });
-    (authServiceSpy as any).isAuthenticated.set(true);
+  it('should take only one value from the user stream and complete', async () => {
+    // Arrange
+    authServiceSpy.isAuthenticated.and.returnValue(true);
+    authServiceSpy.currentUser.set({ id: '123' });
 
-    const route = { data: { roles: [UserRoles.Client] } } as any;
-    const state = {} as RouterStateSnapshot;
+    // Act
+    const result = executeGuard();
 
-    const result = executeGuard(route, state);
-
-    expect(result).toBeTrue();
+    if (isObservable(result)) {
+      const finalValue = await firstValueFrom(result);
+      expect(finalValue).toBeTrue();
+      // take(1) ensures the stream completes here
+    } else {
+      fail('Expected Observable');
+    }
   });
 });

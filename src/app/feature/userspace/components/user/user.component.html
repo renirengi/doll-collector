@@ -1,0 +1,67 @@
+<div class="user-menu-container">
+  <div
+    class="active-user"
+    [class.open]="menuOpen()"
+    (click)="toggleMenu($event)"
+  >
+    <app-avatar
+      [src]="userData()?.avatar"
+      [name]="userData()?.firstName"
+      size="w-11 h-11"
+      class="user-avatar-shadow"
+      [class.active-ring]="menuOpen()"
+    ></app-avatar>
+  </div>
+
+  @if (menuOpen()) {
+    <nav class="custom-menu">
+      <div class="user-header">
+        <span class="full-name">{{ displayName() }}</span>
+        <span class="role-tag">{{ userData()?.role | titlecase }}</span>
+      </div>
+
+      <ul class="menu-list">
+        <li>
+          <a routerLink="/user/billing" (click)="closeMenu()">
+            <span class="icon icon-billing"></span>
+            <span>Billing</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/user/settings" (click)="closeMenu()">
+            <span class="icon icon-settings"></span>
+            <span>Settings</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/user/support" (click)="closeMenu()">
+            <span class="icon icon-support"></span>
+            <span>Help & Support</span>
+          </a>
+        </li>
+
+        @if (isAdmin()) {
+          <li class="separator"></li>
+          <li class="admin-item">
+            <a
+              routerLink="/admin-panel"
+              (click)="closeMenu()"
+              class="admin-link"
+            >
+              <span class="icon icon-admin"></span>
+              <span>Admin Area</span>
+            </a>
+          </li>
+        }
+
+        <li class="separator"></li>
+        <li>
+          <button class="logout-btn" (click)="onLogout()">
+            <span class="icon icon-logout"></span>
+            <span>Log Out</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  }
+</div>

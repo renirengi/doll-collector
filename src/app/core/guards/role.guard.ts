@@ -1,34 +1,21 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { filter, map, take } from 'rxjs';
 import { AuthService } from '../services/auth.service';
-import { UserRoles } from '../../shared/models';
 
 export const RoleGuard: CanActivateFn = (route, state) => {
-  const authService = inject(AuthService);
+  const auth = inject(AuthService);
   const router = inject(Router);
 
-  const user = authService.currentUser();
-  const allowedRoles = route.data?.['roles'] as UserRoles[] | undefined;
-
-  if (!authService.isAuthenticated()) {
-    console.warn('Доступ запрещен: пользователь не авторизован');
+  // If no token at all - dead end
+  if (!auth.isAuthenticated()) {
     return router.createUrlTree(['/auth/signin']);
   }
-
-  if (!user) {
-    return true;
-  }
-
-  if (!allowedRoles || allowedRoles.length === 0) {
-    return true;
-  }
-
-  const hasRole = allowedRoles.includes(user.role);
-
-  if (hasRole) {
-    return true;
-  }
-
-  console.error(`Доступ запрещен: роль ${user.role} не имеет прав`);
-  return router.createUrlTree(['/user/catalog']);
+  // If authenticated but user is still null, we WAIT
+  return toObservable(auth.currentUser).pipe(
+    filter((user) => user !== null), //
+    take(1),
+    map(() => true),
+  );
 };

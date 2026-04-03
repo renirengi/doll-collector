@@ -1,10 +1,11 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
-import { AuthApiService } from '../../../api/services/auth.api';
 import { firstValueFrom } from 'rxjs';
+import { AuthApiService } from '../../../api/services/auth.api';
 
 /**
- * Service responsible for managing authentication tokens (Access and Refresh).
- * Handles persistence in localStorage and provides reactive signals.
+ * Service responsible for managing authentication state, including Access Tokens,
+ * Refresh Tokens, and the current User ID.
+ * Handles synchronous persistence in localStorage and provides reactive signals.
  */
 @Injectable({
   providedIn: 'root',
@@ -12,71 +13,84 @@ import { firstValueFrom } from 'rxjs';
 export class TokenService {
   private readonly authApi = inject(AuthApiService);
 
-  // Undefined = loading, null = no token, string = token exists
-  private readonly _token = signal<string | null | undefined>(undefined);
-  private readonly _refreshToken = signal<string | null>(null);
+  /**
+   * Internal reactive state signals initialized from localStorage.
+   */
+  private readonly _token = signal<string | null>(
+    localStorage.getItem('token'),
+  );
+  private readonly _refreshToken = signal<string | null>(
+    localStorage.getItem('refreshToken'),
+  );
+  private readonly _userId = signal<string | null>(
+    localStorage.getItem('userId'),
+  );
 
   /**
-   * Reactive signal of the current Access Token.
+   * Public read-only signals for application components and services.
    */
   public readonly token = this._token.asReadonly();
+  public readonly userId = this._userId.asReadonly();
 
   /**
-   * Current Refresh Token value.
+   * Returns the current raw value of the Refresh Token.
    */
   public get refreshToken(): string | null {
     return this._refreshToken();
   }
 
   /**
-   * Checks if the user has an active session.
+   * Computed signal that returns true if a valid access token exists.
    */
   public readonly isAuthenticated = computed(() => !!this._token());
 
-  constructor() {
-    this.initializeTokens();
-  }
+  constructor() {}
 
   /**
-   * Loads tokens from localStorage on startup.
-   */
-  private initializeTokens(): void {
-    const savedToken = localStorage.getItem('token');
-    const savedRefreshToken = localStorage.getItem('refreshToken');
-
-    this._token.set(savedToken);
-    this._refreshToken.set(savedRefreshToken);
-  }
-
-  /**
-   * Updates Access and Refresh tokens in state and storage.
+   * Updates or purges authentication data in both reactive state and localStorage.
+   * * @param token - The new Access Token (or null to clear session).
+   * @param refreshToken - The new Refresh Token.
+   * @param userId - The UUID of the authenticated user.
    */
   public setTokens(
     token: string | null,
     refreshToken: string | null = null,
+    userId: string | null = null,
   ): void {
     if (token) {
       localStorage.setItem('token', token);
-      if (refreshToken) localStorage.setItem('refreshToken', refreshToken);
+      this._token.set(token);
+
+      if (refreshToken) {
+        localStorage.setItem('refreshToken', refreshToken);
+        this._refreshToken.set(refreshToken);
+      }
+
+      if (userId) {
+        localStorage.setItem('userId', userId);
+        this._userId.set(userId);
+      }
     } else {
       localStorage.removeItem('token');
       localStorage.removeItem('refreshToken');
+      localStorage.removeItem('userId');
+      this._token.set(null);
+      this._refreshToken.set(null);
+      this._userId.set(null);
     }
-
-    this._token.set(token);
-    if (refreshToken) this._refreshToken.set(refreshToken);
   }
 
   /**
-   * Clears session data (e.g., on logout or expired session).
+   * Purges all session data and resets the authentication state.
    */
   public clearToken(): void {
     this.setTokens(null);
   }
 
   /**
-   * Performs a silent refresh call to the API.
-   * Called by the RefreshInterceptor when a 401 error occurs.
+   * Performs a silent token refresh using the stored Refresh Token.
+   * Updates the session state upon success or clears it upon failure.
+   * * @returns The new Access Token or null if the refresh failed.
    */
   public async refreshTokenCall(): Promise<string | null> {
     const currentRefresh = this.refreshToken;
@@ -87,12 +101,17 @@ export class TokenService {
     }
 
     try {
-      // We use firstValueFrom because this is a single "one-shot" request
       const response = await firstValueFrom(
         this.authApi.refreshToken(currentRefresh),
       );
 
-      this.setTokens(response.access_token, response.refreshToken);
+      // We maintain the existing userId during a token refresh
+      this.setTokens(
+        response.access_token,
+        response.refreshToken || null,
+        this._userId(),
+      );
+
       return response.access_token;
     } catch (error) {
       this.clearToken();

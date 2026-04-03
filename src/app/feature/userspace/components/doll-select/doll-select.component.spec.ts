@@ -14,11 +14,7 @@ describe('DollSelectComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        DollSelectComponent,
-        ReactiveFormsModule,
-        NoopAnimationsModule
-      ]
+      imports: [DollSelectComponent, ReactiveFormsModule, NoopAnimationsModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DollSelectComponent);
