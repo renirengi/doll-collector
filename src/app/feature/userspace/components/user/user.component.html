@@ -6,8 +6,8 @@
   >
     <app-avatar
       [src]="userData()?.avatar"
-      [name]="userData()?.firstName"
-      size="w-11 h-11"
+      [name]="displayName()"
+      [size]="'w-11 h-11'"
       class="user-avatar-shadow"
       [class.active-ring]="menuOpen()"
     ></app-avatar>
@@ -16,48 +16,43 @@
   @if (menuOpen()) {
     <nav class="custom-menu">
       <div class="user-header">
-        <span class="full-name">{{ displayName() }}</span>
-        <span class="role-tag">{{ userData()?.role | titlecase }}</span>
+        <span class="full-name header-name">{{ displayName() }}</span>
+        @if (userData()?.role) {
+          <span class="role-tag">{{ userData()?.role | titlecase }}</span>
+        }
       </div>
 
       <ul class="menu-list">
         <li>
-          <a routerLink="/user/billing" (click)="closeMenu()">
-            <span class="icon icon-billing"></span>
-            <span>Billing</span>
-          </a>
-        </li>
-        <li>
-          <a routerLink="/user/settings" (click)="closeMenu()">
-            <span class="icon icon-settings"></span>
+          <a
+            routerLink="/user/settings"
+            (click)="closeMenu()"
+            class="link-settings"
+          >
             <span>Settings</span>
           </a>
         </li>
         <li>
-          <a routerLink="/user/support" (click)="closeMenu()">
-            <span class="icon icon-support"></span>
+          <a
+            routerLink="/user/support"
+            (click)="closeMenu()"
+            class="link-support"
+          >
             <span>Help & Support</span>
           </a>
         </li>
 
-        @if (isAdmin()) {
-          <li class="separator"></li>
-          <li class="admin-item">
-            <a
-              routerLink="/admin-panel"
-              (click)="closeMenu()"
-              class="admin-link"
-            >
-              <span class="icon icon-admin"></span>
-              <span>Admin Area</span>
-            </a>
-          </li>
-        }
+        <!-- @if (isAdmin()) { -->
+        <li>
+          <a routerLink="/admin-panel" (click)="closeMenu()" class="link-admin">
+            <span>Admin Area</span>
+          </a>
+        </li>
+        <!-- } -->
 
         <li class="separator"></li>
         <li>
           <button class="logout-btn" (click)="onLogout()">
-            <span class="icon icon-logout"></span>
             <span>Log Out</span>
           </button>
         </li>

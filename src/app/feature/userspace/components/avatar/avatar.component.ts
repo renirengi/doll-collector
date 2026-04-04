@@ -6,32 +6,40 @@ import {
   input,
 } from '@angular/core';
 
-/**
- * AvatarComponent displays a user's image, initials, or a fallback icon.
- * Now using Signal Inputs for better performance and reactivity.
- */
 @Component({
   selector: 'app-avatar',
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div [ngClass]="size()" class="avatar-container relative group">
+    <div
+      [ngClass]="size()"
+      class="avatar-container relative group overflow-hidden rounded-full border border-white/20"
+    >
       @if (src()) {
-        <img [src]="src()" [alt]="name() || 'User Avatar'" class="avatar-img" />
+        <img
+          [src]="src()"
+          [alt]="name() || 'User Avatar'"
+          class="avatar-img object-cover w-full h-full"
+        />
       } @else if (initial()) {
-        <div class="avatar-initial">
-          <span class="text-xl font-bold">
+        <div
+          class="avatar-initial w-full h-full flex items-center justify-center text-white bg-gradient-to-br from-[#c084fc] to-[#6366f1]"
+        >
+          <span class="text-sm font-bold tracking-tight">
             {{ initial() }}
           </span>
         </div>
       } @else {
-        <div class="avatar-system flex items-center justify-center">
+        <div
+          class="avatar-system w-full h-full flex items-center justify-center bg-slate-100 text-slate-400"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
+            class="w-1/2 h-1/2"
           >
             <path
               stroke-linecap="round"
@@ -41,53 +49,28 @@ import {
           </svg>
         </div>
       }
-
-      <div
-        class="absolute inset-0 bg-black/40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer z-10"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="2.5"
-          stroke="white"
-          class="w-5 h-5"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"
-          />
-        </svg>
-      </div>
     </div>
   `,
   styleUrls: ['./avatar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AvatarComponent {
-  /**
-   * Image source URL.
-   */
   public readonly src = input<string | null | undefined>(null);
-
-  /**
-   * User display name to derive initials.
-   */
   public readonly name = input<string | null | undefined>(null);
+  public readonly size = input<string>('w-11 h-11');
 
-  /**
-   * CSS classes for container sizing.
-   */
-  public readonly size = input<string>('w-12 h-12');
-
-  /**
-   * Derived signal that provides the first letter of the name.
-   * Automatically re-computes when 'name' input changes.
-   */
   public readonly initial = computed<string | null>(() => {
-    const nameValue = this.name();
-    if (!nameValue || nameValue.trim().length === 0) return null;
-    return nameValue.trim().charAt(0).toUpperCase();
+    const nameValue = this.name()?.trim();
+    if (!nameValue) return null;
+
+    const vowels = /[aeiouyаеёиоуыэюя]/gi;
+
+    const consonantsOnly = nameValue.replace(vowels, '').replace(/\s+/g, '');
+
+    if (consonantsOnly.length === 0) {
+      return nameValue.charAt(0).toUpperCase();
+    }
+
+    return consonantsOnly.substring(0, 2).toUpperCase();
   });
 }
