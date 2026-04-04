@@ -10,12 +10,15 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./feature/auth/auth.routes').then((m) => m.authRoutes),
   },
-  // {
-  //   path: 'admin-panel',
-  //   loadChildren: () => import('./features/admin-panel/admin-panel.routes').then((m) => m.adminPanelRoutes),
-  //   canActivate: [RoleGuard],
-  //   data: { roles: [UserRoles.Admin, UserRoles.Support] },
-  // },
+  {
+    path: 'admin-panel',
+    loadChildren: () =>
+      import('./feature/admin-panel/admin-panel.routes').then(
+        (m) => m.adminPanelRoutes,
+      ),
+    canActivate: [RoleGuard],
+    data: { roles: [UserRoles.Admin] },
+  },
   {
     path: 'user',
     canActivate: [RoleGuard],
