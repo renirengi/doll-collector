@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Header } from './components/header/header.component';
 import { RouterOutlet } from '@angular/router';
-import { Sidebar } from './components/sidebar/sidebar.component';
+import { Sidebar } from '../../core/components/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-user-page',
@@ -11,7 +11,7 @@ import { Sidebar } from './components/sidebar/sidebar.component';
     <!-- <app-user-sidebar-mobile></app-user-sidebar-mobile> -->
 
     <section class="user-page-container ml-[75px]">
-      <app-sidebar></app-sidebar>
+      <app-sidebar [items]="userMenu" variantClass="user-sidebar"></app-sidebar>
       <router-outlet></router-outlet>
     </section>
 
@@ -20,4 +20,11 @@ import { Sidebar } from './components/sidebar/sidebar.component';
   encapsulation: ViewEncapsulation.None,
   styleUrl: './user-page.component.scss',
 })
-export class UserPageComponent {}
+export class UserPageComponent {
+  public userMenu = [
+    { path: 'favorites', iconClass: 'icon-favorite', label: 'My wish' },
+    { path: 'shelf', iconClass: 'icon-shelves', label: 'My shelf' },
+    { path: 'shop', iconClass: 'icon-shop', label: 'My shop' },
+    { path: 'sold-doll', iconClass: 'icon-sold-doll', label: 'Sold' },
+  ];
+}

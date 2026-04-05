@@ -48,10 +48,26 @@ $white-glass: rgba(255, 255, 255, 0.15);
     background-image: url("/assets/icons/sold-doll.svg");
   }
 
+  .dolls:after {
+    background-image: url("/assets/icons/dolls.svg");
+  }
+  .eventlog:after {
+    background-image: url("/assets/icons/eventlog.svg");
+  }
+  .exit:after {
+    background-image: url("/assets/icons/exit.svg");
+  }
+  .support:after {
+    background-image: url("/assets/icons/support.svg");
+  }
+  .users:after {
+    background-image: url("/assets/icons/users.svg");
+  }
+
   &:hover {
     background: rgba(255, 255, 255, 0.2);
     border-color: rgba($neon-cyan, 0.5);
-    transform: translateY(-2px); // Легкое всплытие при наведении
+    transform: translateY(-2px);
 
     .icon:after {
       opacity: 1;

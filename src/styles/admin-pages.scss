@@ -1,0 +1,25 @@
+@use "sass:color";
+@use "./styles/_mixins.scss" as *;
+@use "./styles/_icon-basic.scss" as *;
+
+$dawn-start: #ffccac;
+$dawn-end: #d4a5ff;
+$accent-glow: #9d50bb;
+$logo-base-dark: #2b2246;
+
+app-admin-panel {
+  display: flex;
+  height: 100vh;
+  background: linear-gradient(90deg, $dawn-start 0%, $dawn-end 100%);
+  padding: 2rem;
+
+  app-admin-sidebar {
+    width: 75px;
+    background-color: var(--app-sidebar-bg);
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+}

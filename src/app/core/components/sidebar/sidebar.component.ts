@@ -1,16 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { SidebarItem } from '../../../shared/models';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
   imports: [RouterLink, RouterLinkActive, MatTooltipModule],
   template: `
-    <aside class="user-sidebar">
+    <aside [class]="variantClass()">
+      <div class="sidebar-logo"></div>
       <nav>
         <ul class="sidebar-menu">
-          @for (item of menuItems; track item.path) {
+          @for (item of items(); track item.path) {
             <li>
               <a
                 [routerLink]="item.path"
@@ -30,10 +32,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   styleUrl: './sidebar.component.scss',
 })
 export class Sidebar {
-  protected menuItems = [
-    { path: 'favorites', iconClass: 'icon-favorite', label: 'My wish' },
-    { path: 'shelf', iconClass: 'icon-shelves', label: 'My shelf' },
-    { path: 'shop', iconClass: 'icon-shop', label: 'My shop' },
-    { path: 'sold-doll', iconClass: 'icon-sold-doll', label: 'Sold' },
-  ];
+  items = input.required<SidebarItem[]>();
+  variantClass = input<string>('user-sidebar');
 }

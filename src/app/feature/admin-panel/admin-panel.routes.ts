@@ -31,10 +31,9 @@ export const adminPanelRoutes: Routes = [
         ],
       },
       {
-        path: 'doll',
+        path: 'dolls',
         loadComponent: () =>
           import('./page/doll-page/doll-page').then((m) => m.DollPage),
-        runGuardsAndResolvers: 'always',
       },
       {
         path: 'doll/new',
