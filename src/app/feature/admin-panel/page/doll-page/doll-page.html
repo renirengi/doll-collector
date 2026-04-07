@@ -1,1 +1,71 @@
-<p>doll-page works!</p>
+<section class="admin-page">
+  <header class="page-header">
+    <div class="header-left">
+      <h2>Dolls Management</h2>
+    </div>
+    <button class="add-btn">+ Add Doll</button>
+  </header>
+
+  <div class="table-wrapper">
+    @if (adminService.isLoading()) {
+      <div class="loader-overlay">
+        <div class="spinner"></div>
+      </div>
+    }
+
+    <div class="scroll-container">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            @for (col of columnConfig; track col.key) {
+              <th [class.text-right]="col.isNumeric">{{ col.label }}</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (doll of adminService.dolls(); track doll.id) {
+            <tr>
+              @for (col of columnConfig; track col.key) {
+                <td [class.text-right]="col.isNumeric">
+                  @if (col.key === "actions") {
+                    <div class="action-buttons">
+                      <button class="edit" (click)="edit(doll.id)">✎</button>
+                      <button class="del" (click)="onDelete(doll.id)">
+                        🗑
+                      </button>
+                    </div>
+                  } @else {
+                    <span
+                      class="truncate"
+                      [title]="getCellValue(doll, col.key)"
+                    >
+                      {{ getCellValue(doll, col.key) }}
+                    </span>
+                  }
+                </td>
+              }
+            </tr>
+          } @empty {
+            <tr>
+              <td [attr.colspan]="columnConfig.length" class="empty">
+                No dolls found
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer class="admin-footer">
+    <mat-paginator
+      [length]="adminService.totalCount()"
+      [pageSize]="adminService.filters()._limit"
+      [pageIndex]="adminService.filters()._page - 1"
+      [pageSizeOptions]="[15, 30, 50]"
+      (page)="handlePageEvent($event)"
+      aria-label="Select page"
+    >
+    </mat-paginator>
+  </footer>
+</section>
