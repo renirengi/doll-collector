@@ -2,6 +2,56 @@ $accent-purple: #9d50bb;
 $neon-cyan: #d4a5ff;
 $white-glass: rgba(255, 255, 255, 0.15);
 
+.icon {
+  display: inline-block;
+
+  &:after {
+    content: "";
+    display: block;
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: all 0.3s ease;
+
+    filter: brightness(0) saturate(100%) invert(95%) sepia(5%) saturate(1000%)
+      hue-rotate(220deg);
+    opacity: 0.9;
+  }
+}
+
+.icon-filter:after {
+  background-image: url("/assets/icons/instant_mix.svg");
+}
+.icon-favorite:after {
+  background-image: url("/assets/icons/favorite.svg");
+}
+.icon-shelves:after {
+  background-image: url("/assets/icons/shelves.svg");
+}
+.icon-shop:after {
+  background-image: url("/assets/icons/shop.svg");
+}
+.icon-sold-doll:after {
+  background-image: url("/assets/icons/sold-doll.svg");
+}
+.icon-dolls:after {
+  background-image: url("/assets/icons/dolls.svg");
+}
+.icon-eventlog:after {
+  background-image: url("/assets/icons/eventlog.svg");
+}
+.icon-exit:after {
+  background-image: url("/assets/icons/exit.svg");
+}
+.icon-support:after {
+  background-image: url("/assets/icons/support.svg");
+}
+.icon-users:after {
+  background-image: url("/assets/icons/users.svg");
+}
+
 .icon-toggle {
   background: $white-glass;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -15,54 +65,6 @@ $white-glass: rgba(255, 255, 255, 0.15);
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(4px);
-
-  .icon:after {
-    content: "";
-    display: block;
-    width: 24px;
-    height: 24px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-
-    filter: brightness(0) saturate(100%) invert(95%) sepia(5%) saturate(1000%)
-      hue-rotate(220deg) brightness(100%) contrast(100%);
-    opacity: 0.9;
-
-    transition: all 0.3s ease;
-  }
-
-  .icon-filter:after {
-    background-image: url("/assets/icons/instant_mix.svg");
-  }
-  .icon-favorite:after {
-    background-image: url("/assets/icons/favorite.svg");
-  }
-  .icon-shelves:after {
-    background-image: url("/assets/icons/shelves.svg");
-  }
-  .icon-shop:after {
-    background-image: url("/assets/icons/shop.svg");
-  }
-  .icon-sold-doll:after {
-    background-image: url("/assets/icons/sold-doll.svg");
-  }
-
-  .dolls:after {
-    background-image: url("/assets/icons/dolls.svg");
-  }
-  .eventlog:after {
-    background-image: url("/assets/icons/eventlog.svg");
-  }
-  .exit:after {
-    background-image: url("/assets/icons/exit.svg");
-  }
-  .support:after {
-    background-image: url("/assets/icons/support.svg");
-  }
-  .users:after {
-    background-image: url("/assets/icons/users.svg");
-  }
 
   &:hover {
     background: rgba(255, 255, 255, 0.2);
@@ -105,6 +107,16 @@ $white-glass: rgba(255, 255, 255, 0.15);
   &:active {
     transform: scale(0.92);
   }
+
+  &.small {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    .icon:after {
+      width: 20px;
+      height: 20px;
+    }
+  }
 }
 
 :host-context(.header-stats) .icon-toggle {
@@ -113,7 +125,6 @@ $white-glass: rgba(255, 255, 255, 0.15);
   .icon:after {
     filter: brightness(0) saturate(100%) invert(15%) sepia(20%) saturate(3000%)
       hue-rotate(230deg) brightness(90%) contrast(100%);
-    opacity: 0.9;
   }
 
   &.active {
@@ -121,7 +132,7 @@ $white-glass: rgba(255, 255, 255, 0.15);
     border-color: #ff8c00;
     .icon:after {
       filter: brightness(0) saturate(100%) invert(50%) sepia(100%)
-        saturate(1500%) hue-rotate(10deg) brightness(100%) contrast(100%);
+        saturate(1500%) hue-rotate(10deg);
     }
     &:before {
       background: #ff8c00;

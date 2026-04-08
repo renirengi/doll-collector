@@ -1,116 +1,145 @@
+@use "../../../../../styles/icon-basic" as *;
+
 :host {
   display: block;
-  height: 450px;
-  width: 320px;
   margin: 0 auto;
 }
 
-.doll-card {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  border-radius: 12px;
-  background: #fff;
-  border: 1px solid #eee;
-
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  }
-
-  .image-container {
+:host ::ng-deep {
+  .doll-card {
     position: relative;
-    height: 280px;
-    width: 100%;
+    width: 320px;
+    height: 450px;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #eee;
     overflow: hidden;
-    background-color: #f8fafc;
+    transition: all 0.3s ease;
 
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
-    }
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 
-    &:hover img {
-      transform: scale(1.05);
-    }
-
-    .body-badge {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: rgba(0, 0, 0, 0.6);
-      color: white;
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 10px;
-      font-weight: bold;
-      text-transform: uppercase;
-      backdrop-filter: blur(4px);
-    }
-  }
-
-  .info-content {
-    padding: 16px;
-    flex-grow: 1;
-
-    .brand-label {
-      font-size: 10px;
-      font-weight: 600;
-      color: #db2777; // Pink
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 4px;
-    }
-
-    .doll-name {
-      font-size: 1.125rem;
-      font-weight: 700;
-      color: #1e293b;
-      margin: 0 0 4px 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .original-name {
-      font-size: 0.875rem;
-      color: #64748b;
-      font-style: italic;
-      margin-bottom: 12px;
-    }
-
-    .tags-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-
-      .tag {
-        padding: 2px 8px;
-        background: #f1f5f9;
-        color: #475569;
-        border-radius: 4px;
-        font-size: 11px;
+      .image-overlay {
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+      .overlay-actions {
+        transform: translateY(0) !important;
+      }
+      .image-container img {
+        transform: scale(1.05);
       }
     }
-  }
 
-  .card-footer {
-    padding: 12px 16px;
-    border-top: 1px solid #f1f5f9;
-    background: #fafafa;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 11px;
-    color: #94a3b8;
+    .image-container {
+      position: relative;
+      height: 280px;
+      background: #f8fafc;
+      overflow: hidden;
 
-    .status-active {
-      color: #22c55e;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .image-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(30, 20, 50, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(4px);
+        z-index: 10;
+      }
+
+      .overlay-actions {
+        display: flex;
+        gap: 12px;
+        transform: translateY(20px);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 20;
+
+        .icon-toggle.small {
+          width: 44px;
+          height: 44px;
+          padding: 0;
+          .icon:after {
+            width: 22px;
+            height: 22px;
+          }
+        }
+      }
+
+      .body-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        z-index: 5;
+        background: rgba(0, 0, 0, 0.6);
+        color: #fff;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+    }
+
+    .info-content {
+      padding: 16px;
+      .brand-label {
+        font-size: 10px;
+        color: #db2777;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+      .doll-name {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin: 4px 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .original-name {
+        font-size: 0.85rem;
+        color: #64748b;
+        font-style: italic;
+      }
+      .tags-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 10px;
+        .tag {
+          padding: 2px 8px;
+          background: #f1f5f9;
+          border-radius: 4px;
+          font-size: 11px;
+          color: #475569;
+        }
+      }
+    }
+
+    .card-footer {
+      padding: 12px 16px;
+      border-top: 1px solid #f1f5f9;
+      background: #fafafa;
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #94a3b8;
+      .status-active {
+        color: #22c55e;
+      }
     }
   }
 }

@@ -1,61 +1,133 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DollCardComponent } from './doll-card.component';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { Router } from '@angular/router';
+import { By } from '@angular/platform-browser';
+import * as T from '../../../../shared/models/doll-enums';
+import { Doll, EnrichedUserDoll } from '../../../../shared/models';
 
 describe('DollCardComponent', () => {
   let component: DollCardComponent;
   let fixture: ComponentFixture<DollCardComponent>;
+  let routerSpy: jasmine.SpyObj<Router>;
 
-  const mockDoll = {
-    id: 1,
-    originalName: 'Classic Barbie',
-    manufacturer: 'Mattel',
-    brand: 'Barbie',
-    series: 'Fashionistas',
-    releaseYear: 2023,
-    image: 'barbie.png',
-    description: 'Lovely doll',
-  } as any;
+  const mockCatalogDoll: Doll = {
+    id: 'CATALOG_ID_123',
+    originalName: 'Valentine Sweetheart Barbie',
+    brand: 'Barbie' as T.DollBrand,
+    series: 'Holiday',
+    manufacturer: 'Mattel' as T.Manufacturer,
+    articulation: 'Standard' as T.ArticulationType,
+    bodyVolume: 'Slim' as T.BodyVolume,
+    footType: 'Heeled' as T.FootType,
+    isPlayset: false,
+    gender: 'Female' as T.Gender,
+  };
+
+  const mockUserDoll: EnrichedUserDoll = {
+    id: 'INSTANCE_UUID_001',
+    dollId: 'USER_REFERENCE_ID',
+    dollState: 'New' as T.DollState,
+    outfitState: 'Complete' as T.OutfitState,
+    status: 'InCollection' as T.DollStatus,
+    catalogInfo: mockCatalogDoll,
+  };
 
   beforeEach(async () => {
+    // Create a spy object where 'url' is a getter spy
+    routerSpy = jasmine.createSpyObj('Router', [], ['url']);
+
     await TestBed.configureTestingModule({
       imports: [DollCardComponent],
-      providers: [provideNoopAnimations()],
+      providers: [{ provide: Router, useValue: routerSpy }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DollCardComponent);
     component = fixture.componentInstance;
+    component.doll = mockCatalogDoll;
 
-    component.doll = mockDoll;
+    // Default URL
+    (
+      Object.getOwnPropertyDescriptor(routerSpy, 'url')?.get as jasmine.Spy
+    ).and.returnValue('/catalog');
 
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  describe('Signal: availableActions', () => {
+    it('should show all 4 actions when on catalog page', () => {
+      const urlSpy = Object.getOwnPropertyDescriptor(routerSpy, 'url')
+        ?.get as jasmine.Spy;
+      urlSpy.and.returnValue('/catalog');
+
+      fixture.detectChanges();
+
+      const actions = component['availableActions']();
+      expect(actions.length).toBe(4);
+    });
   });
 
-  it('should display doll name', () => {
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    const nameElement = compiled.querySelector('.doll-name');
+  describe('Data Logic: isUserDoll and d getter', () => {
+    it('should correctly identify EnrichedUserDoll', () => {
+      expect(component.isUserDoll(mockUserDoll)).toBeTrue();
+      expect(component.isUserDoll(mockCatalogDoll)).toBeFalse();
+    });
 
-    expect(nameElement).toBeTruthy();
-    expect(nameElement?.textContent?.trim()).toBe('Classic Barbie');
+    it('should extract catalog info via getter d for both types', () => {
+      component.doll = mockUserDoll;
+      fixture.detectChanges();
+      expect(component.d.originalName).toBe('Valentine Sweetheart Barbie');
+
+      component.doll = mockCatalogDoll;
+      fixture.detectChanges();
+      expect(component.d.originalName).toBe('Valentine Sweetheart Barbie');
+    });
   });
 
-  it('should display correct brand label', () => {
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    const brandElement = compiled.querySelector('.brand-label');
+  describe('User Interactions', () => {
+    beforeEach(() => {
+      spyOn(console, 'log');
+    });
 
-    expect(brandElement?.textContent?.trim()).toBe('Barbie');
+    it('should log dollId when clicking user doll', () => {
+      component.doll = mockUserDoll;
+      fixture.detectChanges();
+      component.onCardClick();
+      expect(console.log).toHaveBeenCalledWith(
+        'Клик по кукле:',
+        'USER_REFERENCE_ID',
+      );
+    });
+
+    it('should log catalog id when clicking catalog doll', () => {
+      component.doll = mockCatalogDoll;
+      fixture.detectChanges();
+      component.onCardClick();
+      expect(console.log).toHaveBeenCalledWith(
+        'Клик по кукле:',
+        'CATALOG_ID_123',
+      );
+    });
+
+    it('should handle onAction with stopPropagation', () => {
+      const event = new MouseEvent('click');
+      spyOn(event, 'stopPropagation');
+
+      component.onAction('shop', event);
+
+      expect(event.stopPropagation).toHaveBeenCalled();
+      expect(console.log).toHaveBeenCalledWith(
+        jasmine.stringMatching(
+          /Переместить Valentine Sweetheart Barbie в список: shop/,
+        ),
+      );
+    });
   });
 
-  it('should log message on click', () => {
-    const spy = spyOn(console, 'log');
-
-    component.onCardClick();
-    expect(spy).toHaveBeenCalledWith('Клик по кукле:', 'Classic Barbie');
+  describe('Template Rendering', () => {
+    it('should render doll original name', () => {
+      const compiled = fixture.nativeElement as HTMLElement;
+      const nameTag = compiled.querySelector('.original-name');
+      expect(nameTag?.textContent).toContain('Valentine Sweetheart Barbie');
+    });
   });
 });

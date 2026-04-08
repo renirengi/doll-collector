@@ -1,33 +1,51 @@
 <mat-card class="doll-card" (click)="onCardClick()">
   <div class="image-container">
     <img [src]="d.photos?.[0]?.url" [alt]="d.originalName" />
-    <div class="body-badge">{{ d.bodyVolume }}</div>
+
+    @if (d.bodyVolume) {
+      <div class="body-badge">{{ d.bodyVolume }}</div>
+    }
+
+    <div class="image-overlay">
+      <div class="overlay-actions">
+        @for (action of availableActions(); track action.id) {
+          <button
+            type="button"
+            class="icon-toggle small"
+            (click)="onAction(action.id, $event)"
+            [attr.title]="action.id"
+          >
+            <span class="icon" [ngClass]="action.icon"></span>
+          </button>
+        }
+      </div>
+    </div>
   </div>
 
   <mat-card-content class="info-content">
     <div class="brand-label">{{ d.brand }}</div>
-
     <h3 class="doll-name">
-      @if (isUserDoll(doll)) {
-        {{ doll.name || "No Name" }}
-      } @else {
-        {{ d.originalName }}
-      }
+      {{ isUserDoll(doll) ? doll.name || d.originalName : d.originalName }}
     </h3>
-
     <p class="original-name">{{ d.originalName }}</p>
 
     <div class="tags-container">
-      <span class="tag">{{ d.mold }}</span>
-      <span class="tag">{{ d.footType }}</span>
+      @if (d.mold) {
+        <span class="tag">{{ d.mold }}</span>
+      }
+      @if (d.footType) {
+        <span class="tag">{{ d.footType }}</span>
+      }
     </div>
   </mat-card-content>
 
   <div class="card-footer">
-    <span>#{{ d.itemNumber }}</span>
-
+    <span class="sku">#{{ d.itemNumber || "N/A" }}</span>
     @if (isUserDoll(doll)) {
-      <span [class.status-active]="doll.status === 'active'">
+      <span
+        class="status-badge"
+        [class.status-active]="doll.status === 'active'"
+      >
         ● {{ doll.status }}
       </span>
     }
