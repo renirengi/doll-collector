@@ -2,6 +2,48 @@ $accent-purple: #9d50bb;
 $neon-cyan: #d4a5ff;
 $white-glass: rgba(255, 255, 255, 0.15);
 
+// Mapping: class-suffix => filename
+$icons-map: (
+  // System Icons
+  "filter": "instant_mix.svg",
+  "favorite": "favorite.svg",
+  "shelves": "shelves.svg",
+  "shop": "shop.svg",
+  "sold-doll": "sold-doll.svg",
+  "dolls": "dolls.svg",
+  "eventlog": "eventlog.svg",
+  "exit": "exit.svg",
+  "support": "support.svg",
+  "users": "users.svg",
+  "admin-area": "admin_area.svg",
+  "settings": "settings.svg",
+  "logout": "logout.svg",
+
+  // Custom Collection Icons
+  "crown": "crown.svg",
+  "diamond": "diamond.svg",
+  "celebration": "celebration.svg",
+  "star-shine": "star_shine.svg",
+  "heart-smile": "heart_smile.svg",
+  "palette": "palette.svg",
+  "pets": "pets.svg",
+  "style": "style.svg",
+  "owl": "owl.svg",
+  "sunny": "sunny.svg",
+  "rocket": "rocket.svg",
+  "playground": "playground.svg",
+  "diversity": "diversity.svg",
+  "lips": "lips.svg",
+  "face-3": "face_3.svg",
+  "face-6": "face_6.svg",
+  "cruelty-free": "cruelty_free.svg",
+  "deceased": "deceased.svg",
+  "falling": "falling.svg",
+  "tsunami": "tsunami.svg",
+  "man": "man.svg",
+  "name": "name.svg"
+);
+
 .icon {
   display: inline-block;
 
@@ -15,41 +57,18 @@ $white-glass: rgba(255, 255, 255, 0.15);
     background-position: center;
     transition: all 0.3s ease;
 
+    // Base icon filter (purple-white tint)
     filter: brightness(0) saturate(100%) invert(95%) sepia(5%) saturate(1000%)
       hue-rotate(220deg);
     opacity: 0.9;
   }
 }
 
-.icon-filter:after {
-  background-image: url("/assets/icons/instant_mix.svg");
-}
-.icon-favorite:after {
-  background-image: url("/assets/icons/favorite.svg");
-}
-.icon-shelves:after {
-  background-image: url("/assets/icons/shelves.svg");
-}
-.icon-shop:after {
-  background-image: url("/assets/icons/shop.svg");
-}
-.icon-sold-doll:after {
-  background-image: url("/assets/icons/sold-doll.svg");
-}
-.icon-dolls:after {
-  background-image: url("/assets/icons/dolls.svg");
-}
-.icon-eventlog:after {
-  background-image: url("/assets/icons/eventlog.svg");
-}
-.icon-exit:after {
-  background-image: url("/assets/icons/exit.svg");
-}
-.icon-support:after {
-  background-image: url("/assets/icons/support.svg");
-}
-.icon-users:after {
-  background-image: url("/assets/icons/users.svg");
+// Dynamic class generation
+@each $name, $filename in $icons-map {
+  .icon-#{$name}:after {
+    background-image: url("/assets/icons/#{$filename}");
+  }
 }
 
 .icon-toggle {
@@ -119,6 +138,7 @@ $white-glass: rgba(255, 255, 255, 0.15);
   }
 }
 
+// Header stats context (orange accent)
 :host-context(.header-stats) .icon-toggle {
   background: rgba(0, 0, 0, 0.05);
 
