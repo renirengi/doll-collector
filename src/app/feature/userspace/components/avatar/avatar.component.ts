@@ -23,7 +23,7 @@ import {
         />
       } @else if (initial()) {
         <div
-          class="avatar-initial w-full h-full flex items-center justify-center text-white bg-gradient-to-br from-[#c084fc] to-[#6366f1]"
+          class="avatar-initial w-full h-full flex items-center justify-center text-white bg-gradient-to-br from-[#c084fc] to-[var(--indigo-vibe)]"
         >
           <span class="text-sm font-bold tracking-tight">
             {{ initial() }}

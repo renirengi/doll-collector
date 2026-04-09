@@ -2,10 +2,10 @@
 @use "./styles/_mixins.scss" as *;
 @use "./styles/_icon-basic.scss" as *;
 
-$dawn-start: #ffccac;
-$dawn-end: #d4a5ff;
-$accent-glow: #9d50bb;
-$logo-base-dark: #2b2246;
+$dawn-start: var(--apricot-dawn);
+$dawn-end: var(--lavender-dusk);
+$accent-glow: var(--nebula-glow);
+$logo-base-dark: var(--logo-base-dark);
 
 app-admin-panel {
   display: flex;
@@ -61,15 +61,13 @@ app-admin-panel {
     .admin-table {
       width: 100%;
       border-collapse: collapse;
-      table-layout: fixed; // Жестко фиксирует ширину колонок
-
+      table-layout: fixed;
       th,
       td {
         padding: 1rem;
         text-align: left;
         border-bottom: 1px solid rgba($logo-base-dark, 0.05);
 
-        // Ограничение по умолчанию
         max-width: 100px;
         white-space: nowrap;
       }

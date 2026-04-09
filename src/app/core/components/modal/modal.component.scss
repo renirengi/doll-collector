@@ -1,0 +1,73 @@
+@use "./styles/_mixins.scss" as *;
+
+dialog {
+  &:open {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: auto;
+    max-height: var(--modal-max-height);
+    max-width: var(--modal-max-width);
+    min-height: var(--modal-min-height);
+    min-width: var(--modal-min-width);
+    overflow: hidden;
+    background-color: var(--antique-linen);
+    border: 3px solid var(--burnt-citrus);
+    border-radius: 15px;
+    padding: var(--modal-padding);
+  }
+
+  .modal-header {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: start;
+    padding-left: 1rem;
+
+    h3 {
+      color: var(--celestial-ink);
+      text-align: center;
+      font-size: 1.2rem !important;
+      font-weight: 700;
+      line-height: normal;
+    }
+
+    button.close-button {
+      align-self: flex-end;
+      background-color: transparent;
+      border-radius: 50%;
+      display: var(--modal-close-button-display);
+      font-size: 0.8rem !important;
+      height: 1.5rem !important;
+      line-height: 0.8rem !important;
+      margin: 0 0 0.5rem 0 !important;
+      padding: 0 !important;
+      width: 1.5rem !important;
+
+      &:hover {
+        background-color: var(--background-hover-shadow);
+      }
+
+      &:focus {
+        outline: 1px solid var(--burnt-citrus);
+        outline-offset: 2px;
+      }
+    }
+  }
+
+  &::backdrop {
+    background: var(--modal-backdrop-background);
+    backdrop-filter: var(--modal-backdrop-filter);
+  }
+
+  @include desktop {
+    &:open {
+      width: 45vw;
+      height: max-content;
+      gap: 1.5rem;
+
+      .modal-header h3 {
+        font-size: 32px !important;
+      }
+    }
+  }
+}

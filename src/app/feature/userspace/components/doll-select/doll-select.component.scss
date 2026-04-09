@@ -1,7 +1,7 @@
 ::ng-deep .app-doll-select {
   &:focus,
   &.mat-select-opened {
-    border-color: #8b5cf6 !important;
+    border-color: var(--violet-pulsar-filter-panel) !important;
     box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.2) !important;
   }
 }
@@ -9,7 +9,7 @@
 ::ng-deep .mat-mdc-option {
   &.mdc-list-item--selected:not(.mdc-list-item--disabled),
   &:hover:not(.mdc-list-item--disabled) {
-    background-color: #8b5cf6 !important;
+    background-color: var(--violet-pulsar-filter-panel) !important;
     background-image: linear-gradient(
       0deg,
       #8b5cf6 0%,

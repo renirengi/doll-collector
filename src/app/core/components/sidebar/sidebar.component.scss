@@ -1,7 +1,7 @@
 @use "./styles/icon-basic" as *;
 
-$colon-bg: #1a152e;
-$accent-purple: #9d50bb;
+$colon-bg: var(--midnight-abyss);
+$accent-purple: var(--nebula-glow);
 
 :host {
   background: $colon-bg;

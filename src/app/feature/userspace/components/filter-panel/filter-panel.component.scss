@@ -3,7 +3,7 @@
   padding: 1rem;
 
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--frosted-glass);
   z-index: 1;
 
   &::after {

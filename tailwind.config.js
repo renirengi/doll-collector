@@ -3,21 +3,40 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'app-pink': 'var(--app-pink)',
-        'app-success': 'var(--app-success)',
-        'app-slate': 'var(--app-slate)',
-        'app-muted': 'var(--app-muted)',
-        'app-chip': 'var(--app-chip)',
-        'app-tag-dark': 'var(--app-tag-dark)',
-        'app-gray': 'var(--app-gray)',
-        'app-ink': 'var(--app-ink)',
-        'app-indigo': 'var(--app-indigo)',
+        // Accents & Actions
+        'indigo-vibe': 'var(--indigo-vibe)',
+        'fuchsia-glam': 'var(--fuchsia-glam)',
+        'vital-leaf': 'var(--vital-leaf)',
+        'warm-marigold': 'var(--warm-marigold)',
+        'burnt-citrus': 'var(--burnt-citrus)',
+        'violet-pulsar': 'var(--violet-pulsar-filter-panel)',
+        'nebula-glow': 'var(--nebula-glow)',
+
+        // Neutrals & Surfaces
+        'steel-mist': 'var(--steel-mist)',
+        'silver-haze': 'var(--silver-haze)',
+        'lace-trim': 'var(--lace-trim)',
+        'porcelain-glaze': 'var(--porcelain-glaze)',
+        'alabaster-sheen': 'var(--alabaster-sheen)',
+        'antique-linen': 'var(--antique-linen)',
+
+        // Dark Modes & Sidebar
+        'astral-navy': 'var(--astral-navy)',
+        'celestial-ink': 'var(--celestial-ink)',
+        'midnight-abyss': 'var(--midnight-abyss)',
+        'logo-base': 'var(--logo-base-dark)',
+
+        // Transparent
+        'frosted-glass': 'var(--frosted-glass)',
       },
-      screens: {
-        'custom-xl': { max: '1100px' },
-        'custom-lg': { max: '900px' },
-        'custom-sm': { max: '600px' },
+      backgroundImage: {
+        'cosmic-fusion': 'var(--cosmic-fusion-gradient)',
+        'header-sunrise': 'var(--header-gradient)',
+        'accent-triad': 'var(--app-gradient-accent)',
       },
+      spacing: {
+        'header-h': 'var(--app-header-height)',
+      }
     },
   },
   plugins: [],

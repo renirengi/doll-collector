@@ -10,7 +10,7 @@
     position: relative;
     width: 320px;
     height: 450px;
-    background: #fff;
+    background: var(--alabaster-sheen);
     border-radius: 12px;
     border: 1px solid #eee;
     overflow: hidden;
@@ -18,7 +18,7 @@
 
     &:hover {
       transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 10px 25px var(--background-hover-shadow);
 
       .image-overlay {
         opacity: 1 !important;
@@ -35,7 +35,7 @@
     .image-container {
       position: relative;
       height: 280px;
-      background: #f8fafc;
+      background: var(--app-bg-main);
       overflow: hidden;
 
       img {
@@ -83,7 +83,7 @@
         right: 12px;
         z-index: 5;
         background: rgba(0, 0, 0, 0.6);
-        color: #fff;
+        color: var(--alabaster-sheen);
         padding: 4px 8px;
         border-radius: 4px;
         font-size: 10px;
@@ -96,14 +96,14 @@
       padding: 16px;
       .brand-label {
         font-size: 10px;
-        color: #db2777;
+        color: var(var(--fuchsia-glam));
         font-weight: 600;
         text-transform: uppercase;
       }
       .doll-name {
         font-size: 1.1rem;
         font-weight: 700;
-        color: #1e293b;
+        color: var(--app-ink);
         margin: 4px 0;
         white-space: nowrap;
         overflow: hidden;
@@ -111,7 +111,7 @@
       }
       .original-name {
         font-size: 0.85rem;
-        color: #64748b;
+        color: var(--steel-mist);
         font-style: italic;
       }
       .tags-container {
@@ -121,24 +121,24 @@
         margin-top: 10px;
         .tag {
           padding: 2px 8px;
-          background: #f1f5f9;
+          background: var(--app-bg-overlay);
           border-radius: 4px;
           font-size: 11px;
-          color: #475569;
+          color: var(--app-text-sub);
         }
       }
     }
 
     .card-footer {
       padding: 12px 16px;
-      border-top: 1px solid #f1f5f9;
+      border-top: 1px solid var(--app-bg-overlay);
       background: #fafafa;
       display: flex;
       justify-content: space-between;
       font-size: 11px;
-      color: #94a3b8;
+      color: var(--silver-haze);
       .status-active {
-        color: #22c55e;
+        color: var(--vital-leaf);
       }
     }
   }

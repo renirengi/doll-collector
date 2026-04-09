@@ -1,10 +1,10 @@
 :host {
   display: block;
-  --menu-accent: #6366f1;
-  --menu-border: #e2e8f0;
-  --menu-text-main: #1e293b;
-  --menu-text-muted: #64748b;
-  --menu-bg: #ffffff;
+  --menu-accent: var(--indigo-vibe);
+  --menu-border: var(--lace-trim);
+  --menu-text-main: var(--app-ink);
+  --menu-text-muted: var(--steel-mist);
+  --menu-bg: var(--porcelain-glaze);
   --menu-padding: 10px 1rem;
 }
 
@@ -39,8 +39,8 @@
   background-color: var(--menu-bg);
   border: 1px solid var(--menu-border);
   box-shadow:
-    0 10px 25px -5px rgba(0, 0, 0, 0.1),
-    0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    0 10px 25px -5px var(--background-hover-shadow),
+    0 8px 10px -6px var(--background-hover-shadow);
   border-radius: 12px;
   padding: 12px;
   z-index: 1000;
@@ -64,7 +64,7 @@
 .user-header {
   padding: var(--menu-padding);
   margin-bottom: 8px;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--app-bg-overlay);
   display: flex;
   flex-direction: column;
 
@@ -107,7 +107,7 @@
 
   .separator {
     height: 1px;
-    background: #f1f5f9;
+    background: var(--app-bg-overlay);
     margin: 6px 0;
   }
 
@@ -143,7 +143,7 @@
     }
 
     &:hover {
-      background: #f8fafc;
+      background: var(--app-bg-main);
       color: var(--menu-accent);
       &::before {
         background-color: var(--menu-accent);

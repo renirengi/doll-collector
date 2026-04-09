@@ -1,5 +1,5 @@
-$accent-purple: #9d50bb;
-$neon-cyan: #d4a5ff;
+$accent-purple: var(--nebula-glow);
+$neon-cyan: var(--lavender-dusk);
 $white-glass: rgba(255, 255, 255, 0.15);
 
 // Mapping: class-suffix => filename
@@ -86,7 +86,7 @@ $icons-map: (
   backdrop-filter: blur(4px);
 
   &:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--frosted-glass);
     border-color: rgba($neon-cyan, 0.5);
     transform: translateY(-2px);
 

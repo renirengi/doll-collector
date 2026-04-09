@@ -18,47 +18,37 @@
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
 :root {
-  --app-pink: #e91e63;
-  --app-success: #4caf50;
-  --app-slate: #333333;
-  --app-muted: #757575;
-  --app-chip: #f5f5f5;
-  --app-tag-dark: #616161;
-  --app-gray: #64748b;
-  --app-ink: #1e293b;
-  --app-indigo: rgba(79, 70, 229, 0.9);
-
-  --app-bg-main: #f8fafc;
-  --app-bg-card: #ffffff;
-  --app-bg-overlay: #f1f5f9;
-
-  --app-pink-soft: #fce4ec;
-  --app-pink-hover: #c2185b;
-  --app-indigo-deep: #3730a3;
-
-  --app-border-light: #e2e8f0;
-  --app-border-focus: #818cf8;
-
-  --app-text-main: #1e293b;
-  --app-text-sub: #475569;
-  --warm-marigold: #f9c271;
+  --indigo-vibe: #6366f1;
+  --fuchsia-glam: #e91e63;
+  --vital-leaf: #4caf50;
+  --silver-haze: #94a3b8;
+  --steel-mist: #64748b;
+  --porcelain-glaze: #ffffff;
+  --alabaster-sheen: #fff;
+  --lace-trim: #e2e8f0;
   --antique-linen: #e8e3d0;
-  --astral-navy: #050a1e;
+  --warm-marigold: #ffc107;
   --burnt-citrus: #e96438;
+  --apricot-dawn: #ffccac;
+  --lavender-dusk: #d4a5ff;
+  --nebula-glow: #9d50bb;
+
+  --astral-navy: #050a1e;
   --celestial-ink: #070f2f;
-  --shadow-navy: #171822;
+  --midnight-abyss: #1a152e;
+  --logo-base-dark: #2b2246 --violet-pulsar-filter-panel: #8b5cf6;
+  --frosted-glass: rgba(255, 255, 255, 0.2);
 
-  --app-header-gradient: linear-gradient(90deg, $dawn-start 0%, $dawn-end 100%)
-    --app-gradient-glass: linear-gradient(
-      160deg,
-      rgba(79, 70, 229, 0.1) 0%,
-      rgba(233, 30, 99, 0.15) 40%,
-      rgba(255, 152, 0, 0.1) 80%,
-      rgba(255, 235, 59, 0.05) 100%
-    );
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-
+  --cosmic-fusion-gradient: linear-gradient(
+    135deg,
+    var(--indigo-vibe) 0%,
+    #a855f7 100%
+  );
+  --header-gradient: linear-gradient(
+    90deg,
+    var(--apricot-dawn) 0%,
+    var(--lavender-dusk) 100%
+  );
   --app-gradient-accent: linear-gradient(
     to right,
     #673ab7 0%,
@@ -67,13 +57,7 @@
   );
 
   --app-header-height: 75px;
-  --app-sidebar-bg: #1a152e;
 
-  --app-header-grad-start: #ffccac;
-  --app-header-grad-end: #d4a5ff;
-
-  --app-accent-glow: #9d50bb;
-  --app-border-orange: #ffc107;
   /* Fonts */
   --main-font:
     "Lato", ui-sans-serif, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
@@ -83,6 +67,17 @@
   --chat-font:
     "Instrument Sans", ui-sans-serif, -apple-system, "Segoe UI", Roboto, Arial,
     sans-serif;
+  --background-hover-shadow: var(--background-hover-shadow);
+
+  --modal-backdrop-background: rgba(88, 88, 88, 0.6);
+  --modal-backdrop-filter: blur(8px);
+
+  --modal-padding: 1rem;
+  --modal-min-width: 350px;
+  --modal-min-height: 200px;
+  --modal-max-width: 90vw;
+  --modal-max-height: 90vh;
+  --modal-close-button-display: block;
 }
 
 html {

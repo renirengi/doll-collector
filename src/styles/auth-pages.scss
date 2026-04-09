@@ -60,7 +60,7 @@
 
   /* Redirect link */
   --redirect-link-font-size: 0.875rem;
-  --redirect-link-color: var(--app-pink);
+  --redirect-link-color: var(var(--fuchsia-glam));
 
   & {
     display: flex;
@@ -211,7 +211,7 @@
   }
 
   @include desktop {
-    --background-color: #fff;
+    --background-color: var(--alabaster-sheen);
     --app-ink: var(--celestial-ink);
 
     /* Page */
@@ -221,7 +221,7 @@
 
     --h1-font-size: 1.9rem;
     --h1-align: center;
-    --submit-button-font-color: #fff;
+    --submit-button-font-color: var(--alabaster-sheen);
     --submit-button-font-size: 1.4rem;
     --submit-button-font-weight: 400;
 
@@ -237,9 +237,9 @@
     --input-font-size: 1rem;
     --input-padding: 16px 18px;
 
-    --input-background-color: #fff;
+    --input-background-color: var(--alabaster-sheen);
     --redirect-link-font-size: 0.9rem;
-    --redirect-link-color: var(--app-pink);
+    --redirect-link-color: var(var(--fuchsia-glam));
 
     align-items: center;
     &::before {
