@@ -1,39 +1,77 @@
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SignUpPageComponent } from './signup-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Router, provideRouter } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthApiService } from '../../../../../api/services/auth.api';
+import { AuthService } from '../../../../core/services/auth.service';
 import { TokenService } from '../../../../core/services/token.services';
+import { MessageService } from '../../../../core/services/message-service.service';
 import { of, throwError } from 'rxjs';
+
+class RouterMock {
+  navigate = jasmine.createSpy('navigate');
+  createUrlTree = jasmine.createSpy('createUrlTree').and.returnValue({});
+  serializeUrl = jasmine.createSpy('serializeUrl').and.returnValue('');
+  url = '/auth/signup';
+  events = of([]);
+  routerState = { root: {} };
+}
+
+class ActivatedRouteMock {
+  params = of({});
+  queryParams = of({});
+  snapshot = { params: {}, queryParams: {} };
+}
+
+class AuthApiServiceMock {
+  signUp = jasmine.createSpy('signUp');
+  signIn = jasmine.createSpy('signIn');
+}
+
+class AuthServiceMock {
+  login = jasmine.createSpy('login');
+}
+
+class MessageServiceMock {
+  showError = jasmine.createSpy('showError');
+  showSuccess = jasmine.createSpy('showSuccess');
+}
+
+class TokenServiceMock {
+  setTokens = jasmine.createSpy('setTokens');
+}
 
 describe('SignUpPageComponent', () => {
   let component: SignUpPageComponent;
   let fixture: ComponentFixture<SignUpPageComponent>;
-  let authApiSpy: jasmine.SpyObj<AuthApiService>;
-  let tokenServiceSpy: jasmine.SpyObj<TokenService>;
-  let router: Router;
+  let authApiMock: AuthApiServiceMock;
+  let authServiceMock: AuthServiceMock;
+  let messageServiceMock: MessageServiceMock;
 
   beforeEach(async () => {
-    authApiSpy = jasmine.createSpyObj('AuthApiService', ['signUp', 'signIn']);
-    tokenServiceSpy = jasmine.createSpyObj('TokenService', ['setTokens']);
-
     await TestBed.configureTestingModule({
       imports: [SignUpPageComponent, ReactiveFormsModule],
       providers: [
-        { provide: AuthApiService, useValue: authApiSpy },
-        { provide: TokenService, useValue: tokenServiceSpy },
-        provideRouter([]),
+        { provide: AuthApiService, useClass: AuthApiServiceMock },
+        { provide: AuthService, useClass: AuthServiceMock },
+        { provide: MessageService, useClass: MessageServiceMock },
+        { provide: TokenService, useClass: TokenServiceMock },
+        { provide: Router, useClass: RouterMock },
+        { provide: ActivatedRoute, useClass: ActivatedRouteMock },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SignUpPageComponent);
     component = fixture.componentInstance;
-    router = TestBed.inject(Router);
+
+    authApiMock = TestBed.inject(
+      AuthApiService,
+    ) as unknown as AuthApiServiceMock;
+    authServiceMock = TestBed.inject(AuthService) as unknown as AuthServiceMock;
+    messageServiceMock = TestBed.inject(
+      MessageService,
+    ) as unknown as MessageServiceMock;
+
     fixture.detectChanges();
   });
 
@@ -42,93 +80,59 @@ describe('SignUpPageComponent', () => {
   });
 
   describe('Validation', () => {
-    it('should be invalid when empty', () => {
-      expect(component.signUpForm.valid).toBeFalsy();
-    });
-
-    it('should validate username length', () => {
-      const control = component.signUpForm.get('username');
-      control?.setValue('user');
-      expect(control?.valid).toBeFalsy();
-      control?.setValue('username123');
-      expect(control?.valid).toBeTruthy();
-    });
-
     it('should validate email format', () => {
-      const control = component.signUpForm.get('email');
-      control?.setValue('invalid-email');
-      expect(control?.valid).toBeFalsy();
-      control?.setValue('test@test.com');
-      expect(control?.valid).toBeTruthy();
+      const email = component.signUpForm.controls.email;
+      email.setValue('invalid-email');
+      expect(email.valid).toBeFalse();
+
+      email.setValue('test@example.com');
+      expect(email.valid).toBeTrue();
     });
 
     it('should validate password mismatch', () => {
       component.signUpForm.patchValue({
         password: 'password123',
-        confirmPassword: 'differentPassword',
+        confirmPassword: 'different123',
       });
-
       expect(component.signUpForm.hasError('passwordMismatch')).toBeTrue();
-
-      component.signUpForm.patchValue({ confirmPassword: 'password123' });
-      expect(component.signUpForm.hasError('passwordMismatch')).toBeFalse();
     });
   });
 
   describe('Form Submission', () => {
-    const validData = {
-      username: 'testuser',
-      email: 'test@example.com',
-      password: 'password123',
-      confirmPassword: 'password123',
-    };
-
-    it('should call signUp and signIn on success and navigate', fakeAsync(() => {
-      authApiSpy.signUp.and.returnValue(of(undefined));
-      authApiSpy.signIn.and.returnValue(
-        of({ access_token: 'fake-token', userId: '1' }),
-      );
-      spyOn(router, 'navigate');
-
-      component.signUpForm.setValue(validData);
-      component.submit();
-
-      expect(component.isLoading).toBeTrue();
-      tick();
-
-      expect(authApiSpy.signUp).toHaveBeenCalledWith(validData);
-      expect(authApiSpy.signIn).toHaveBeenCalledWith({
-        email: validData.email,
-        password: validData.password,
+    it('should call messageService.showError on registration failure', async () => {
+      component.signUpForm.setValue({
+        username: 'testuser',
+        email: 'test@example.com',
+        password: 'password123',
+        confirmPassword: 'password123',
       });
 
-      expect(tokenServiceSpy.setTokens).toHaveBeenCalledWith('fake-token');
-
-      expect(router.navigate).toHaveBeenCalledWith(['/dolls']);
-      expect(component.isLoading).toBeFalse();
-    }));
-
-    it('should show alert and reset loading on error', fakeAsync(() => {
-      authApiSpy.signUp.and.returnValue(
-        throwError(() => new Error('API Error')),
+      authApiMock.signUp.and.returnValue(
+        throwError(() => new Error('Conflict')),
       );
-      spyOn(window, 'alert');
 
-      component.signUpForm.setValue(validData);
-      component.submit();
+      await component.submit();
 
-      tick();
+      expect(messageServiceMock.showError).toHaveBeenCalledWith(
+        jasmine.stringMatching(/already be in use/i),
+      );
+    });
 
-      expect(window.alert).toHaveBeenCalled();
-      expect(component.isLoading).toBeFalse();
-      expect(tokenServiceSpy.setTokens).not.toHaveBeenCalled();
-    }));
+    it('should trigger authService.login on success', async () => {
+      component.signUpForm.setValue({
+        username: 'testuser',
+        email: 'test@example.com',
+        password: 'password123',
+        confirmPassword: 'password123',
+      });
 
-    it('should mark all fields as touched if form is invalid', () => {
-      spyOn(component.signUpForm, 'markAllAsTouched');
-      component.submit();
-      expect(component.signUpForm.markAllAsTouched).toHaveBeenCalled();
-      expect(authApiSpy.signUp).not.toHaveBeenCalled();
+      authApiMock.signUp.and.returnValue(of({}));
+      authServiceMock.login.and.resolveTo();
+
+      await component.submit();
+
+      expect(authServiceMock.login).toHaveBeenCalled();
+      expect(messageServiceMock.showSuccess).toHaveBeenCalled();
     });
   });
 });

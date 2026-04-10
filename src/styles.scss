@@ -36,7 +36,8 @@
   --astral-navy: #050a1e;
   --celestial-ink: #070f2f;
   --midnight-abyss: #1a152e;
-  --logo-base-dark: #2b2246 --violet-pulsar-filter-panel: #8b5cf6;
+  --abyssal-blue: #003f64 --logo-base-dark: #2b2246
+    --violet-pulsar-filter-panel: #8b5cf6;
   --frosted-glass: rgba(255, 255, 255, 0.2);
 
   --cosmic-fusion-gradient: linear-gradient(
@@ -101,8 +102,8 @@ body {
   // Set a default background, font and text colors for the application using
   // Angular Material's system-level CSS variables. Learn more about these
   // variables at https://material.angular.dev/guide/system-variables
-  background-color: var(--app-pink-soft);
-  color: var(--app-ink);
+  background-color: #f8bbd0;
+  color: var(--celestial-ink);
   // Reset the user agent margin.
   margin: 0;
 }
@@ -228,5 +229,44 @@ body {
   app-filter-panel {
     display: block;
     padding: 1rem;
+  }
+
+  /* Snackbar */
+  #custom-snackbar-container {
+    z-index: 15000 !important;
+    position: fixed !important;
+  }
+
+  .custom-snackbar-success {
+    background-color: var(--antique-linen) !important;
+    color: var(--abyssal-blue) !important;
+    border: 3px solid var(--abyssal-blue) !important;
+    z-index: 15001 !important;
+  }
+
+  .custom-snackbar-error {
+    background-color: var(--antique-linen) !important;
+    color: var(--burnt-citrus) !important;
+    border: 3px solid var(--burnt-citrus) !important;
+    z-index: 15001 !important;
+  }
+
+  .mat-mdc-snack-bar-container {
+    background-color: var(--antique-linen) !important;
+    color: #000 !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  .mat-form-field-appearance-outline .mat-form-field-outline {
+    bottom: 0 !important;
+  }
+
+  .mat-form-field-flex {
+    align-items: flex-start !important;
+  }
+
+  .mat-form-field-infix {
+    padding: 12px 0 8px 0 !important;
+    border-top: 0.84375em solid transparent !important;
   }
 }

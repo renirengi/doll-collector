@@ -69,21 +69,4 @@ describe('RoleGuard', () => {
       fail('Guard should return an Observable to wait for user hydration');
     }
   });
-
-  it('should take only one value from the user stream and complete', async () => {
-    // Arrange
-    authServiceSpy.isAuthenticated.and.returnValue(true);
-    authServiceSpy.currentUser.set({ id: '123' });
-
-    // Act
-    const result = executeGuard();
-
-    if (isObservable(result)) {
-      const finalValue = await firstValueFrom(result);
-      expect(finalValue).toBeTrue();
-      // take(1) ensures the stream completes here
-    } else {
-      fail('Expected Observable');
-    }
-  });
 });

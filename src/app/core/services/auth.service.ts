@@ -4,7 +4,8 @@ import { firstValueFrom } from 'rxjs';
 import { AuthApiService } from '../../../api/services/auth.api';
 import { TokenService } from './token.services';
 import { UserService } from './user.service';
-import { LoginCredentials, AuthResponse } from '../../shared/models';
+import { LoginCredentials, AuthResponse, User } from '../../shared/models';
+import { MessageService } from './message-service.service';
 
 /**
  * Core authentication service coordinating API calls and session state.
@@ -15,8 +16,9 @@ export class AuthService {
   private readonly authApi = inject(AuthApiService);
   private readonly tokenService = inject(TokenService);
   private readonly userService = inject(UserService);
+  private readonly messageService = inject(MessageService);
 
-  public readonly currentUser = signal<any>(null);
+  public readonly currentUser = signal<User | null>(null);
   public readonly isAuthenticated = this.tokenService.isAuthenticated;
 
   constructor() {
@@ -28,31 +30,34 @@ export class AuthService {
    */
   public async login(credentials: LoginCredentials): Promise<void> {
     try {
-      // 1. Execute request
       const response: AuthResponse = await firstValueFrom(
         this.authApi.signIn(credentials),
       );
 
-      // DEBUG: If you don't see this, the code crashed BEFORE this line
-      console.log('[AuthService] Login response received:', response);
-
       if (response.access_token && response.userId) {
-        // 2. Save to TokenService (which updates localStorage and signals)
         this.tokenService.setTokens(
           response.access_token,
           response.refreshToken || null,
           response.userId,
         );
-
-        // 3. Fetch user data
         await this.hydrateUserProfile(response.userId);
-
-        // 4. Navigate
+        this.messageService.showSuccess('Welcome back!');
         await this.router.navigate(['/user/catalog']);
       }
     } catch (error) {
       console.error('[AuthService] Login failed:', error);
-      this.logout();
+
+      this.messageService.showError(
+        'Invalid email or password. Please try again.',
+      );
+
+      this.tokenService.clearToken();
+      this.currentUser.set(null);
+
+      if (!this.router.url.includes('/auth/signin')) {
+        await this.router.navigate(['/auth/signin']);
+      }
+
       throw error;
     }
   }
@@ -78,6 +83,7 @@ export class AuthService {
       this.currentUser.set(user);
     } catch (error) {
       console.error('[AuthService] Profile sync failed:', error);
+      this.messageService.showError('Failed to load user profile.');
     }
   }
 

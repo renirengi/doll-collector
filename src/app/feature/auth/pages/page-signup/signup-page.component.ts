@@ -9,8 +9,9 @@ import {
 } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 
-import { TokenService } from '../../../../core/services/token.services';
 import { AuthApiService } from '../../../../../api/services/auth.api';
+import { AuthService } from '../../../../core/services/auth.service';
+import { MessageService } from '../../../../core/services/message-service.service';
 
 @Component({
   selector: 'app-signup-page',
@@ -87,7 +88,8 @@ import { AuthApiService } from '../../../../../api/services/auth.api';
 export class SignUpPageComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authApi = inject(AuthApiService);
-  private readonly tokenService = inject(TokenService);
+  private readonly authService = inject(AuthService);
+  private readonly messageService = inject(MessageService);
   private readonly router = inject(Router);
 
   isLoading = false;
@@ -110,14 +112,11 @@ export class SignUpPageComponent {
     const password = control.get('password');
     const confirmPassword = control.get('confirmPassword');
 
-    if (
-      password &&
+    return password &&
       confirmPassword &&
       password.value !== confirmPassword.value
-    ) {
-      return { passwordMismatch: true };
-    }
-    return null;
+      ? { passwordMismatch: true }
+      : null;
   }
 
   isFieldInvalid(fieldName: string): boolean {
@@ -128,33 +127,34 @@ export class SignUpPageComponent {
   async submit(): Promise<void> {
     if (this.signUpForm.invalid) {
       this.signUpForm.markAllAsTouched();
+      this.messageService.showError('Please fill in all fields correctly.');
       return;
     }
 
     this.isLoading = true;
 
     try {
-      const payload = {
-        username: this.signUpForm.value.username!,
-        email: this.signUpForm.value.email!,
-        password: this.signUpForm.value.password!,
-        confirmPassword: this.signUpForm.value.confirmPassword!,
-      };
-
-      await firstValueFrom(this.authApi.signUp(payload));
-
-      const loginRes = await firstValueFrom(
-        this.authApi.signIn({
-          email: payload.email,
-          password: payload.password,
+      const { username, email, password, confirmPassword } =
+        this.signUpForm.getRawValue();
+      await firstValueFrom(
+        this.authApi.signUp({
+          username: username!,
+          email: email!,
+          password: password!,
+          confirmPassword: confirmPassword!,
         }),
       );
 
-      this.tokenService.setTokens(loginRes.access_token);
-      await this.router.navigate(['/dolls']);
+      this.messageService.showSuccess('Account created successfully!');
+
+      // 2. Автоматический вход через AuthService
+      await this.authService.login({
+        email: email!,
+        password: password!,
+      });
     } catch (error) {
       console.error('Registration error:', error);
-      alert(
+      this.messageService.showError(
         'Registration failed. This email or username might already be in use.',
       );
     } finally {
