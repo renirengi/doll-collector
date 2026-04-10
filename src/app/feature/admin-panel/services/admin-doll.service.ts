@@ -15,6 +15,8 @@ export class AdminDollService {
   /**
    * Fetches dolls with server-side pagination.
    */
+  // admin-doll.service.ts
+
   public async loadPage(page: number, limit: number = 15): Promise<void> {
     this.isLoading.set(true);
     try {
@@ -27,10 +29,17 @@ export class AdminDollService {
       this.dolls.set(response);
       this.filters.set({ _page: page, _limit: limit });
 
+      /**
+       * Corrected mockTotal logic:
+       * If the current page is full (length === limit), assume there might be more.
+       * If not full, we know the exact count: (previous pages) + current items.
+       */
       const mockTotal =
-        response.length === limit ? page * limit + 1 : page * limit;
-      this.totalCount.set(mockTotal);
+        response.length === limit
+          ? page * limit + 1
+          : (page - 1) * limit + response.length;
 
+      this.totalCount.set(mockTotal);
       this.hasNextPage.set(response.length === limit);
     } catch (error) {
       console.error('Load failed:', error);

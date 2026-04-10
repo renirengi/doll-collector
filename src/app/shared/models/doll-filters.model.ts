@@ -59,6 +59,7 @@ export interface FilterForm {
   articulation: FormControl<T.ArticulationType | null>;
   bodyVolume: FormControl<T.BodyVolume | null>;
   footType: FormControl<T.FootType | null>;
+  gender: FormControl<T.Gender | null>; // Added gender field
   status: FormControl<T.DollStatus | null>;
   purchaseStates: FormControl<T.DollState | null>;
   outfitState: FormControl<T.OutfitState | null>;

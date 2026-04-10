@@ -1,4 +1,3 @@
-import { CommonModule, TitleCasePipe } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -6,6 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 import {
   ControlValueAccessor,
   FormControl,
@@ -15,6 +15,8 @@ import {
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
 import { SortValue } from '../../../../shared/models';
+
+type SelectValue = string | string[] | SortValue | null;
 
 @Component({
   selector: 'app-doll-select',
@@ -43,31 +45,24 @@ export class DollSelectComponent implements ControlValueAccessor {
   @Input() isUserspace = false;
   @Output() changed = new EventEmitter<void>();
 
-  public readonly control = new FormControl<string | SortValue | null>(null);
+  public readonly control = new FormControl<SelectValue>(null);
 
-  private onChange: (value: string | SortValue | null) => void = () => {};
+  private onChange: (value: SelectValue) => void = () => {};
   private onTouched: () => void = () => {};
 
-  public compareObjects(
-    o1: string | SortValue | null,
-    o2: string | SortValue | null,
-  ): boolean {
+  public compareObjects(o1: any, o2: any): boolean {
     if (o1 === o2) return true;
-
     if (o1 && o2 && typeof o1 === 'object' && typeof o2 === 'object') {
       return o1.field === o2.field && o1.order === o2.order;
     }
-
     return false;
   }
 
-  public writeValue(val: string | SortValue | null): void {
+  public writeValue(val: SelectValue): void {
     this.control.setValue(val, { emitEvent: false });
   }
 
-  public registerOnChange(
-    fn: (value: string | SortValue | null) => void,
-  ): void {
+  public registerOnChange(fn: (value: SelectValue) => void): void {
     this.onChange = fn;
   }
 
@@ -86,8 +81,11 @@ export class DollSelectComponent implements ControlValueAccessor {
     this.changed.emit();
   }
 
-  public get selectedLabel(): string | null {
+  public get selectedLabel(): string {
     const val = this.control.value;
-    return typeof val === 'string' ? val : null;
+    if (Array.isArray(val)) {
+      return val.length > 0 ? val[0] : '';
+    }
+    return typeof val === 'string' ? val : '';
   }
 }

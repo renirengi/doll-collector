@@ -9,6 +9,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideRouter, Router } from '@angular/router';
 import { signal } from '@angular/core';
 import { DollService } from '../../../../core/services/dollService';
+import * as T from '../../../../shared/models/doll-enums';
 
 class MockDollService {
   public updateFilters = jasmine.createSpy('updateFilters');
@@ -38,17 +39,21 @@ describe('DollFiltersComponent', () => {
     router = TestBed.inject(Router);
   });
 
+  /**
+   * Helper to satisfy the internal MatSelect multiple mode during tests.
+   * Since form control types expect single values, we cast to unknown first.
+   */
+  const asValue = <T>(val: T[]): T => val as unknown as T;
+
   it('should include userFilters when in userspace', fakeAsync(() => {
-    spyOnProperty(router, 'url', 'get').and.returnValue(
-      '/userspace/collection',
-    );
+    spyOnProperty(router, 'url', 'get').and.returnValue('/userspace/shelf');
     fixture.detectChanges();
 
     expect(component.isUserspace()).toBeTrue();
 
     component.filterForm.patchValue({
-      status: 'active' as any,
-      acquisitionYear: 2026,
+      status: asValue(['active']),
+      acquisitionYear: asValue([2026]),
       hasCouple: true,
     });
 
@@ -64,9 +69,7 @@ describe('DollFiltersComponent', () => {
   }));
 
   it('should set hasCouple and hybrid to false by default in userFilters', fakeAsync(() => {
-    spyOnProperty(router, 'url', 'get').and.returnValue(
-      '/userspace/collection',
-    );
+    spyOnProperty(router, 'url', 'get').and.returnValue('/userspace/shelf');
     fixture.detectChanges();
 
     component.onFilterChange();
@@ -78,11 +81,12 @@ describe('DollFiltersComponent', () => {
     expect(lastCall.userFilters.hybrid).toBeFalse();
   }));
 
-  it('should call updateFilters with base filters', fakeAsync(() => {
+  it('should call updateFilters with base filters correctly mapped to arrays', fakeAsync(() => {
     fixture.detectChanges();
 
     component.filterForm.patchValue({
-      articulation: 'FullyArticulated' as any,
+      articulation: asValue(['FullyArticulated']),
+      gender: asValue(['Female']),
     });
 
     component.onFilterChange();
@@ -91,19 +95,23 @@ describe('DollFiltersComponent', () => {
     expect(dollService.updateFilters).toHaveBeenCalledWith(
       jasmine.objectContaining({
         articulation: ['FullyArticulated'],
+        gender: ['Female'],
       }),
     );
   }));
 
-  it('should reset form to default values', () => {
+  it('should reset form to default values and arrays', () => {
     fixture.detectChanges();
+
     component.filterForm.patchValue({
-      articulation: 'Basic' as any,
+      articulation: asValue(['Basic']),
       hasCouple: true,
     });
 
     component.resetFilters();
 
+    // After reset, selection controls should be null or empty arrays
+    // depending on your reset implementation. MatSelect expects [] or null.
     expect(component.filterForm.value.articulation).toBeNull();
     expect(component.filterForm.value.hasCouple).toBeFalse();
     expect(dollService.setRawFilters).toHaveBeenCalled();
@@ -113,7 +121,7 @@ describe('DollFiltersComponent', () => {
     fixture.detectChanges();
 
     component.filterForm.patchValue({
-      sortData: { field: 'releaseYear', order: 'DESC' } as any,
+      sortData: { field: 'releaseYear', order: 'DESC' },
     });
 
     component.onFilterChange();
@@ -121,5 +129,19 @@ describe('DollFiltersComponent', () => {
 
     const lastCall = dollService.updateFilters.calls.mostRecent().args[0];
     expect(lastCall._order).toBe('DESC');
+    expect(lastCall._sort).toBe('releaseYear');
+  }));
+
+  it('should exclude userFilters when not in userspace', fakeAsync(() => {
+    spyOnProperty(router, 'url', 'get').and.returnValue('/catalog');
+    fixture.detectChanges();
+
+    expect(component.isUserspace()).toBeFalse();
+
+    component.onFilterChange();
+    tick();
+
+    const lastCall = dollService.updateFilters.calls.mostRecent().args[0];
+    expect(lastCall.userFilters).toBeUndefined();
   }));
 });

@@ -1,11 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
+import { RouterTestingHarness } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
 import { ManufacturerNavigationComponent } from './manufacturer-navigation.component';
-import { provideRouter, RouterLink } from '@angular/router';
-import { By } from '@angular/platform-browser';
 
 describe('ManufacturerNavigationComponent', () => {
   let component: ManufacturerNavigationComponent;
-  let fixture: ComponentFixture<ManufacturerNavigationComponent>;
+  let harness: RouterTestingHarness;
+  let router: Router;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -17,64 +19,62 @@ describe('ManufacturerNavigationComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ManufacturerNavigationComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    router = TestBed.inject(Router);
+    harness = await RouterTestingHarness.create();
   });
 
-  it('should have correct link for "All" button', async () => {
-    await fixture.whenStable();
-    fixture.detectChanges();
-
-    const allButtonDe = fixture.debugElement
-      .queryAll(By.css('.text-btn'))
-      .find((de) => de.nativeElement.textContent.trim() === 'All');
-
-    expect(allButtonDe).toBeTruthy('Button "All" was not found');
-
-    const link = allButtonDe?.injector.get(RouterLink);
-
-    expect(link?.queryParams).toEqual(
-      jasmine.objectContaining({
-        manufacturer: null,
-        brand: null,
-      }),
+  async function createComponent(queryParams: any = {}) {
+    const urlTree = router.createUrlTree(['/catalog'], { queryParams });
+    const url = router.serializeUrl(urlTree);
+    component = await harness.navigateByUrl(
+      url,
+      ManufacturerNavigationComponent,
     );
+    harness.detectChanges();
+  }
+
+  it('should have All button active when no selection', async () => {
+    await createComponent({});
+    expect(component['selectedManufacturers']()).toEqual([]);
+    const allBtn =
+      harness.routeNativeElement?.querySelector('.text-btn.active');
+    expect(allBtn?.textContent).toContain('All');
   });
 
-  it('should have correct query params for manufacturer buttons', async () => {
-    await fixture.whenStable();
-    fixture.detectChanges();
-
-    const kurhnImg = fixture.debugElement.query(By.css('img[alt="Kurhn"]'));
-    expect(kurhnImg).toBeTruthy('Kurhn logo image was not found');
-
-    const kurhnButtonDe = kurhnImg.parent;
-    const link = kurhnButtonDe?.injector.get(RouterLink);
-
-    expect(link?.queryParams).toEqual(
-      jasmine.objectContaining({
-        manufacturer: 'Kurhn',
-        brand: null,
-      }),
-    );
+  it('should identify selected manufacturers from URL', async () => {
+    await createComponent({ manufacturer: ['Mattel', 'Kurhn'] });
+    expect(component.isSelected('Mattel')).toBeTrue();
+    expect(component.isSelected('Kurhn')).toBeTrue();
+    expect(component.isSelected('Hasbro')).toBeFalse();
   });
 
-  it('should render "Other" as a text button', async () => {
-    await fixture.whenStable();
-    fixture.detectChanges();
+  it('should toggleSelection add manufacturer to empty list', async () => {
+    await createComponent({});
+    const result = component.toggleSelection('Mattel');
+    expect(result).toEqual(['Mattel']);
+  });
 
-    const otherButton = fixture.debugElement
-      .queryAll(By.css('.text-btn'))
-      .find((de) => de.nativeElement.textContent.trim() === 'Other');
+  it('should toggleSelection remove existing manufacturer', async () => {
+    await createComponent({ manufacturer: ['Mattel', 'Kurhn'] });
+    const result = component.toggleSelection('Mattel');
+    expect(result).toEqual(['Kurhn']);
+  });
 
-    expect(otherButton).toBeTruthy('Button "Other" should be a text button');
+  it('should return null when last manufacturer is toggled off', async () => {
+    await createComponent({ manufacturer: 'Mattel' });
+    const result = component.toggleSelection('Mattel');
+    expect(result).toBeNull();
+  });
 
-    const link = otherButton?.injector.get(RouterLink);
-    expect(link?.queryParams).toEqual(
-      jasmine.objectContaining({
-        manufacturer: 'Other',
-      }),
-    );
+  it('should handle single manufacturer as array via toSignal', async () => {
+    await createComponent({ manufacturer: 'Mattel' });
+    expect(Array.isArray(component['selectedManufacturers']())).toBeTrue();
+    expect(component['selectedManufacturers']()).toEqual(['Mattel']);
+  });
+
+  it('should render correct number of manufacturer buttons plus All button', async () => {
+    await createComponent({});
+    const buttons = harness.routeNativeElement?.querySelectorAll('.nav-btn');
+    expect(buttons?.length).toBe(component.manufacturers.length + 1);
   });
 });

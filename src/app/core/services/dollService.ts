@@ -22,14 +22,9 @@ export class DollService {
   private readonly uiState = inject(UserspaceStateService);
 
   private readonly dollsSignal: WritableSignal<Doll[]> = signal<Doll[]>([]);
-
   public readonly isLoading = signal<boolean>(false);
   public readonly totalCount = signal<number>(0);
   public readonly hasMore = signal<boolean>(false);
-
-  /**
-   * Current active filters. Defaults to first page with standard limit.
-   */
   public readonly filters = signal<DollCatalogFilters>({
     _page: 1,
     _limit: 12,
@@ -38,12 +33,11 @@ export class DollService {
   public readonly dolls: Signal<Doll[]> = this.dollsSignal.asReadonly();
 
   /**
-   * Fully replaces the filter state and triggers a reset load.
-   * @param baseFilters - New filter configuration.
+   * Updates the filter state with a complete set of criteria and initiates a new fetch from the first page.
    */
   public async setRawFilters(baseFilters: DollCatalogFilters): Promise<void> {
     const updated: DollCatalogFilters = {
-      ...baseFilters,
+      ...this.sanitizeFilters(baseFilters),
       _page: 1,
       _limit: 12,
     };
@@ -52,16 +46,14 @@ export class DollService {
   }
 
   /**
-   * Merges partial updates into the existing filter state.
-   * @param newFilters - Partial filters to merge.
+   * Merges partial updates into the current filter state, ensuring data normalization before reloading.
    */
   public updateFilters(newFilters: Partial<DollCatalogFilters>): void {
     const current = this.filters();
     const updated: DollCatalogFilters = {
       ...current,
-      ...newFilters,
+      ...this.sanitizeFilters(newFilters),
       _page: 1,
-      userFilters: newFilters.userFilters || current.userFilters,
     };
 
     this.filters.set(updated);
@@ -69,7 +61,7 @@ export class DollService {
   }
 
   /**
-   * Fetches the next page of results and appends them to the current list.
+   * Triggers loading of the next page of results, appending them to the existing doll collection.
    */
   public loadMoreDolls(): void {
     if (this.isLoading() || !this.hasMore()) return;
@@ -83,9 +75,55 @@ export class DollService {
   }
 
   /**
-   * Internal execution logic for API requests.
-   * Maps response from array to internal signals.
-   * @param currentFilters - The filters to be sent to the backend.
+   * Validates and cleanses filter values. Flattens nested arrays and removes invalid entries.
+   * Uses type-safe checks to satisfy strict TypeScript configurations without using 'any'.
+   */
+  private sanitizeFilters(
+    filters: Partial<DollCatalogFilters>,
+  ): Partial<DollCatalogFilters> {
+    const sanitized: Partial<DollCatalogFilters> = { ...filters };
+
+    const arrayFields: (keyof DollCatalogFilters)[] = [
+      'manufacturer',
+      'brand',
+      'articulation',
+      'bodyVolume',
+      'footType',
+      'releaseYear',
+      'gender',
+    ];
+
+    arrayFields.forEach((field) => {
+      if (field in sanitized) {
+        const value = sanitized[field];
+
+        if (Array.isArray(value)) {
+          const flatArray = (value as unknown[])
+            .flat()
+            .filter((v) => v !== null && v !== undefined && v !== '');
+
+          if (flatArray.length > 0) {
+            (sanitized[field] as unknown[]) = flatArray;
+          } else {
+            delete sanitized[field];
+          }
+        } else if (
+          value === null ||
+          value === undefined ||
+          (value as unknown) === ''
+        ) {
+          delete sanitized[field];
+        } else {
+          (sanitized[field] as unknown[]) = [value];
+        }
+      }
+    });
+
+    return sanitized;
+  }
+
+  /**
+   * Orchestrates the API request cycle and updates state signals based on the response.
    */
   private async runLoadSequence(
     currentFilters: DollCatalogFilters,
@@ -120,9 +158,7 @@ export class DollService {
   }
 
   /**
-   * Enriches user-specific doll data with master record details.
-   * @param userDolls - Array of user-owned doll records.
-   * @returns A promise resolving to enriched user dolls.
+   * Enriches collection data by mapping user records to full catalog definitions.
    */
   private async enrichUserDolls(
     userDolls: UserDoll[],

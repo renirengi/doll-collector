@@ -4,10 +4,6 @@ import { firstValueFrom } from 'rxjs';
 import { DollCatalogFilters } from '../../app/shared/models/doll-filters.model';
 import { Doll } from '../../app/shared/models';
 
-/**
- * Service responsible for interacting with the /dolls API endpoints.
- * Handles filtering, sorting, and CRUD operations for the doll collection.
- */
 @Injectable({
   providedIn: 'root',
 })
@@ -16,22 +12,20 @@ export class DollApiService {
   private readonly apiUrl = '/dolls';
 
   /**
-   * Orchestrates doll data fetching by deciding between simple listing,
-   * complex filtering, or specialized sorting endpoints.
-   * * @param filters - Configuration object containing pagination, sorting, and criteria.
-   * @returns A promise resolving to an array of Doll objects.
-   * @throws Will throw an error if the backend returns a non-2xx response.
+   * Fetches dolls based on provided filters, sorting criteria, or pagination.
+   * Routes the request to specialized endpoints (/sort, /filter, or /all)
+   * depending on the complexity of the input.
    */
   public async getAll(filters: DollCatalogFilters): Promise<Doll[]> {
     const { _page, _limit, _sort, _order, userFilters, ...catalogCriteria } =
       filters;
 
-    // 1. Specialized Sorting Logic
-    // If sort parameters are present, bypass standard filters and use sorting endpoints.
+    /**
+     * Handle specialized sorting requests.
+     */
     if (_sort && _order) {
       const isOwned = !!userFilters;
       const url = isOwned ? `${this.apiUrl}/sortOwned` : `${this.apiUrl}/sort`;
-
       const sortBody = isOwned
         ? { ownedDollSortBy: _sort, dollSortOrder: _order }
         : { dollSortBy: _sort, dollSortOrder: _order };
@@ -39,29 +33,26 @@ export class DollApiService {
       return firstValueFrom(this.http.post<Doll[]>(url, sortBody));
     }
 
-    // 2. Criteria Mapping & Flattening
-    // Merge catalog-level criteria with user-specific filters into a flat object.
+    /**
+     * Merge and map criteria to match backend naming conventions.
+     */
     const combinedCriteria = {
       ...catalogCriteria,
       ...(userFilters || {}),
     };
 
-    /**
-     * Map frontend property names to match the backend Swagger naming convention.
-     * purchaseStates -> purchaseState
-     * status -> dollStatus
-     */
-    const mappedCriteria: any = { ...combinedCriteria };
-    if (mappedCriteria.purchaseStates) {
-      mappedCriteria.purchaseState = mappedCriteria.purchaseStates;
-      delete mappedCriteria.purchaseStates;
-    }
-    if (mappedCriteria.status) {
-      mappedCriteria.dollStatus = mappedCriteria.status;
-      delete mappedCriteria.status;
-    }
+    const mappedCriteria: any = {};
+    Object.entries(combinedCriteria).forEach(([key, value]) => {
+      let backendKey = key;
+      if (key === 'purchaseStates') backendKey = 'purchaseState';
+      if (key === 'status') backendKey = 'dollStatus';
 
-    // Remove empty arrays, nulls, and undefined values to keep the request body clean.
+      mappedCriteria[backendKey] = value;
+    });
+
+    /**
+     * Clean criteria by removing empty arrays, nulls, and undefined values.
+     */
     const cleanCriteria = Object.fromEntries(
       Object.entries(mappedCriteria).filter(([_, v]) => {
         if (Array.isArray(v)) return v.length > 0;
@@ -69,13 +60,13 @@ export class DollApiService {
       }),
     );
 
-    // 3. Request Execution
-    // Set pagination query parameters.
     const params = new HttpParams()
       .set('_page', _page?.toString() || '1')
       .set('_limit', _limit?.toString() || '12');
 
-    // Use POST /filter for complex criteria, otherwise fallback to GET /all.
+    /**
+     * Use POST /filter for active criteria, otherwise fallback to GET /all.
+     */
     if (Object.keys(cleanCriteria).length > 0) {
       return firstValueFrom(
         this.http.post<Doll[]>(`${this.apiUrl}/filter`, cleanCriteria, {
@@ -91,24 +82,20 @@ export class DollApiService {
 
   /**
    * Retrieves a single doll record by its unique identifier.
-   * @param id - The UUID of the doll.
    */
   public async getById(id: string): Promise<Doll> {
     return firstValueFrom(this.http.get<Doll>(`${this.apiUrl}/${id}`));
   }
 
   /**
-   * Persists a new doll entry.
-   * @param data - Partial doll data for creation.
+   * Creates a new doll record in the database.
    */
   public async create(data: Partial<Doll>): Promise<Doll> {
     return firstValueFrom(this.http.post<Doll>(this.apiUrl, data));
   }
 
   /**
-   * Performs a partial update on an existing doll record.
-   * @param id - The UUID of the target doll.
-   * @param data - The fields to be updated.
+   * Updates an existing doll record using partial data.
    */
   public async update(id: string, data: Partial<Doll>): Promise<Doll> {
     return firstValueFrom(
@@ -117,8 +104,7 @@ export class DollApiService {
   }
 
   /**
-   * Permanently deletes a doll record and its associated metadata.
-   * @param id - The UUID of the doll to remove.
+   * Deletes a doll record and all associated data from the server.
    */
   public async delete(id: string): Promise<void> {
     return firstValueFrom(this.http.delete<void>(`${this.apiUrl}/${id}`));

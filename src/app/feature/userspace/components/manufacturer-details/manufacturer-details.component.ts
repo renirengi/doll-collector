@@ -1,32 +1,30 @@
 import { Component, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule, NavigationEnd } from '@angular/router';
+import { RouterModule, ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { filter, map, startWith } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-manufacturer-details',
   standalone: true,
   imports: [CommonModule, RouterModule],
   template: `
-    @if (brands().length > 0) {
+    @if (availableBrands().length > 0) {
       <nav class="wrapper nav-container mt-[1rem]">
-        @for (brand of brands(); track brand) {
-          @if (brand !== 'Other') {
-            <button
-              [routerLink]="[]"
-              [queryParams]="{ brand: brand }"
-              queryParamsHandling="merge"
-              [class.active]="activeBrand() === brand"
-              class="nav-btn img-btn"
-            >
-              <img
-                [src]="'assets/brands/' + brand + '.png'"
-                [alt]="brand"
-                class="nav-logo"
-              />
-            </button>
-          }
+        @for (brand of availableBrands(); track brand) {
+          <button
+            [routerLink]="[]"
+            [queryParams]="{ brand: toggleBrand(brand) }"
+            queryParamsHandling="merge"
+            class="nav-btn img-btn"
+            [class.active]="isBrandSelected(brand)"
+          >
+            <img
+              [src]="'assets/brands/' + brand + '.png'"
+              [alt]="brand"
+              class="nav-logo"
+            />
+          </button>
         }
       </nav>
     }
@@ -34,25 +32,27 @@ import { filter, map, startWith } from 'rxjs/operators';
   styleUrls: ['./manufacturer-details.component.scss'],
 })
 export class ManufacturerDetailsComponent {
-  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
-  private readonly url = toSignal(
-    this.router.events.pipe(
-      filter((e) => e instanceof NavigationEnd),
-      map(() => this.router.url),
-      startWith(this.router.url),
+  private readonly selectedManufacturers = toSignal(
+    this.route.queryParams.pipe(
+      map((params) => {
+        const val = params['manufacturer'];
+        return Array.isArray(val) ? val : val ? [val] : [];
+      }),
     ),
+    { initialValue: [] as string[] },
   );
 
-  public readonly manufacturerName = computed(() => {
-    const urlTree = this.router.parseUrl(this.url() || '');
-    return urlTree.queryParamMap.get('manufacturer');
-  });
-
-  public readonly activeBrand = computed(() => {
-    const urlTree = this.router.parseUrl(this.url() || '');
-    return urlTree.queryParamMap.get('brand');
-  });
+  private readonly selectedBrands = toSignal(
+    this.route.queryParams.pipe(
+      map((params) => {
+        const val = params['brand'];
+        return Array.isArray(val) ? val : val ? [val] : [];
+      }),
+    ),
+    { initialValue: [] as string[] },
+  );
 
   private readonly brandRegistry: Record<string, string[]> = {
     Mattel: ['Barbie', 'Monster High'],
@@ -70,8 +70,22 @@ export class ManufacturerDetailsComponent {
     Other: ['Other', 'Sandra'],
   };
 
-  public readonly brands = computed(() => {
-    const name = this.manufacturerName();
-    return name ? this.brandRegistry[name] || [] : [];
+  public readonly availableBrands = computed(() => {
+    const mans = this.selectedManufacturers();
+    if (mans.length === 0) return [];
+    const allBrands = mans.flatMap((m) => this.brandRegistry[m] || []);
+    return [...new Set(allBrands)];
   });
+
+  isBrandSelected(brand: string): boolean {
+    return this.selectedBrands().includes(brand);
+  }
+
+  toggleBrand(brand: string): string[] | null {
+    const current = this.selectedBrands();
+    const updated = current.includes(brand)
+      ? current.filter((b) => b !== brand)
+      : [...current, brand];
+    return updated.length ? updated : null;
+  }
 }

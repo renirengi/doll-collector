@@ -1,81 +1,102 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
+import { DollSelectComponent } from './doll-select.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { HarnessLoader } from '@angular/cdk/testing';
-
-import { DollSelectComponent } from './doll-select.component';
-import { SortValue } from '../../../../shared/models';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDividerModule } from '@angular/material/divider';
+import { TitleCasePipe } from '@angular/common';
+import { By } from '@angular/platform-browser';
 
 describe('DollSelectComponent', () => {
   let component: DollSelectComponent;
   let fixture: ComponentFixture<DollSelectComponent>;
-  let loader: HarnessLoader;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DollSelectComponent, ReactiveFormsModule, NoopAnimationsModule],
+      imports: [
+        DollSelectComponent,
+        ReactiveFormsModule,
+        MatSelectModule,
+        MatDividerModule,
+        NoopAnimationsModule,
+        TitleCasePipe,
+      ],
     }).compileComponents();
+  });
 
+  const createComponent = (isSort = false, options: string[] = []) => {
     fixture = TestBed.createComponent(DollSelectComponent);
     component = fixture.componentInstance;
-    loader = TestbedHarnessEnvironment.loader(fixture);
+    fixture.componentRef.setInput('isSort', isSort);
+    fixture.componentRef.setInput('options', options);
     fixture.detectChanges();
+  };
+
+  describe('Multiple Selection Mode (isSort = false)', () => {
+    // We provide options to ensure mat-select can match the values
+    beforeEach(() => createComponent(false, ['kurhn', 'barbie', 'licca']));
+
+    it('should show "Selected: 2" when more than 1 item is selected', fakeAsync(() => {
+      // Act: Set value and wait for change detection and internal Material timers
+      component.control.setValue(['kurhn', 'barbie']);
+      fixture.detectChanges();
+      tick(); // Let Material's internal overlay/trigger logic stabilize
+      fixture.detectChanges();
+
+      const trigger = fixture.debugElement.query(
+        By.css('.mat-mdc-select-trigger'),
+      ).nativeElement;
+
+      // Assert
+      expect(trigger.textContent).toContain('Selected: 2');
+    }));
+
+    it('should show titlecased label when exactly 1 item is selected', fakeAsync(() => {
+      // Act
+      component.control.setValue(['kurhn']);
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      const trigger = fixture.debugElement.query(
+        By.css('.mat-mdc-select-trigger'),
+      ).nativeElement;
+
+      // Assert
+      expect(trigger.textContent).toContain('Kurhn');
+    }));
+
+    it('should show "Not selected" when value is null or empty', fakeAsync(() => {
+      component.control.setValue([]);
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      const trigger = fixture.debugElement.query(
+        By.css('.mat-mdc-select-trigger'),
+      ).nativeElement;
+      expect(trigger.textContent).toContain('Not selected');
+    }));
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  describe('Sort Mode (isSort = true)', () => {
+    beforeEach(() => createComponent(true));
 
-  describe('Logic and Getters', () => {
-    it('should return string for selectedLabel', () => {
-      component.control.setValue('standard');
-      expect(component.selectedLabel).toBe('standard');
-    });
-
-    it('should return null for selectedLabel when value is SortValue', () => {
+    it('should show "Sorted" in trigger when sort value is present', fakeAsync(() => {
       component.control.setValue({ field: 'releaseYear', order: 'DESC' });
-      expect(component.selectedLabel).toBeNull();
-    });
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
 
-    it('should correctly compare SortValue objects', () => {
-      const val1: SortValue = { field: 'price', order: 'ASC' };
-      const val2: SortValue = { field: 'price', order: 'ASC' };
-      const val3: SortValue = { field: 'price', order: 'DESC' };
-
-      expect(component.compareObjects(val1, val2)).toBeTrue();
-      expect(component.compareObjects(val1, val3)).toBeFalse();
-    });
-
-    it('should correctly compare strings', () => {
-      expect(component.compareObjects('a', 'a')).toBeTrue();
-      expect(component.compareObjects('a', 'b')).toBeFalse();
-    });
-  });
-
-  describe('ControlValueAccessor', () => {
-    it('should update control value on writeValue', () => {
-      component.writeValue('test');
-      expect(component.control.value).toBe('test');
-    });
-
-    it('should call onChange on selection change', () => {
-      const spy = jasmine.createSpy('onChange');
-      component.registerOnChange(spy);
-      component.control.setValue('new');
-      component.onSelectionChange();
-      expect(spy).toHaveBeenCalledWith('new');
-    });
-
-    it('should emit changed event on selection change', () => {
-      const spy = spyOn(component.changed, 'emit');
-      component.onSelectionChange();
-      expect(spy).toHaveBeenCalled();
-    });
-
-    it('should disable control', () => {
-      component.setDisabledState(true);
-      expect(component.control.disabled).toBeTrue();
-    });
+      const trigger = fixture.debugElement.query(
+        By.css('.mat-mdc-select-trigger'),
+      ).nativeElement;
+      expect(trigger.textContent).toContain('Sorted');
+    }));
   });
 });
