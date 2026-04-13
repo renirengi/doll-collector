@@ -230,43 +230,43 @@ body {
     display: block;
     padding: 1rem;
   }
+}
 
-  /* Snackbar */
-  #custom-snackbar-container {
-    z-index: 15000 !important;
-    position: fixed !important;
-  }
+/* Snackbar */
+#custom-snackbar-container {
+  z-index: 15000 !important;
+  position: fixed !important;
+}
 
-  .custom-snackbar-success {
-    background-color: var(--antique-linen) !important;
-    color: var(--abyssal-blue) !important;
-    border: 3px solid var(--abyssal-blue) !important;
-    z-index: 15001 !important;
-  }
+.custom-snackbar-success {
+  background-color: var(--antique-linen) !important;
+  color: var(--abyssal-blue) !important;
+  border: 3px solid var(--abyssal-blue) !important;
+  z-index: 15001 !important;
+}
 
-  .custom-snackbar-error {
-    background-color: var(--antique-linen) !important;
-    color: var(--burnt-citrus) !important;
-    border: 3px solid var(--burnt-citrus) !important;
-    z-index: 15001 !important;
-  }
+.custom-snackbar-error {
+  background-color: var(--antique-linen) !important;
+  color: var(--burnt-citrus) !important;
+  border: 3px solid var(--burnt-citrus) !important;
+  z-index: 15001 !important;
+}
 
-  .mat-mdc-snack-bar-container {
-    background-color: var(--antique-linen) !important;
-    color: #000 !important;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-  }
+.mat-mdc-snack-bar-container {
+  background-color: var(--antique-linen) !important;
+  color: #000 !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
 
-  .mat-form-field-appearance-outline .mat-form-field-outline {
-    bottom: 0 !important;
-  }
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  bottom: 0 !important;
+}
 
-  .mat-form-field-flex {
-    align-items: flex-start !important;
-  }
+.mat-form-field-flex {
+  align-items: flex-start !important;
+}
 
-  .mat-form-field-infix {
-    padding: 12px 0 8px 0 !important;
-    border-top: 0.84375em solid transparent !important;
-  }
+.mat-form-field-infix {
+  padding: 12px 0 8px 0 !important;
+  border-top: 0.84375em solid transparent !important;
 }
