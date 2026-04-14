@@ -1,5 +1,7 @@
 export interface SidebarItem {
-  path: string;
-  iconClass: string;
   label: string;
+  iconClass: string;
+  icon?: string;
+  route?: string;
+  id?: string;
 }

@@ -12,16 +12,16 @@ import { SidebarItem } from '../../../shared/models';
       <div class="sidebar-logo"></div>
       <nav>
         <ul class="sidebar-menu">
-          @for (item of items(); track item.path) {
+          @for (item of items(); track item.route) {
             <li>
               <a
-                [routerLink]="item.path"
+                [routerLink]="item.route"
                 routerLinkActive="active"
                 class="icon-toggle"
                 [matTooltip]="item.label"
                 matTooltipPosition="right"
               >
-                <span class="icon" [class]="item.iconClass"></span>
+                <span class="icon" [class]="getIconClass(item)"></span>
               </a>
             </li>
           }
@@ -34,4 +34,19 @@ import { SidebarItem } from '../../../shared/models';
 export class Sidebar {
   items = input.required<SidebarItem[]>();
   variantClass = input<string>('user-sidebar');
+
+  getIconClass(item: SidebarItem): string {
+    if (item.icon) {
+      const fileName = item.icon.split('/').pop()?.split('.')[0];
+      if (fileName) {
+        return `icon-${fileName.replace(/_/g, '-')}`;
+      }
+    }
+
+    if (item.iconClass) {
+      return item.iconClass;
+    }
+
+    return 'icon-crown';
+  }
 }

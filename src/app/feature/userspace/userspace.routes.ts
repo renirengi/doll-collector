@@ -42,6 +42,13 @@ export const userspaceRoutes: Routes = [
             (m) => m.UserSoldDollPage,
           ),
       },
+      {
+        path: 'collections/:id',
+        loadComponent: () =>
+          import('./pages/collection-details-page/collection-details.component').then(
+            (m) => m.CollectionDetailsComponent,
+          ),
+      },
     ],
   },
   { path: '**', redirectTo: '../404' },

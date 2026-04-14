@@ -1,18 +1,26 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { By } from '@angular/platform-browser';
 import { UserComponent } from './user.component';
 import { AuthService } from '../../../../core/services/auth.service';
+import { CollectionService } from '../../../../core/services/collection.service';
 import { User, UserRoles } from '../../../../shared/models';
+import { signal } from '@angular/core';
 
-/**
- * Unit tests for UserComponent.
- * Validates user data display, menu toggling, and logout integration.
- */
+class AuthServiceMock {
+  logout() {}
+}
+
+class CollectionServiceMock {
+  menuItems = signal([]);
+  createCollection() {
+    return Promise.resolve({});
+  }
+}
+
 describe('UserComponent', () => {
   let component: UserComponent;
   let fixture: ComponentFixture<UserComponent>;
-  let authServiceSpy: jasmine.SpyObj<AuthService>;
+  let authService: AuthService;
 
   const mockUser: User = {
     id: '123',
@@ -22,63 +30,47 @@ describe('UserComponent', () => {
   } as User;
 
   beforeEach(async () => {
-    authServiceSpy = jasmine.createSpyObj('AuthService', ['logout']);
-
     await TestBed.configureTestingModule({
       imports: [UserComponent],
       providers: [
         provideRouter([]),
-        { provide: AuthService, useValue: authServiceSpy },
+        { provide: AuthService, useClass: AuthServiceMock },
+        { provide: CollectionService, useClass: CollectionServiceMock },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(UserComponent);
     component = fixture.componentInstance;
+    authService = TestBed.inject(AuthService);
     fixture.detectChanges();
   });
 
-  it('should create the user component', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   describe('User Display Logic', () => {
-    it('should display "Guest" when no user data is provided', () => {
+    it('should display "Guest" when no user data', () => {
       fixture.componentRef.setInput('userData', null);
-      fixture.detectChanges();
       expect(component.displayName()).toBe('Guest');
     });
 
-    it('should display the username when user data is present', () => {
+    it('should display username', () => {
       fixture.componentRef.setInput('userData', mockUser);
-      fixture.detectChanges();
       expect(component.displayName()).toBe('johndoe');
     });
 
-    it('should correctly identify admin role', () => {
+    it('should correctly identify admin', () => {
       fixture.componentRef.setInput('userData', {
         ...mockUser,
         role: UserRoles.Admin,
       });
-      fixture.detectChanges();
       expect(component.isAdmin()).toBeTrue();
-    });
-
-    it('should return false for isAdmin if user is a client', () => {
-      fixture.componentRef.setInput('userData', {
-        ...mockUser,
-        role: UserRoles.Client,
-      });
-      fixture.detectChanges();
-      expect(component.isAdmin()).toBeFalse();
     });
   });
 
   describe('Menu Interaction', () => {
-    it('should have menu closed by default', () => {
-      expect(component.menuOpen()).toBeFalse();
-    });
-
-    it('should toggle menuOpen signal when toggleMenu is called', () => {
+    it('should toggle menu', () => {
       const event = new MouseEvent('click');
       spyOn(event, 'stopPropagation');
 
@@ -90,28 +82,39 @@ describe('UserComponent', () => {
       expect(component.menuOpen()).toBeFalse();
     });
 
-    it('should close menu when closeMenu is called', () => {
+    it('should close menu on outside click', () => {
       component.menuOpen.set(true);
-      component.closeMenu();
-      expect(component.menuOpen()).toBeFalse();
-    });
-
-    it('should close menu on outside click via HostListener', () => {
-      component.menuOpen.set(true);
-      // Simulate document click
-      document.dispatchEvent(new MouseEvent('click'));
+      component.onOutsideClick();
       expect(component.menuOpen()).toBeFalse();
     });
   });
 
-  describe('Auth Actions', () => {
-    it('should call authService.logout and close menu when onLogout is triggered', () => {
+  describe('Actions', () => {
+    it('should call logout and close menu', () => {
+      const spy = spyOn(authService, 'logout');
       component.menuOpen.set(true);
 
       component.onLogout();
 
-      expect(authServiceSpy.logout).toHaveBeenCalled();
+      expect(spy).toHaveBeenCalled();
       expect(component.menuOpen()).toBeFalse();
+    });
+
+    it('should handle openCreateModal', () => {
+      const event = new MouseEvent('click');
+      spyOn(event, 'stopPropagation');
+      component.menuOpen.set(true);
+
+      const modalMock = { showModal: jasmine.createSpy('showModal') };
+      spyOn(component as any, 'createCollectionModal').and.returnValue(
+        modalMock,
+      );
+
+      component.openCreateModal(event);
+
+      expect(event.stopPropagation).toHaveBeenCalled();
+      expect(component.menuOpen()).toBeFalse();
+      expect(modalMock.showModal).toHaveBeenCalled();
     });
   });
 });

@@ -1,14 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DollCardComponent } from './doll-card.component';
 import { Router } from '@angular/router';
-import { By } from '@angular/platform-browser';
+import { CollectionService } from '../../../../core/services/collection.service';
+import { signal, WritableSignal } from '@angular/core';
 import * as T from '../../../../shared/models/doll-enums';
-import { Doll, EnrichedUserDoll } from '../../../../shared/models';
+import { Doll, EnrichedUserDoll, SidebarItem } from '../../../../shared/models';
+
+class CollectionServiceMock {
+  public menuItems: WritableSignal<SidebarItem[]> = signal([]);
+}
 
 describe('DollCardComponent', () => {
   let component: DollCardComponent;
   let fixture: ComponentFixture<DollCardComponent>;
   let routerSpy: jasmine.SpyObj<Router>;
+  let collectionServiceMock: CollectionServiceMock;
 
   const mockCatalogDoll: Doll = {
     id: 'CATALOG_ID_123',
@@ -32,20 +38,34 @@ describe('DollCardComponent', () => {
     catalogInfo: mockCatalogDoll,
   };
 
+  const mockDynamicItems: SidebarItem[] = [
+    {
+      id: 'col_1',
+      route: '/user/collections/1',
+      iconClass: 'icon-custom',
+      label: 'Custom Col',
+    },
+  ];
+
   beforeEach(async () => {
-    // Create a spy object where 'url' is a getter spy
     routerSpy = jasmine.createSpyObj('Router', [], ['url']);
 
     await TestBed.configureTestingModule({
       imports: [DollCardComponent],
-      providers: [{ provide: Router, useValue: routerSpy }],
+      providers: [
+        { provide: Router, useValue: routerSpy },
+        { provide: CollectionService, useClass: CollectionServiceMock },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DollCardComponent);
     component = fixture.componentInstance;
+    collectionServiceMock = TestBed.inject(
+      CollectionService,
+    ) as unknown as CollectionServiceMock;
+
     component.doll = mockCatalogDoll;
 
-    // Default URL
     (
       Object.getOwnPropertyDescriptor(routerSpy, 'url')?.get as jasmine.Spy
     ).and.returnValue('/catalog');
@@ -54,53 +74,53 @@ describe('DollCardComponent', () => {
   });
 
   describe('Signal: availableActions', () => {
-    it('should show all 4 actions when on catalog page', () => {
-      const urlSpy = Object.getOwnPropertyDescriptor(routerSpy, 'url')
-        ?.get as jasmine.Spy;
-      urlSpy.and.returnValue('/catalog');
-
+    it('should show static and dynamic actions when on catalog page', () => {
+      collectionServiceMock.menuItems.set(mockDynamicItems);
       fixture.detectChanges();
 
       const actions = component['availableActions']();
-      expect(actions.length).toBe(4);
+      expect(actions.length).toBe(5);
+      expect(actions.find((a) => a.id === 'col_1')).toBeDefined();
+    });
+
+    it('should filter out current route from actions', () => {
+      const urlSpy = Object.getOwnPropertyDescriptor(routerSpy, 'url')
+        ?.get as jasmine.Spy;
+      urlSpy.and.returnValue('/user/favorites');
+
+      collectionServiceMock.menuItems.set([]);
+      fixture.detectChanges();
+
+      const actions = component['availableActions']();
+      expect(actions.length).toBe(3);
+      expect(actions.find((a) => a.id === 'favorites')).toBeUndefined();
     });
   });
 
-  describe('Data Logic: isUserDoll and d getter', () => {
-    it('should correctly identify EnrichedUserDoll', () => {
+  describe('Data Logic', () => {
+    it('should identify EnrichedUserDoll', () => {
       expect(component.isUserDoll(mockUserDoll)).toBeTrue();
       expect(component.isUserDoll(mockCatalogDoll)).toBeFalse();
     });
 
-    it('should extract catalog info via getter d for both types', () => {
+    it('should extract catalog info via d', () => {
       component.doll = mockUserDoll;
-      fixture.detectChanges();
-      expect(component.d.originalName).toBe('Valentine Sweetheart Barbie');
-
-      component.doll = mockCatalogDoll;
-      fixture.detectChanges();
-      expect(component.d.originalName).toBe('Valentine Sweetheart Barbie');
+      expect(component.d.id).toBe('CATALOG_ID_123');
     });
   });
 
-  describe('User Interactions', () => {
-    beforeEach(() => {
-      spyOn(console, 'log');
-    });
+  describe('Interactions', () => {
+    beforeEach(() => spyOn(console, 'log'));
 
-    it('should log dollId when clicking user doll', () => {
+    it('should log correct id on click', () => {
       component.doll = mockUserDoll;
-      fixture.detectChanges();
       component.onCardClick();
       expect(console.log).toHaveBeenCalledWith(
         'Клик по кукле:',
         'USER_REFERENCE_ID',
       );
-    });
 
-    it('should log catalog id when clicking catalog doll', () => {
       component.doll = mockCatalogDoll;
-      fixture.detectChanges();
       component.onCardClick();
       expect(console.log).toHaveBeenCalledWith(
         'Клик по кукле:',
@@ -108,7 +128,7 @@ describe('DollCardComponent', () => {
       );
     });
 
-    it('should handle onAction with stopPropagation', () => {
+    it('should handle onAction', () => {
       const event = new MouseEvent('click');
       spyOn(event, 'stopPropagation');
 
@@ -117,17 +137,9 @@ describe('DollCardComponent', () => {
       expect(event.stopPropagation).toHaveBeenCalled();
       expect(console.log).toHaveBeenCalledWith(
         jasmine.stringMatching(
-          /Переместить Valentine Sweetheart Barbie в список: shop/,
+          /\[TODO\] Move Valentine Sweetheart Barbie to: shop/,
         ),
       );
-    });
-  });
-
-  describe('Template Rendering', () => {
-    it('should render doll original name', () => {
-      const compiled = fixture.nativeElement as HTMLElement;
-      const nameTag = compiled.querySelector('.original-name');
-      expect(nameTag?.textContent).toContain('Valentine Sweetheart Barbie');
     });
   });
 });

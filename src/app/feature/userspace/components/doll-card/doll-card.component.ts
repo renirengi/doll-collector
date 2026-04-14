@@ -2,10 +2,13 @@ import { Component, Input, inject, computed } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
+import { CollectionService } from '../../../../core/services/collection.service';
+import { IconUtils } from '../../../../shared/utils/icon.utils';
 import {
   Doll,
   EnrichedUserDoll,
   DollDataType,
+  SidebarItem,
 } from '../../../../shared/models';
 
 @Component({
@@ -17,19 +20,44 @@ import {
 })
 export class DollCardComponent {
   private readonly router = inject(Router);
+  private readonly collectionService = inject(CollectionService);
 
   @Input({ required: true }) doll!: DollDataType;
 
-  private readonly actionConfig = [
-    { id: 'favorites', route: '/user/favorites', icon: 'icon-favorite' },
-    { id: 'shelf', route: '/user/shelf', icon: 'icon-shelves' },
-    { id: 'shop', route: '/user/shop', icon: 'icon-shop' },
-    { id: 'sold', route: '/user/sold-doll', icon: 'icon-sold-doll' },
+  private readonly staticActions: SidebarItem[] = [
+    {
+      id: 'favorites',
+      route: '/user/favorites',
+      iconClass: 'icon-favorite',
+      label: 'My wish',
+    },
+    {
+      id: 'shelf',
+      route: '/user/shelf',
+      iconClass: 'icon-shelves',
+      label: 'My shelf',
+    },
+    {
+      id: 'shop',
+      route: '/user/shop',
+      iconClass: 'icon-shop',
+      label: 'My shop',
+    },
+    {
+      id: 'sold',
+      route: '/user/sold-doll',
+      iconClass: 'icon-sold-doll',
+      label: 'Sold',
+    },
   ];
 
   protected readonly availableActions = computed(() => {
     const currentUrl = this.router.url;
-    return this.actionConfig.filter((action) => currentUrl !== action.route);
+
+    return [
+      ...this.staticActions,
+      ...this.collectionService.menuItems(),
+    ].filter((action) => action.route && !currentUrl.includes(action.route));
   });
 
   public isUserDoll(data: DollDataType): data is EnrichedUserDoll {
@@ -42,9 +70,7 @@ export class DollCardComponent {
 
   onAction(actionId: string, event: Event): void {
     event.stopPropagation();
-    console.log(
-      `[TODO] Переместить ${this.d.originalName} в список: ${actionId}`,
-    );
+    console.log(`[TODO] Move ${this.d.originalName} to: ${actionId}`);
   }
 
   onCardClick(): void {

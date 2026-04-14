@@ -12,10 +12,10 @@
           <button
             type="button"
             class="icon-toggle small"
-            (click)="onAction(action.id, $event)"
+            (click)="onAction(action.id!, $event)"
             [attr.title]="action.id"
           >
-            <span class="icon" [ngClass]="action.icon"></span>
+            <span class="icon" [ngClass]="action.iconClass"></span>
           </button>
         }
       </div>

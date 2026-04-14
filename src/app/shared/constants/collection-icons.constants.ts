@@ -36,3 +36,28 @@ export const ALL_COLLECTION_ICONS = [
   { id: 'man', label: 'Man', iconClass: 'icon-man' },
   { id: 'name', label: 'Name', iconClass: 'icon-name' },
 ];
+
+export const COLLECTION_ICONS = [
+  { id: 'crown', label: 'Crown', iconClass: 'icon-crown' },
+  { id: 'diamond', label: 'Diamond', iconClass: 'icon-diamond' },
+  { id: 'celebration', label: 'Celebration', iconClass: 'icon-celebration' },
+  { id: 'star_shine', label: 'Star Shine', iconClass: 'icon-star-shine' },
+  { id: 'heart_smile', label: 'Heart Smile', iconClass: 'icon-heart-smile' },
+  { id: 'palette', label: 'Palette', iconClass: 'icon-palette' },
+  { id: 'pets', label: 'Pets', iconClass: 'icon-pets' },
+  { id: 'style', label: 'Style', iconClass: 'icon-style' },
+  { id: 'owl', label: 'Owl', iconClass: 'icon-owl' },
+  { id: 'sunny', label: 'Sunny', iconClass: 'icon-sunny' },
+  { id: 'rocket', label: 'Rocket', iconClass: 'icon-rocket' },
+  { id: 'playground', label: 'Playground', iconClass: 'icon-playground' },
+  { id: 'diversity', label: 'Diversity', iconClass: 'icon-diversity' },
+  { id: 'lips', label: 'Lips', iconClass: 'icon-lips' },
+  { id: 'face_3', label: 'Face Type 3', iconClass: 'icon-face-3' },
+  { id: 'face_6', label: 'Face Type 6', iconClass: 'icon-face-6' },
+  { id: 'cruelty_free', label: 'Cruelty Free', iconClass: 'icon-cruelty-free' },
+  { id: 'deceased', label: 'Deceased', iconClass: 'icon-deceased' },
+  { id: 'falling', label: 'Falling', iconClass: 'icon-falling' },
+  { id: 'tsunami', label: 'Tsunami', iconClass: 'icon-tsunami' },
+  { id: 'man', label: 'Man', iconClass: 'icon-man' },
+  { id: 'name', label: 'Name', iconClass: 'icon-name' },
+];

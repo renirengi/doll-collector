@@ -36,8 +36,8 @@
   --astral-navy: #050a1e;
   --celestial-ink: #070f2f;
   --midnight-abyss: #1a152e;
-  --abyssal-blue: #003f64 --logo-base-dark: #2b2246
-    --violet-pulsar-filter-panel: #8b5cf6;
+  --abyssal-blue: #003f64;
+  --logo-base-dark: #2b2246 --violet-pulsar-filter-panel: #8b5cf6;
   --frosted-glass: rgba(255, 255, 255, 0.2);
 
   --cosmic-fusion-gradient: linear-gradient(
@@ -79,6 +79,9 @@
   --modal-max-width: 90vw;
   --modal-max-height: 90vh;
   --modal-close-button-display: block;
+
+  --border-radius: 10px;
+  --border-radius-mobile: 5px;
 }
 
 html {

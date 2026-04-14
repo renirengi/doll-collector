@@ -6,23 +6,35 @@ import {
   computed,
   signal,
   ChangeDetectionStrategy,
+  viewChild,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule, TitleCasePipe } from '@angular/common';
 import { AvatarComponent } from '../avatar/avatar.component';
 import { User, UserRoles } from '../../../../shared/models';
 import { AuthService } from '../../../../core/services/auth.service';
+import { ModalComponent } from '../../../../core/components/modal/modal.component';
+import { CreateCollectionFormComponent } from '../create-collection-form/create-collection-form.component';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [RouterModule, CommonModule, TitleCasePipe, AvatarComponent],
+  imports: [
+    RouterModule,
+    CommonModule,
+    TitleCasePipe,
+    AvatarComponent,
+    ModalComponent,
+    CreateCollectionFormComponent,
+  ],
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserComponent {
   private readonly authService = inject(AuthService);
+  private readonly createCollectionModal =
+    viewChild<ModalComponent>('createModal');
 
   public readonly userData = input<User | null | undefined>(undefined);
 
@@ -66,5 +78,11 @@ export class UserComponent {
     if (this.menuOpen()) {
       this.closeMenu();
     }
+  }
+
+  public openCreateModal(event: Event): void {
+    event.stopPropagation();
+    this.closeMenu();
+    this.createCollectionModal()?.showModal();
   }
 }

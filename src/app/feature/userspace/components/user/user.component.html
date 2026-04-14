@@ -50,6 +50,12 @@
         </li>
         <!-- } -->
 
+        <li>
+          <button class="link-add-collection" (click)="openCreateModal($event)">
+            <span>Create Collection</span>
+          </button>
+        </li>
+
         <li class="separator"></li>
         <li>
           <button class="logout-btn" (click)="onLogout()">
@@ -60,3 +66,8 @@
     </nav>
   }
 </div>
+<app-modal class="user-modal" #createModal title="New Collection">
+  <app-create-collection-form
+    (success)="createModal.closeModal()"
+  ></app-create-collection-form>
+</app-modal>

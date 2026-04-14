@@ -1,3 +1,4 @@
+@use "./styles/_user-modal.scss" as *;
 :host {
   display: block;
   --menu-accent: var(--indigo-vibe);

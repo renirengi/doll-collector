@@ -1,8 +1,9 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, computed, inject, ViewEncapsulation } from '@angular/core';
 import { Header } from './components/header/header.component';
 import { RouterOutlet } from '@angular/router';
 import { Sidebar } from '../../core/components/sidebar/sidebar.component';
-
+import { CollectionService } from '../../core/services/collection.service';
+import { SidebarItem } from '../../shared/models';
 @Component({
   selector: 'app-user-page',
   imports: [Header, RouterOutlet, Sidebar],
@@ -11,7 +12,10 @@ import { Sidebar } from '../../core/components/sidebar/sidebar.component';
     <!-- <app-user-sidebar-mobile></app-user-sidebar-mobile> -->
 
     <section class="user-page-container ml-[75px]">
-      <app-sidebar [items]="userMenu" variantClass="user-sidebar"></app-sidebar>
+      <app-sidebar
+        [items]="sidebarItems()"
+        variantClass="user-sidebar"
+      ></app-sidebar>
       <router-outlet></router-outlet>
     </section>
 
@@ -21,10 +25,20 @@ import { Sidebar } from '../../core/components/sidebar/sidebar.component';
   styleUrl: './user-page.component.scss',
 })
 export class UserPageComponent {
-  public userMenu = [
-    { path: 'favorites', iconClass: 'icon-favorite', label: 'My wish' },
-    { path: 'shelf', iconClass: 'icon-shelves', label: 'My shelf' },
-    { path: 'shop', iconClass: 'icon-shop', label: 'My shop' },
-    { path: 'sold-doll', iconClass: 'icon-sold-doll', label: 'Sold' },
-  ];
+  private readonly collectionService = inject(CollectionService);
+
+  public readonly sidebarItems = computed<SidebarItem[]>(() => {
+    const staticMenu: SidebarItem[] = [
+      {
+        route: '/user/favorites',
+        iconClass: 'icon-favorite',
+        label: 'My wish',
+      },
+      { route: '/user/shelf', iconClass: 'icon-shelves', label: 'My shelf' },
+      { route: '/user/shop', iconClass: 'icon-shop', label: 'My shop' },
+      { route: '/user/sold-doll', iconClass: 'icon-sold-doll', label: 'Sold' },
+    ];
+
+    return [...staticMenu, ...this.collectionService.menuItems()];
+  });
 }
