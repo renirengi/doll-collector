@@ -1,6 +1,12 @@
 :host {
   display: block;
   width: 100%;
+  min-height: 100vh;
+
+  background-color: var(--cloud-dancer);
+  background-repeat: repeat;
+  background-size: 400px;
+  background-attachment: fixed;
 
   .filters-drawer-animation {
     position: sticky;

@@ -16,7 +16,9 @@ import {
   template: `
     <dialog #dialogRef>
       <div class="modal-header">
+        <span class="user-modal-span"></span>
         <h3>{{ title() }}</h3>
+
         <button class="close-button" (click)="closeModal()" title="Close modal">
           🗙
         </button>

@@ -26,20 +26,7 @@ import { CollectionService } from '../../../../core/services/collection.service'
       }
     </div>
   `,
-  styles: [
-    `
-      .collection-header {
-        padding: 2rem;
-        border-bottom: 1px solid var(--lace-trim);
-      }
-      .dolls-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 1rem;
-        padding: 2rem;
-      }
-    `,
-  ],
+  styleUrl: './collection-details-page.scss',
 })
 export class CollectionDetailsComponent {
   private readonly collectionService = inject(CollectionService);

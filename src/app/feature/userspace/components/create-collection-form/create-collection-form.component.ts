@@ -12,26 +12,59 @@ import { MessageService } from '../../../../core/services/message-service.servic
   template: `
     <form [formGroup]="form" (ngSubmit)="submit()" class="collection-form">
       <div class="form-field">
-        <label class="field-label">Collection Name</label>
+        <label class="field-label">Collection Name *</label>
         <input
           id="name"
           formControlName="name"
           placeholder="My Awesome Collection"
+          [class.invalid]="
+            form.get('name')?.invalid && form.get('name')?.touched
+          "
         />
+
+        @if (form.get('name')?.touched) {
+          <div class="error-container">
+            @if (form.get('name')?.errors?.['required']) {
+              <span class="error-text">Name is required</span>
+            } @else if (form.get('name')?.errors?.['minlength']) {
+              <span class="error-text">
+                Too short! Needs
+                {{ 8 - (form.get('name')?.value?.length || 0) }} more characters
+              </span>
+            }
+          </div>
+        }
       </div>
 
       <div class="form-field">
-        <label class="field-label">Description</label>
+        <label class="field-label">Description *</label>
         <textarea
           id="description"
           formControlName="description"
           placeholder="What is this collection about?"
+          [class.invalid]="
+            form.get('description')?.invalid && form.get('description')?.touched
+          "
         ></textarea>
+
+        @if (form.get('description')?.touched) {
+          <div class="error-container">
+            @if (form.get('description')?.errors?.['required']) {
+              <span class="error-text">Description is required</span>
+            } @else if (form.get('description')?.errors?.['minlength']) {
+              <span class="error-text">
+                Tell us more! Needs
+                {{ 8 - (form.get('description')?.value?.length || 0) }} more
+                characters
+              </span>
+            }
+          </div>
+        }
       </div>
 
       <div class="icon-selection-wrapper">
         <label class="field-label">Select Icon</label>
-        <div class="icons-grid dark-icons-theme">
+        <div class="icons-grid dark-icons-theme my-[15px]">
           @for (icon of availableIcons; track icon.id) {
             <button
               type="button"
@@ -46,13 +79,16 @@ import { MessageService } from '../../../../core/services/message-service.servic
         </div>
       </div>
 
-      <div class="form-actions">
+      <div class="button-group">
         <button
           type="submit"
-          class="submit-btn"
+          class="btn user-important"
           [disabled]="form.invalid || isLoading()"
         >
           {{ isLoading() ? 'Creating...' : 'Create Collection' }}
+        </button>
+        <button type="button" class="btn user-none" title="Close">
+          Close modal
         </button>
       </div>
     </form>
@@ -70,8 +106,8 @@ export class CreateCollectionFormComponent {
   public readonly availableIcons = COLLECTION_ICONS;
 
   public readonly form = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(2)]],
-    description: [''],
+    name: ['', [Validators.required, Validators.minLength(8)]],
+    description: ['', [Validators.required, Validators.minLength(8)]],
     icon: ['icon-crown', [Validators.required]],
   });
 

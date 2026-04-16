@@ -3,7 +3,7 @@
     <app-filter-panel></app-filter-panel>
   </div>
 }
-<div class="catalog-container min-h-screen bg-slate-50">
+<div class="catalog-container min-h-screen">
   <main class="catalog-content" [class.is-loading]="service.isLoading()">
     @if (service.isLoading() && service.dolls().length === 0) {
       <div class="initial-spinner">

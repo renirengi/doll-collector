@@ -16,7 +16,7 @@ $logo-base-dark: #2b2246;
   z-index: 1200;
   height: var(--app-header-height, 80px);
   width: 100%;
-  background: linear-gradient(90deg, $dawn-start 0%, $dawn-end 100%);
+  background-image: linear-gradient(90deg, $dawn-start 0%, $dawn-end 100%);
   padding: 0 2rem 0 0;
   border-bottom: 1px solid rgba($dawn-end, 0.5);
   box-sizing: border-box;

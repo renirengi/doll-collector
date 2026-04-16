@@ -113,7 +113,7 @@
   }
 
   a,
-  .logout-btn {
+  button {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -171,6 +171,10 @@
   .logout-btn::before {
     mask-image: url("/assets/icons/logout.svg");
     -webkit-mask-image: url("/assets/icons/logout.svg");
+  }
+  .link-add-collection::before {
+    mask-image: url("/assets/icons/add-collection.svg");
+    -webkit-mask-image: url("/assets/icons/add-collection.svg");
   }
 }
 

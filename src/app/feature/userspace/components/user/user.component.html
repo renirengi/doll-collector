@@ -42,6 +42,12 @@
           </a>
         </li>
 
+        <li>
+          <button class="link-add-collection" (click)="openCreateModal($event)">
+            <span>Create Collection</span>
+          </button>
+        </li>
+
         <!-- @if (isAdmin()) { -->
         <li>
           <a routerLink="/admin-panel" (click)="closeMenu()" class="link-admin">
@@ -49,12 +55,6 @@
           </a>
         </li>
         <!-- } -->
-
-        <li>
-          <button class="link-add-collection" (click)="openCreateModal($event)">
-            <span>Create Collection</span>
-          </button>
-        </li>
 
         <li class="separator"></li>
         <li>
