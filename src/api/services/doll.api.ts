@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { DollCatalogFilters } from '../../app/shared/models/doll-filters.model';
-import { Doll } from '../../app/shared/models';
+import { Doll, DollsResponseDTO } from '../../app/shared/models';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,7 @@ export class DollApiService {
    * Routes the request to specialized endpoints (/sort, /filter, or /all)
    * depending on the complexity of the input.
    */
-  public async getAll(filters: DollCatalogFilters): Promise<Doll[]> {
+  public async getAll(filters: DollCatalogFilters): Promise<DollsResponseDTO> {
     const { _page, _limit, _sort, _order, userFilters, ...catalogCriteria } =
       filters;
 
@@ -30,7 +30,7 @@ export class DollApiService {
         ? { ownedDollSortBy: _sort, dollSortOrder: _order }
         : { dollSortBy: _sort, dollSortOrder: _order };
 
-      return firstValueFrom(this.http.post<Doll[]>(url, sortBody));
+      return firstValueFrom(this.http.post<DollsResponseDTO>(url, sortBody));
     }
 
     /**
@@ -41,7 +41,7 @@ export class DollApiService {
       ...(userFilters || {}),
     };
 
-    const mappedCriteria: any = {};
+    const mappedCriteria: Record<string, unknown> = {};
     Object.entries(combinedCriteria).forEach(([key, value]) => {
       let backendKey = key;
       if (key === 'purchaseStates') backendKey = 'purchaseState';
@@ -69,14 +69,18 @@ export class DollApiService {
      */
     if (Object.keys(cleanCriteria).length > 0) {
       return firstValueFrom(
-        this.http.post<Doll[]>(`${this.apiUrl}/filter`, cleanCriteria, {
-          params,
-        }),
+        this.http.post<DollsResponseDTO>(
+          `${this.apiUrl}/filter`,
+          cleanCriteria,
+          {
+            params,
+          },
+        ),
       );
     }
 
     return firstValueFrom(
-      this.http.get<Doll[]>(`${this.apiUrl}/all`, { params }),
+      this.http.get<DollsResponseDTO>(`${this.apiUrl}/all`, { params }),
     );
   }
 

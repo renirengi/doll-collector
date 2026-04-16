@@ -74,3 +74,9 @@ export interface EnrichedUserDoll extends UserDoll {
 }
 
 export type DollDataType = Doll | EnrichedUserDoll;
+
+export interface DollsResponseDTO {
+  data: Doll[];
+  _page: number;
+  _limit: number;
+}

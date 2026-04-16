@@ -1,7 +1,10 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { DollApiService } from '../../../../api/services/doll.api';
-import { Doll } from '../../../shared/models';
+import { Doll, DollsResponseDTO } from '../../../shared/models';
 
+/**
+ * Service managing doll administration logic and state.
+ */
 @Injectable({ providedIn: 'root' })
 export class AdminDollService {
   private readonly apiService = inject(DollApiService);
@@ -15,18 +18,18 @@ export class AdminDollService {
   /**
    * Fetches dolls with server-side pagination.
    */
-  // admin-doll.service.ts
-
   public async loadPage(page: number, limit: number = 15): Promise<void> {
     this.isLoading.set(true);
     try {
-      const response = await this.apiService.getAll({
+      const response: DollsResponseDTO = await this.apiService.getAll({
         _page: page,
         _limit: limit,
         userFilters: {},
       });
 
-      this.dolls.set(response);
+      const items = response.data || [];
+
+      this.dolls.set(items);
       this.filters.set({ _page: page, _limit: limit });
 
       /**
@@ -35,15 +38,17 @@ export class AdminDollService {
        * If not full, we know the exact count: (previous pages) + current items.
        */
       const mockTotal =
-        response.length === limit
+        items.length === limit
           ? page * limit + 1
-          : (page - 1) * limit + response.length;
+          : (page - 1) * limit + items.length;
 
       this.totalCount.set(mockTotal);
-      this.hasNextPage.set(response.length === limit);
+      this.hasNextPage.set(items.length === limit);
     } catch (error) {
       console.error('Load failed:', error);
       this.dolls.set([]);
+      this.totalCount.set(0);
+      this.hasNextPage.set(false);
     } finally {
       this.isLoading.set(false);
     }

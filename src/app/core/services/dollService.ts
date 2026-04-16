@@ -9,6 +9,7 @@ import {
   Doll,
   UserDoll,
   EnrichedUserDoll,
+  DollsResponseDTO,
 } from '../../shared/models/doll.model';
 import { DollCatalogFilters } from '../../shared/models/doll-filters.model';
 import { DollApiService } from '../../../api/services/doll.api';
@@ -133,18 +134,27 @@ export class DollService {
     this.isLoading.set(true);
 
     try {
-      const response: Doll[] = await this.apiService.getAll(currentFilters);
+      const response: DollsResponseDTO =
+        await this.apiService.getAll(currentFilters);
+      const newDolls = response.data || [];
 
       if (currentFilters._page === 1) {
-        this.dollsSignal.set(response);
-        this.totalCount.set(response.length);
-        this.uiState.totalDolls.set(response.length);
+        this.dollsSignal.set(newDolls);
+
+        // Так как поля total нет, используем длину массива для счетчиков
+        this.totalCount.set(newDolls.length);
+        this.uiState.totalDolls.set(newDolls.length);
       } else {
-        this.dollsSignal.update((old) => [...old, ...response]);
+        this.dollsSignal.update((old) => [...old, ...newDolls]);
+
+        const currentTotal = this.totalCount() + newDolls.length;
+        this.totalCount.set(currentTotal);
+        this.uiState.totalDolls.set(currentTotal);
       }
 
       const limit = currentFilters._limit || 12;
-      this.hasMore.set(response.length === limit);
+
+      this.hasMore.set(newDolls.length === limit);
     } catch (error) {
       this.hasMore.set(false);
       if (currentFilters._page === 1) {

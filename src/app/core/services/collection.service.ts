@@ -2,7 +2,8 @@ import { inject, Injectable, signal, computed } from '@angular/core';
 import { CollectionApiService } from '../../../api/services/collection.api';
 import {
   Collection,
-  CreateCollectionDto,
+  CreateCollectionResponseDto,
+  CollectionsResponseDTO,
 } from '../../shared/models/collection.model';
 import { firstValueFrom } from 'rxjs';
 import { SidebarItem } from '../../shared/models';
@@ -50,8 +51,10 @@ export class CollectionService {
    * Fetches collections from the API and updates the state.
    */
   public async loadCollections(): Promise<void> {
-    const data = await firstValueFrom(this.api.getAll());
-    this._collections.set(data);
+    const response: CollectionsResponseDTO = await firstValueFrom(
+      this.api.getAll(),
+    );
+    this._collections.set(response.data);
   }
 
   /**
@@ -59,7 +62,9 @@ export class CollectionService {
    * @param dto Collection details from the creation form.
    * @returns The newly created Collection object.
    */
-  public async createCollection(dto: CreateCollectionDto): Promise<Collection> {
+  public async createCollection(
+    dto: CreateCollectionResponseDto,
+  ): Promise<Collection> {
     const newCol = await firstValueFrom(this.api.create(dto));
     this._collections.update((prev) => [...prev, newCol]);
     return newCol;

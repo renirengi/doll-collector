@@ -45,10 +45,10 @@ describe('CreateCollectionFormComponent', () => {
 
   it('should validate name length', () => {
     const nameControl = component.form.get('name');
-    nameControl?.setValue('a');
+    nameControl?.setValue('Short');
     expect(nameControl?.valid).toBeFalse();
 
-    nameControl?.setValue('My Col');
+    nameControl?.setValue('Valid Collection Name');
     expect(nameControl?.valid).toBeTrue();
   });
 
@@ -67,10 +67,11 @@ describe('CreateCollectionFormComponent', () => {
     spyOn(component.success, 'emit');
 
     component.form.patchValue({
-      name: 'Valid Name',
-      description: 'Desc',
+      name: 'New Collection Name',
+      description: 'Detailed description more than 8 chars',
       icon: 'icon-heart',
     });
+
     await component.submit();
 
     expect(createSpy).toHaveBeenCalled();
@@ -86,7 +87,12 @@ describe('CreateCollectionFormComponent', () => {
     ).and.returnValue(Promise.reject('Error'));
     const errorSpy = spyOn(messageService, 'showError');
 
-    component.form.patchValue({ name: 'Valid Name', icon: 'icon-heart' });
+    component.form.patchValue({
+      name: 'New Collection Name',
+      description: 'Detailed description more than 8 chars',
+      icon: 'icon-heart',
+    });
+
     await component.submit();
 
     expect(createSpy).toHaveBeenCalled();
@@ -97,15 +103,22 @@ describe('CreateCollectionFormComponent', () => {
   });
 
   it('should disable button when form is invalid or loading', () => {
-    const btn = fixture.nativeElement.querySelector('.submit-btn');
+    const btn = fixture.nativeElement.querySelector('button[type="submit"]');
 
     component.form.patchValue({ name: '' });
     fixture.detectChanges();
     expect(btn.disabled).toBeTrue();
 
-    component.form.patchValue({ name: 'Valid Name' });
+    component.form.patchValue({
+      name: 'Valid Collection Name',
+      description: 'Valid Description',
+    });
     component.isLoading.set(true);
     fixture.detectChanges();
     expect(btn.disabled).toBeTrue();
+
+    component.isLoading.set(false);
+    fixture.detectChanges();
+    expect(btn.disabled).toBeFalse();
   });
 });

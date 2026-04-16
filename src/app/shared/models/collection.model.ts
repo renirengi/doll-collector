@@ -11,13 +11,20 @@ export interface Collection {
   updatedAt?: string;
 }
 
-export interface CreateCollectionDto {
+export interface CreateCollectionResponseDto {
   name: string;
   description: string;
   icon: string;
 }
 
-export interface AddDollToCollectionDto {
+export interface AddDollToCollectionResponseDto {
   collectionId: string;
   dollId: string;
+}
+
+export interface CollectionsResponseDTO {
+  data: Collection[];
+  _page: number;
+  _limit: number;
+  total?: number;
 }

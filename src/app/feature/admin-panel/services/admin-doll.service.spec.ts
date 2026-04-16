@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { AdminDollService } from './admin-doll.service';
 import { DollApiService } from '../../../../api/services/doll.api';
-import { Doll } from '../../../shared/models';
+import { Doll, DollsResponseDTO } from '../../../shared/models';
 
 describe('AdminDollService', () => {
   let service: AdminDollService;
@@ -11,6 +11,16 @@ describe('AdminDollService', () => {
     { id: '1', originalName: 'Doll 1', itemNumber: 'SKU1' } as Doll,
     { id: '2', originalName: 'Doll 2', itemNumber: 'SKU2' } as Doll,
   ];
+
+  const createMockResponse = (
+    data: Doll[],
+    page = 1,
+    limit = 15,
+  ): DollsResponseDTO => ({
+    data,
+    _page: page,
+    _limit: limit,
+  });
 
   beforeEach(() => {
     const spy = jasmine.createSpyObj('DollApiService', [
@@ -35,7 +45,7 @@ describe('AdminDollService', () => {
 
   describe('loadPage', () => {
     it('should load dolls and update signals on success', async () => {
-      apiServiceSpy.getAll.and.resolveTo(mockDolls);
+      apiServiceSpy.getAll.and.resolveTo(createMockResponse(mockDolls, 1, 2));
 
       await service.loadPage(1, 2);
 
@@ -59,7 +69,7 @@ describe('AdminDollService', () => {
     it('should call api.create and reload first page', async () => {
       const newDoll = { originalName: 'New' };
       apiServiceSpy.create.and.resolveTo({ id: '3', ...newDoll } as Doll);
-      apiServiceSpy.getAll.and.resolveTo(mockDolls);
+      apiServiceSpy.getAll.and.resolveTo(createMockResponse(mockDolls));
 
       await service.createDoll(newDoll);
 
@@ -79,7 +89,7 @@ describe('AdminDollService', () => {
   describe('deleteDoll', () => {
     it('should call api.delete and refresh current page', async () => {
       apiServiceSpy.delete.and.resolveTo();
-      apiServiceSpy.getAll.and.resolveTo(mockDolls);
+      apiServiceSpy.getAll.and.resolveTo(createMockResponse(mockDolls));
 
       await service.deleteDoll('1');
 
@@ -92,7 +102,7 @@ describe('AdminDollService', () => {
       service.filters.set({ _page: 2, _limit: 15 });
 
       apiServiceSpy.delete.and.resolveTo();
-      apiServiceSpy.getAll.and.resolveTo([]);
+      apiServiceSpy.getAll.and.resolveTo(createMockResponse([]));
 
       await service.deleteDoll('last');
 
@@ -104,15 +114,21 @@ describe('AdminDollService', () => {
 
   describe('mockTotal logic', () => {
     it('should set totalCount correctly when more items exist', async () => {
-      apiServiceSpy.getAll.and.resolveTo(new Array(15).fill({}));
+      const fullPage = new Array(15).fill({});
+      apiServiceSpy.getAll.and.resolveTo(createMockResponse(fullPage, 1, 15));
+
       await service.loadPage(1, 15);
-      expect(service.totalCount()).toBe(16); // mockTotal: page * limit + 1
+      expect(service.totalCount()).toBe(16);
     });
 
     it('should set totalCount exactly when no more items', async () => {
-      apiServiceSpy.getAll.and.resolveTo(new Array(5).fill({}));
+      const partialPage = new Array(5).fill({});
+      apiServiceSpy.getAll.and.resolveTo(
+        createMockResponse(partialPage, 1, 15),
+      );
+
       await service.loadPage(1, 15);
-      expect(service.totalCount()).toBe(5); // mockTotal: page * limit
+      expect(service.totalCount()).toBe(5);
     });
   });
 });

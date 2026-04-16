@@ -2,7 +2,7 @@ import { Component, inject, signal, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CollectionService } from '../../../../core/services/collection.service';
 import { COLLECTION_ICONS } from '../../../../shared/constants';
-import { CreateCollectionDto } from '../../../../shared/models';
+import { CreateCollectionResponseDto } from '../../../../shared/models';
 import { MessageService } from '../../../../core/services/message-service.service';
 
 @Component({
@@ -123,7 +123,7 @@ export class CreateCollectionFormComponent {
     const baseUrl = window.location.origin;
     const fullIconUrl = `${baseUrl}/assets/icons/${iconFileName}`;
 
-    const dto: CreateCollectionDto = {
+    const dto: CreateCollectionResponseDto = {
       name: rawValue.name!,
       description: rawValue.description || '',
       icon: fullIconUrl,

@@ -1,10 +1,11 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {
   Collection,
-  CreateCollectionDto,
-  AddDollToCollectionDto,
+  CreateCollectionResponseDto,
+  AddDollToCollectionResponseDto,
+  CollectionsResponseDTO,
 } from '../../app/shared/models/collection.model';
 import { API_URL } from '../config';
 
@@ -18,10 +19,17 @@ export class CollectionApiService {
 
   /**
    * Retrieves all collections for the authenticated user.
-   * @returns Observable of Collection array.
+   * @returns Observable of CollectionsDTO.
    */
-  public getAll(): Observable<Collection[]> {
-    return this.http.get<Collection[]>(this.url);
+  public getAll(
+    page: number = 1,
+    limit: number = 12,
+  ): Observable<CollectionsResponseDTO> {
+    const params = new HttpParams()
+      .set('_page', page.toString())
+      .set('_limit', limit.toString());
+
+    return this.http.get<CollectionsResponseDTO>(this.url, { params });
   }
 
   /**
@@ -29,7 +37,7 @@ export class CollectionApiService {
    * @param dto Data for the new collection.
    * @returns Observable of the created Collection.
    */
-  public create(dto: CreateCollectionDto): Observable<Collection> {
+  public create(dto: CreateCollectionResponseDto): Observable<Collection> {
     return this.http.post<Collection>(this.url, dto);
   }
 
@@ -38,7 +46,7 @@ export class CollectionApiService {
    * @param dto Object containing collectionId and dollId.
    * @returns Observable of the updated Collection.
    */
-  public addDoll(dto: AddDollToCollectionDto): Observable<Collection> {
+  public addDoll(dto: AddDollToCollectionResponseDto): Observable<Collection> {
     return this.http.post<Collection>(`${this.url}/newdoll`, dto);
   }
 

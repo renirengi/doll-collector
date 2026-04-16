@@ -2,7 +2,10 @@ import { TestBed } from '@angular/core/testing';
 import { CollectionService } from './collection.service';
 import { CollectionApiService } from '../../../api/services/collection.api';
 import { of } from 'rxjs';
-import { Collection } from '../../shared/models/collection.model';
+import {
+  Collection,
+  CollectionsResponseDTO,
+} from '../../shared/models/collection.model';
 
 describe('CollectionService', () => {
   let service: CollectionService;
@@ -14,13 +17,20 @@ describe('CollectionService', () => {
     { id: '3', name: 'Shelf', icon: 'box.svg' },
   ];
 
+  const mockResponse: CollectionsResponseDTO = {
+    data: mockCollections,
+    _page: 1,
+    _limit: 100,
+  };
+
   beforeEach(() => {
     apiMock = jasmine.createSpyObj('CollectionApiService', [
       'getAll',
       'create',
       'delete',
     ]);
-    apiMock.getAll.and.returnValue(of(mockCollections));
+
+    apiMock.getAll.and.returnValue(of(mockResponse));
 
     TestBed.configureTestingModule({
       providers: [
@@ -32,12 +42,16 @@ describe('CollectionService', () => {
     service = TestBed.inject(CollectionService);
   });
 
-  it('should load collections on init', () => {
+  it('should load collections on init', async () => {
+    // Ждем завершения вызова из конструктора
+    await service.loadCollections();
     expect(service.collections()).toEqual(mockCollections);
   });
 
-  it('should filter menuItems correctly', () => {
+  it('should filter menuItems correctly', async () => {
+    await service.loadCollections();
     const items = service.menuItems();
+
     expect(items.length).toBe(1);
     expect(items[0].label).toBe('My Custom Col');
     expect(items[0].route).toBe('/user/collections/2');
@@ -45,6 +59,7 @@ describe('CollectionService', () => {
   });
 
   it('should add collection', async () => {
+    await service.loadCollections();
     const newCol: Collection = { id: '4', name: 'New One', icon: 'icon.svg' };
     apiMock.create.and.returnValue(of(newCol));
 
@@ -58,6 +73,7 @@ describe('CollectionService', () => {
   });
 
   it('should delete collection', async () => {
+    await service.loadCollections();
     apiMock.delete.and.returnValue(of(void 0));
 
     await service.deleteCollection('1');
@@ -66,7 +82,8 @@ describe('CollectionService', () => {
     expect(service.collections().find((c) => c.id === '1')).toBeUndefined();
   });
 
-  it('should compute count', () => {
+  it('should compute count', async () => {
+    await service.loadCollections();
     expect(service.count()).toBe(3);
   });
 });
