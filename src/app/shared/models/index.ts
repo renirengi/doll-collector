@@ -5,3 +5,4 @@ export * from './doll-filters.model';
 export * from './user.model';
 export * from './sidebar.model';
 export * from './collection.model';
+export * from './owned-doll-filter.dto';

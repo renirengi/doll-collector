@@ -4,11 +4,12 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../../core/services/auth.service';
 import { LoginCredentials } from '../../../../shared/models';
 import { MessageService } from '../../../../core/services/message-service.service';
+import { FormErrorComponent } from '../../../userspace/components/form-error/form-error.component';
 
 @Component({
   selector: 'app-signin-page',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, FormErrorComponent],
   template: `
     <h1>Sign In</h1>
     <form [formGroup]="signInForm" (ngSubmit)="submit()">
@@ -19,10 +20,11 @@ import { MessageService } from '../../../../core/services/message-service.servic
         formControlName="email"
         placeholder="Type your email here"
         autocomplete="email"
+        [class.invalid]="
+          signInForm.get('email')?.invalid && signInForm.get('email')?.touched
+        "
       />
-      @if (isFieldInvalid('email')) {
-        <span class="validation-message">Valid email is required</span>
-      }
+      <app-form-error [control]="signInForm.get('email')" />
 
       <label for="password">Password</label>
       <input
@@ -31,12 +33,12 @@ import { MessageService } from '../../../../core/services/message-service.servic
         formControlName="password"
         placeholder="Type your password here"
         autocomplete="current-password"
+        [class.invalid]="
+          signInForm.get('password')?.invalid &&
+          signInForm.get('password')?.touched
+        "
       />
-      @if (isFieldInvalid('password')) {
-        <span class="validation-message"
-          >Password is required (min 6 characters)</span
-        >
-      }
+      <app-form-error [control]="signInForm.get('password')" />
 
       <button type="submit" [disabled]="isLoading()">
         {{ isLoading() ? 'Signing In...' : 'Sign In' }}
@@ -62,11 +64,6 @@ export class SignInPageComponent {
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
-
-  public isFieldInvalid(fieldName: string): boolean {
-    const field = this.signInForm.get(fieldName);
-    return !!(field && field.invalid && (field.dirty || field.touched));
-  }
 
   public async submit(): Promise<void> {
     if (this.signInForm.invalid) {

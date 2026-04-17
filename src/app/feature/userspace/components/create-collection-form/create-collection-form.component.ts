@@ -4,62 +4,36 @@ import { CollectionService } from '../../../../core/services/collection.service'
 import { COLLECTION_ICONS } from '../../../../shared/constants';
 import { CreateCollectionResponseDto } from '../../../../shared/models';
 import { MessageService } from '../../../../core/services/message-service.service';
+import { FormErrorComponent } from '../form-error/form-error.component';
 
 @Component({
   selector: 'app-create-collection-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, FormErrorComponent],
   template: `
     <form [formGroup]="form" (ngSubmit)="submit()" class="collection-form">
       <div class="form-field">
         <label class="field-label">Collection Name *</label>
         <input
-          id="name"
           formControlName="name"
           placeholder="My Awesome Collection"
           [class.invalid]="
             form.get('name')?.invalid && form.get('name')?.touched
           "
         />
-
-        @if (form.get('name')?.touched) {
-          <div class="error-container">
-            @if (form.get('name')?.errors?.['required']) {
-              <span class="error-text">Name is required</span>
-            } @else if (form.get('name')?.errors?.['minlength']) {
-              <span class="error-text">
-                Too short! Needs
-                {{ 8 - (form.get('name')?.value?.length || 0) }} more characters
-              </span>
-            }
-          </div>
-        }
+        <app-form-error [control]="form.get('name')" />
       </div>
 
       <div class="form-field">
         <label class="field-label">Description *</label>
         <textarea
-          id="description"
           formControlName="description"
           placeholder="What is this collection about?"
           [class.invalid]="
             form.get('description')?.invalid && form.get('description')?.touched
           "
         ></textarea>
-
-        @if (form.get('description')?.touched) {
-          <div class="error-container">
-            @if (form.get('description')?.errors?.['required']) {
-              <span class="error-text">Description is required</span>
-            } @else if (form.get('description')?.errors?.['minlength']) {
-              <span class="error-text">
-                Tell us more! Needs
-                {{ 8 - (form.get('description')?.value?.length || 0) }} more
-                characters
-              </span>
-            }
-          </div>
-        }
+        <app-form-error [control]="form.get('description')" />
       </div>
 
       <div class="icon-selection-wrapper">
@@ -87,9 +61,7 @@ import { MessageService } from '../../../../core/services/message-service.servic
         >
           {{ isLoading() ? 'Creating...' : 'Create Collection' }}
         </button>
-        <button type="button" class="btn user-none" title="Close">
-          Close modal
-        </button>
+        <button type="button" class="btn user-none">Close modal</button>
       </div>
     </form>
   `,

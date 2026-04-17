@@ -4,7 +4,12 @@ import { Router } from '@angular/router';
 import { CollectionService } from '../../../../core/services/collection.service';
 import { signal, WritableSignal } from '@angular/core';
 import * as T from '../../../../shared/models/doll-enums';
-import { Doll, EnrichedUserDoll, SidebarItem } from '../../../../shared/models';
+import {
+  Doll,
+  UserDoll,
+  SidebarItem,
+  DollDataType,
+} from '../../../../shared/models';
 
 class CollectionServiceMock {
   public menuItems: WritableSignal<SidebarItem[]> = signal([]);
@@ -22,20 +27,20 @@ describe('DollCardComponent', () => {
     brand: 'Barbie' as T.DollBrand,
     series: 'Holiday',
     manufacturer: 'Mattel' as T.Manufacturer,
-    articulation: 'Standard' as T.ArticulationType,
-    bodyVolume: 'Slim' as T.BodyVolume,
+    articulation: 'FullyArticulated' as T.ArticulationType,
+    bodyVolume: 'Standard' as T.BodyVolume,
     footType: 'Heeled' as T.FootType,
     isPlayset: false,
     gender: 'Female' as T.Gender,
   };
 
-  const mockUserDoll: EnrichedUserDoll = {
+  const mockUserDoll: UserDoll = {
     id: 'INSTANCE_UUID_001',
-    dollId: 'USER_REFERENCE_ID',
-    dollState: 'New' as T.DollState,
-    outfitState: 'Complete' as T.OutfitState,
-    status: 'InCollection' as T.DollStatus,
-    catalogInfo: mockCatalogDoll,
+    base: mockCatalogDoll,
+    status: 'active' as T.DollStatus,
+    purchaseState: 'New' as T.DollState,
+    outfitState: 'original' as T.OutfitState,
+    pets: [],
   };
 
   const mockDynamicItems: SidebarItem[] = [
@@ -98,14 +103,15 @@ describe('DollCardComponent', () => {
   });
 
   describe('Data Logic', () => {
-    it('should identify EnrichedUserDoll', () => {
+    it('should identify UserDoll by checking for "base" property', () => {
       expect(component.isUserDoll(mockUserDoll)).toBeTrue();
       expect(component.isUserDoll(mockCatalogDoll)).toBeFalse();
     });
 
-    it('should extract catalog info via d', () => {
+    it('should extract catalog info via d getter', () => {
       component.doll = mockUserDoll;
       expect(component.d.id).toBe('CATALOG_ID_123');
+      expect(component.d.originalName).toBe('Valentine Sweetheart Barbie');
     });
   });
 
@@ -116,14 +122,14 @@ describe('DollCardComponent', () => {
       component.doll = mockUserDoll;
       component.onCardClick();
       expect(console.log).toHaveBeenCalledWith(
-        'Клик по кукле:',
-        'USER_REFERENCE_ID',
+        'Clicked doll ID:',
+        'INSTANCE_UUID_001',
       );
 
       component.doll = mockCatalogDoll;
       component.onCardClick();
       expect(console.log).toHaveBeenCalledWith(
-        'Клик по кукле:',
+        'Clicked doll ID:',
         'CATALOG_ID_123',
       );
     });
@@ -136,9 +142,7 @@ describe('DollCardComponent', () => {
 
       expect(event.stopPropagation).toHaveBeenCalled();
       expect(console.log).toHaveBeenCalledWith(
-        jasmine.stringMatching(
-          /\[TODO\] Move Valentine Sweetheart Barbie to: shop/,
-        ),
+        jasmine.stringMatching(/Moving Valentine Sweetheart Barbie to: shop/),
       );
     });
   });

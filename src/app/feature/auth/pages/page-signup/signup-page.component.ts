@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import {
   FormBuilder,
@@ -12,11 +12,11 @@ import { firstValueFrom } from 'rxjs';
 import { AuthApiService } from '../../../../../api/services/auth.api';
 import { AuthService } from '../../../../core/services/auth.service';
 import { MessageService } from '../../../../core/services/message-service.service';
-
+import { FormErrorComponent } from '../../../userspace/components/form-error/form-error.component';
 @Component({
   selector: 'app-signup-page',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, FormErrorComponent],
   template: `
     <h1>Sign Up</h1>
     <form [formGroup]="signUpForm" (ngSubmit)="submit()">
@@ -27,12 +27,12 @@ import { MessageService } from '../../../../core/services/message-service.servic
         formControlName="username"
         placeholder="Type your name here"
         autocomplete="username"
+        [class.invalid]="
+          signUpForm.get('username')?.invalid &&
+          signUpForm.get('username')?.touched
+        "
       />
-      @if (isFieldInvalid('username')) {
-        <span class="validation-message"
-          >Valid name is required (min 6 chars)</span
-        >
-      }
+      <app-form-error [control]="signUpForm.get('username')" />
 
       <label for="email">Email address</label>
       <input
@@ -41,10 +41,11 @@ import { MessageService } from '../../../../core/services/message-service.servic
         formControlName="email"
         placeholder="Type your email here"
         autocomplete="email"
+        [class.invalid]="
+          signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched
+        "
       />
-      @if (isFieldInvalid('email')) {
-        <span class="validation-message">Valid email is required</span>
-      }
+      <app-form-error [control]="signUpForm.get('email')" />
 
       <label for="password">Password</label>
       <input
@@ -52,12 +53,12 @@ import { MessageService } from '../../../../core/services/message-service.servic
         id="password"
         formControlName="password"
         placeholder="Min. 6 characters"
+        [class.invalid]="
+          signUpForm.get('password')?.invalid &&
+          signUpForm.get('password')?.touched
+        "
       />
-      @if (isFieldInvalid('password')) {
-        <span class="validation-message"
-          >Password must be at least 6 characters</span
-        >
-      }
+      <app-form-error [control]="signUpForm.get('password')" />
 
       <label for="confirmPassword">Confirm Password</label>
       <input
@@ -65,16 +66,19 @@ import { MessageService } from '../../../../core/services/message-service.servic
         id="confirmPassword"
         formControlName="confirmPassword"
         placeholder="Repeat your password"
+        [class.invalid]="
+          (signUpForm.get('confirmPassword')?.invalid ||
+            signUpForm.hasError('passwordMismatch')) &&
+          signUpForm.get('confirmPassword')?.touched
+        "
       />
-      @if (
-        signUpForm.hasError('passwordMismatch') &&
-        signUpForm.get('confirmPassword')?.touched
-      ) {
-        <span class="validation-message">Passwords do not match</span>
-      }
+      <app-form-error
+        [control]="signUpForm.get('confirmPassword')"
+        [groupContext]="signUpForm"
+      />
 
-      <button type="submit" [disabled]="isLoading">
-        {{ isLoading ? 'Creating account...' : 'Sign Up' }}
+      <button type="submit" [disabled]="isLoading()">
+        {{ isLoading() ? 'Creating account...' : 'Sign Up' }}
       </button>
     </form>
 
@@ -92,9 +96,9 @@ export class SignUpPageComponent {
   private readonly messageService = inject(MessageService);
   private readonly router = inject(Router);
 
-  isLoading = false;
+  public readonly isLoading = signal(false);
 
-  signUpForm = this.fb.group(
+  public readonly signUpForm = this.fb.group(
     {
       username: ['', [Validators.required, Validators.minLength(6)]],
       email: ['', [Validators.required, Validators.email]],
@@ -119,19 +123,13 @@ export class SignUpPageComponent {
       : null;
   }
 
-  isFieldInvalid(fieldName: string): boolean {
-    const field = this.signUpForm.get(fieldName);
-    return !!(field && field.invalid && field.touched);
-  }
-
-  async submit(): Promise<void> {
+  public async submit(): Promise<void> {
     if (this.signUpForm.invalid) {
       this.signUpForm.markAllAsTouched();
-      this.messageService.showError('Please fill in all fields correctly.');
       return;
     }
 
-    this.isLoading = true;
+    this.isLoading.set(true);
 
     try {
       const { username, email, password, confirmPassword } =
@@ -146,19 +144,11 @@ export class SignUpPageComponent {
       );
 
       this.messageService.showSuccess('Account created successfully!');
-
-      // 2. Автоматический вход через AuthService
-      await this.authService.login({
-        email: email!,
-        password: password!,
-      });
+      await this.authService.login({ email: email!, password: password! });
     } catch (error) {
-      console.error('Registration error:', error);
-      this.messageService.showError(
-        'Registration failed. This email or username might already be in use.',
-      );
+      this.messageService.showError('Registration failed. Check your data.');
     } finally {
-      this.isLoading = false;
+      this.isLoading.set(false);
     }
   }
 }

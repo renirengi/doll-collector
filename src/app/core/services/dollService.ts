@@ -5,12 +5,7 @@ import {
   WritableSignal,
   Signal,
 } from '@angular/core';
-import {
-  Doll,
-  UserDoll,
-  EnrichedUserDoll,
-  DollsResponseDTO,
-} from '../../shared/models/doll.model';
+import { Doll, DollsResponseDTO } from '../../shared/models/doll.model';
 import { DollCatalogFilters } from '../../shared/models/doll-filters.model';
 import { DollApiService } from '../../../api/services/doll.api';
 import { UserspaceStateService } from '../../feature/userspace/service/userspace-state.service';
@@ -141,7 +136,6 @@ export class DollService {
       if (currentFilters._page === 1) {
         this.dollsSignal.set(newDolls);
 
-        // Так как поля total нет, используем длину массива для счетчиков
         this.totalCount.set(newDolls.length);
         this.uiState.totalDolls.set(newDolls.length);
       } else {
@@ -165,32 +159,5 @@ export class DollService {
     } finally {
       this.isLoading.set(false);
     }
-  }
-
-  /**
-   * Enriches collection data by mapping user records to full catalog definitions.
-   */
-  private async enrichUserDolls(
-    userDolls: UserDoll[],
-  ): Promise<EnrichedUserDoll[]> {
-    const catalogIds: string[] = [
-      ...new Set(
-        userDolls.map((ud) => ud.dollId).filter((id): id is string => !!id),
-      ),
-    ];
-
-    const catalogData: Doll[] = await Promise.all(
-      catalogIds.map((id) => this.apiService.getById(id)),
-    );
-
-    const catalogMap = new Map<string, Doll>(catalogData.map((d) => [d.id, d]));
-
-    return userDolls.map(
-      (ud) =>
-        ({
-          ...ud,
-          catalogInfo: ud.dollId ? catalogMap.get(ud.dollId) : undefined,
-        }) as EnrichedUserDoll,
-    );
   }
 }

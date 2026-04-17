@@ -1,15 +1,14 @@
-import { Component, Input, inject, computed } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { CollectionService } from '../../../../core/services/collection.service';
-import { IconUtils } from '../../../../shared/utils/icon.utils';
 import {
   Doll,
-  EnrichedUserDoll,
+  UserDoll,
   DollDataType,
   SidebarItem,
 } from '../../../../shared/models';
+import { Component, computed, inject, Input } from '@angular/core';
 
 @Component({
   selector: 'app-doll-card',
@@ -53,28 +52,36 @@ export class DollCardComponent {
 
   protected readonly availableActions = computed(() => {
     const currentUrl = this.router.url;
-
     return [
       ...this.staticActions,
       ...this.collectionService.menuItems(),
     ].filter((action) => action.route && !currentUrl.includes(action.route));
   });
 
-  public isUserDoll(data: DollDataType): data is EnrichedUserDoll {
-    return (data as EnrichedUserDoll).dollId !== undefined;
+  /**
+   * Type guard to check if the data is a UserDoll (personal collection).
+   */
+  public isUserDoll(data: DollDataType): data is UserDoll {
+    return (data as UserDoll).base !== undefined;
   }
 
+  /**
+   * Helper to get common catalog information regardless of the type.
+   */
   public get d(): Doll {
-    return this.isUserDoll(this.doll) ? this.doll.catalogInfo : this.doll;
+    return this.isUserDoll(this.doll) ? this.doll.base : this.doll;
   }
 
   onAction(actionId: string, event: Event): void {
     event.stopPropagation();
-    console.log(`[TODO] Move ${this.d.originalName} to: ${actionId}`);
+    console.log(`Moving ${this.d.originalName} to: ${actionId}`);
   }
 
   onCardClick(): void {
-    const id = this.isUserDoll(this.doll) ? this.doll.dollId : this.d.id;
-    console.log('Клик по кукле:', id);
+    const id = this.doll.id;
+    console.log('Clicked doll ID:', id);
+    if (this.isUserDoll(this.doll)) {
+      console.log('This is a personal shelf item');
+    }
   }
 }

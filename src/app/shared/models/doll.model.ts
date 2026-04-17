@@ -46,37 +46,37 @@ export interface Doll {
 
 export interface UserDoll {
   id: string;
-  dollId: string;
-  acquisitionYear?: number;
   name?: string;
-  dollState: T.DollState;
-  outfitState: T.OutfitState;
-  defects?: string[];
-
-  userPhotos?: DollImage[];
-  notes?: string[];
-  coupleId?: string;
-  coupleName?: string;
-
-  washSchedule?: Date | string;
+  base: Doll;
+  acquisitionYear?: number;
   status: T.DollStatus;
-
-  price?: number;
+  purchaseState: T.DollState;
+  defects?: string[];
+  coupleId?: string;
+  notes?: string[];
   soldPrice?: number;
   soldDate?: Date | string;
-
   familyNames?: string[];
   hybrid?: Hybrid;
+  collectionIds?: string[];
+  outfitState: T.OutfitState;
+  photos?: DollImage[];
+  pets: Pet[];
+  coupleName?: string;
+  washSchedule?: Date | string;
 }
 
-export interface EnrichedUserDoll extends UserDoll {
-  catalogInfo: Doll;
-}
-
-export type DollDataType = Doll | EnrichedUserDoll;
+export type DollDataType = Doll | UserDoll;
 
 export interface DollsResponseDTO {
   data: Doll[];
   _page: number;
   _limit: number;
+}
+
+export interface UserDollResponseDTO {
+  data: UserDoll[];
+  total: number;
+  page: number;
+  limit: number;
 }

@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CollectionService } from '../../../../core/services/collection.service';
 import { COLLECTION_ICONS } from '../../../../shared/constants';
 import { MessageService } from '../../../../core/services/message-service.service';
+import { FormErrorComponent } from '../form-error/form-error.component';
 
 class CollectionServiceMock {
   createCollection() {
@@ -24,7 +25,12 @@ describe('CreateCollectionFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CreateCollectionFormComponent, ReactiveFormsModule],
+      // Добавляем FormErrorComponent в импорты, так как это standalone компонент
+      imports: [
+        CreateCollectionFormComponent,
+        ReactiveFormsModule,
+        FormErrorComponent,
+      ],
       providers: [
         { provide: CollectionService, useClass: CollectionServiceMock },
         { provide: MessageService, useClass: MessageServiceMock },
@@ -111,7 +117,7 @@ describe('CreateCollectionFormComponent', () => {
 
     component.form.patchValue({
       name: 'Valid Collection Name',
-      description: 'Valid Description',
+      description: 'Valid Description (long enough)',
     });
     component.isLoading.set(true);
     fixture.detectChanges();
@@ -120,5 +126,15 @@ describe('CreateCollectionFormComponent', () => {
     component.isLoading.set(false);
     fixture.detectChanges();
     expect(btn.disabled).toBeFalse();
+  });
+
+  it('should render form error component for invalid fields', () => {
+    const nameControl = component.form.get('name');
+    nameControl?.markAsTouched();
+    nameControl?.setValue('');
+    fixture.detectChanges();
+
+    const errorElement = fixture.nativeElement.querySelector('app-form-error');
+    expect(errorElement).toBeTruthy();
   });
 });

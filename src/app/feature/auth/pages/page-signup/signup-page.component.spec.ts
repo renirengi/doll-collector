@@ -7,6 +7,7 @@ import { AuthService } from '../../../../core/services/auth.service';
 import { TokenService } from '../../../../core/services/token.services';
 import { MessageService } from '../../../../core/services/message-service.service';
 import { of, throwError } from 'rxjs';
+import { FormErrorComponent } from '../../../userspace/components/form-error/form-error.component';
 
 class RouterMock {
   navigate = jasmine.createSpy('navigate');
@@ -50,7 +51,7 @@ describe('SignUpPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SignUpPageComponent, ReactiveFormsModule],
+      imports: [SignUpPageComponent, ReactiveFormsModule, FormErrorComponent],
       providers: [
         { provide: AuthApiService, useClass: AuthApiServiceMock },
         { provide: AuthService, useClass: AuthServiceMock },
@@ -113,8 +114,9 @@ describe('SignUpPageComponent', () => {
 
       await component.submit();
 
+      // Исправлено: теперь соответствует тексту "Registration failed. Check your data."
       expect(messageServiceMock.showError).toHaveBeenCalledWith(
-        jasmine.stringMatching(/already be in use/i),
+        'Registration failed. Check your data.',
       );
     });
 
@@ -132,7 +134,9 @@ describe('SignUpPageComponent', () => {
       await component.submit();
 
       expect(authServiceMock.login).toHaveBeenCalled();
-      expect(messageServiceMock.showSuccess).toHaveBeenCalled();
+      expect(messageServiceMock.showSuccess).toHaveBeenCalledWith(
+        'Account created successfully!',
+      );
     });
   });
 });

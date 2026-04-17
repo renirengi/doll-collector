@@ -5,6 +5,7 @@ import { SignInPageComponent } from './signin-page.component';
 import { AuthService } from '../../../../core/services/auth.service';
 import { of } from 'rxjs';
 import { MessageService } from '../../../../core/services/message-service.service';
+import { FormErrorComponent } from '../../../userspace/components/form-error/form-error.component';
 
 class RouterMock {
   navigate = jasmine.createSpy('navigate');
@@ -38,7 +39,7 @@ describe('SignInPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SignInPageComponent, ReactiveFormsModule],
+      imports: [SignInPageComponent, ReactiveFormsModule, FormErrorComponent],
       providers: [
         { provide: AuthService, useClass: AuthServiceMock },
         { provide: MessageService, useClass: MessageServiceMock },
@@ -84,6 +85,7 @@ describe('SignInPageComponent', () => {
     });
 
     const submitPromise = component.submit();
+    // isLoading — это сигнал, вызываем как функцию
     expect(component.isLoading()).toBeTrue();
 
     await submitPromise;
@@ -106,8 +108,17 @@ describe('SignInPageComponent', () => {
     await component.submit();
 
     expect(messageServiceMock.showError).toHaveBeenCalledWith(
-      jasmine.stringMatching(/failed/i),
+      'Login failed. Please check your credentials.',
     );
     expect(component.isLoading()).toBeFalse();
+  });
+
+  it('should mark all fields as touched if form is invalid on submit', async () => {
+    component.signInForm.setValue({ email: '', password: '' });
+    await component.submit();
+
+    expect(component.signInForm.get('email')?.touched).toBeTrue();
+    expect(component.signInForm.get('password')?.touched).toBeTrue();
+    expect(authServiceMock.login).not.toHaveBeenCalled();
   });
 });
