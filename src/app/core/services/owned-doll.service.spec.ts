@@ -1,136 +1,189 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { signal, WritableSignal } from '@angular/core';
 import { of, throwError } from 'rxjs';
-import { OwnedDollService } from './owned-doll.service';
 import { OwnedDollApiService } from '../../../api/services/owned-doll.api';
-import { MessageService } from './message-service.service';
+import { UserspaceStateService } from '../../feature/userspace/service/userspace-state.service';
 import {
   UserDoll,
   UserDollResponseDTO,
   OwnedDollSortAndFilterDto,
 } from '../../shared/models';
+import { OwnedDollService } from './owned-doll.service';
+import { MessageService } from './message-service.service';
 
 describe('OwnedDollService', () => {
   let service: OwnedDollService;
-  let apiMock: jasmine.SpyObj<OwnedDollApiService>;
-  let messageMock: jasmine.SpyObj<MessageService>;
+  let apiServiceSpy: jasmine.SpyObj<OwnedDollApiService>;
+  let uiStateSpy: jasmine.SpyObj<UserspaceStateService>;
+  let messageServiceSpy: jasmine.SpyObj<MessageService>;
 
-  const mockResponse: UserDollResponseDTO = {
-    data: [{ id: '1', name: 'Test Doll' } as UserDoll],
-    total: 1,
-    page: 1,
-    limit: 12,
-  };
+  const mockDolls: UserDoll[] = [
+    { id: '1', name: 'Doll 1' } as UserDoll,
+    { id: '2', name: 'Doll 2' } as UserDoll,
+  ];
 
-  const mockCriteria: OwnedDollSortAndFilterDto = {
-    filterCriteria: {},
-    sortCriteria: { ownedDollSortBy: 'createdAt', ownedDollSortOrder: 'DESC' },
-  };
+  function createMockResponse(
+    data: UserDoll[],
+    page = 1,
+    limit = 12,
+    total = 14,
+  ): UserDollResponseDTO {
+    return {
+      data,
+      page,
+      limit,
+      total,
+    };
+  }
 
   beforeEach(() => {
-    apiMock = jasmine.createSpyObj('OwnedDollApiService', [
-      'sortAndFilter',
-      'delete',
-      'update',
-    ]);
-    messageMock = jasmine.createSpyObj('MessageService', [
-      'showError',
+    const apiSpy = jasmine.createSpyObj<OwnedDollApiService>(
+      'OwnedDollApiService',
+      ['findAll', 'sortAndFilter', 'delete', 'update'],
+    );
+
+    const totalDollsSignal = signal(0);
+    const uiSpy = jasmine.createSpyObj('UserspaceStateService', [], {
+      totalDolls: totalDollsSignal,
+    });
+
+    const msgSpy = jasmine.createSpyObj('MessageService', [
       'showSuccess',
+      'showError',
     ]);
 
     TestBed.configureTestingModule({
       providers: [
         OwnedDollService,
-        { provide: OwnedDollApiService, useValue: apiMock },
-        { provide: MessageService, useValue: messageMock },
+        { provide: OwnedDollApiService, useValue: apiSpy },
+        { provide: UserspaceStateService, useValue: uiSpy },
+        { provide: MessageService, useValue: msgSpy },
       ],
     });
 
     service = TestBed.inject(OwnedDollService);
-  });
-
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+    apiServiceSpy = TestBed.inject(
+      OwnedDollApiService,
+    ) as jasmine.SpyObj<OwnedDollApiService>;
+    uiStateSpy = TestBed.inject(
+      UserspaceStateService,
+    ) as jasmine.SpyObj<UserspaceStateService>;
+    messageServiceSpy = TestBed.inject(
+      MessageService,
+    ) as jasmine.SpyObj<MessageService>;
   });
 
   describe('loadShelf', () => {
-    /**
-     * Test successful loading of shelf data.
-     */
-    it('should update dolls and totalCount signals on success', () => {
-      apiMock.sortAndFilter.and.returnValue(of(mockResponse));
+    it('should use findAll when no criteria are provided', fakeAsync(() => {
+      apiServiceSpy.findAll.and.returnValue(of(createMockResponse(mockDolls)));
 
-      service.loadShelf(mockCriteria);
+      service.loadShelf(null, 1);
+      tick();
 
-      expect(service.dolls()).toEqual(mockResponse.data);
-      expect(service.totalCount()).toBe(mockResponse.total);
-      expect(service.isLoading()).toBeFalse();
-    });
+      expect(apiServiceSpy.findAll).toHaveBeenCalledWith(1, 12);
+      expect(service.dolls()).toEqual(mockDolls);
+      expect(service.totalCount()).toBe(14);
+      expect(uiStateSpy.totalDolls()).toBe(14);
+    }));
 
-    /**
-     * Test error handling during loading.
-     */
-    it('should show error message and clear signals on failure', () => {
-      apiMock.sortAndFilter.and.returnValue(
-        throwError(() => new Error('API Error')),
+    it('should use sortAndFilter when criteria are present', fakeAsync(() => {
+      const criteria: OwnedDollSortAndFilterDto = {
+        filterCriteria: { status: ['active'] },
+        sortCriteria: { ownedDollSortBy: 'name', ownedDollSortOrder: 'ASC' },
+      };
+      apiServiceSpy.sortAndFilter.and.returnValue(
+        of(createMockResponse(mockDolls)),
       );
 
-      service.loadShelf(mockCriteria);
+      service.loadShelf(criteria, 1);
+      tick();
 
-      expect(messageMock.showError).toHaveBeenCalledWith(jasmine.any(String));
-      expect(service.dolls()).toEqual([]);
-      expect(service.totalCount()).toBe(0);
-      expect(service.isLoading()).toBeFalse();
-    });
+      expect(apiServiceSpy.sortAndFilter).toHaveBeenCalledWith(criteria, 1, 12);
+    }));
+
+    it('should overwrite dolls on page 1', fakeAsync(() => {
+      const initialDolls = [{ id: 'old' } as UserDoll];
+      (service.dolls as WritableSignal<UserDoll[]>).set(initialDolls);
+
+      apiServiceSpy.findAll.and.returnValue(
+        of(createMockResponse(mockDolls, 1)),
+      );
+
+      service.loadShelf(null, 1);
+      tick();
+
+      expect(service.dolls()).toEqual(mockDolls);
+      expect(service.dolls().length).toBe(2);
+    }));
+
+    it('should append dolls on subsequent pages', fakeAsync(() => {
+      const initialDolls = [mockDolls[0]];
+      (service.dolls as WritableSignal<UserDoll[]>).set(initialDolls);
+
+      const newDolls = [mockDolls[1]];
+      apiServiceSpy.findAll.and.returnValue(
+        of(createMockResponse(newDolls, 2)),
+      );
+
+      service.loadShelf(null, 2);
+      tick();
+
+      expect(service.dolls()).toEqual([...initialDolls, ...newDolls]);
+      expect(service.dolls().length).toBe(2);
+    }));
+
+    it('should prevent concurrent loads', fakeAsync(() => {
+      apiServiceSpy.findAll.and.returnValue(of(createMockResponse(mockDolls)));
+
+      service.loadShelf(null, 1);
+      service.loadShelf(null, 2);
+      tick();
+
+      expect(apiServiceSpy.findAll).toHaveBeenCalledTimes(1);
+    }));
   });
 
   describe('deleteFromShelf', () => {
-    /**
-     * Test deletion and subsequent list refresh.
-     */
-    it('should call delete and reload the shelf on success', () => {
-      apiMock.delete.and.returnValue(of(undefined));
-      apiMock.sortAndFilter.and.returnValue(of(mockResponse));
+    it('should call delete and reload page 1', fakeAsync(() => {
+      apiServiceSpy.delete.and.returnValue(of(void 0));
+      apiServiceSpy.findAll.and.returnValue(of(createMockResponse([])));
 
-      service.deleteFromShelf('1', mockCriteria);
+      service.deleteFromShelf('1');
+      tick();
 
-      expect(apiMock.delete).toHaveBeenCalledWith('1');
-      expect(messageMock.showSuccess).toHaveBeenCalled();
-      // Verify refresh call
-      expect(apiMock.sortAndFilter).toHaveBeenCalled();
-    });
+      expect(apiServiceSpy.delete).toHaveBeenCalledWith('1');
+      expect(apiServiceSpy.findAll).toHaveBeenCalledWith(1, 12);
+      expect(messageServiceSpy.showSuccess).toHaveBeenCalled();
+    }));
   });
 
   describe('updateDollDetails', () => {
-    /**
-     * Test local signal update after successful patch.
-     */
-    it('should update the specific doll in the dolls signal locally', () => {
-      const initialDoll = { id: '1', name: 'Old Name' } as UserDoll;
-      const updatedData = { name: 'New Name' } as UserDoll;
+    it('should update specific doll in signal without full reload', fakeAsync(() => {
+      const initialDolls = [{ id: '1', name: 'Old Name' } as UserDoll];
+      (service.dolls as WritableSignal<UserDoll[]>).set(initialDolls);
 
-      service.dolls.set([initialDoll]);
-      apiMock.update.and.returnValue(of({ ...initialDoll, ...updatedData }));
+      const updatedDoll = { id: '1', name: 'New Name' } as UserDoll;
+      apiServiceSpy.update.and.returnValue(of(updatedDoll));
 
-      service.updateDollDetails('1', updatedData);
+      service.updateDollDetails('1', { name: 'New Name' });
+      tick();
 
       expect(service.dolls()[0].name).toBe('New Name');
-      expect(messageMock.showSuccess).toHaveBeenCalled();
-    });
+    }));
   });
 
-  describe('clearShelfState', () => {
-    /**
-     * Test resetting state.
-     */
-    it('should reset all signals to default values', () => {
-      service.dolls.set([{ id: '1' } as UserDoll]);
-      service.totalCount.set(10);
+  describe('Error Handling', () => {
+    it('should reset state only if page 1 fails', fakeAsync(() => {
+      apiServiceSpy.findAll.and.returnValue(
+        throwError(() => new Error('API Error')),
+      );
 
-      service.clearShelfState();
+      service.loadShelf(null, 1);
+      tick();
 
       expect(service.dolls()).toEqual([]);
       expect(service.totalCount()).toBe(0);
-      expect(service.currentPage()).toBe(1);
-    });
+      expect(uiStateSpy.totalDolls()).toBe(0);
+    }));
   });
 });

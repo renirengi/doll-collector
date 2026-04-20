@@ -29,7 +29,7 @@ export class DollService {
   public readonly dolls: Signal<Doll[]> = this.dollsSignal.asReadonly();
 
   /**
-   * Updates the filter state with a complete set of criteria and initiates a new fetch from the first page.
+   * @param baseFilters
    */
   public async setRawFilters(baseFilters: DollCatalogFilters): Promise<void> {
     const updated: DollCatalogFilters = {
@@ -42,7 +42,7 @@ export class DollService {
   }
 
   /**
-   * Merges partial updates into the current filter state, ensuring data normalization before reloading.
+   * @param newFilters
    */
   public updateFilters(newFilters: Partial<DollCatalogFilters>): void {
     const current = this.filters();
@@ -57,7 +57,7 @@ export class DollService {
   }
 
   /**
-   * Triggers loading of the next page of results, appending them to the existing doll collection.
+   * Loads the next set of dolls for infinite scrolling.
    */
   public loadMoreDolls(): void {
     if (this.isLoading() || !this.hasMore()) return;
@@ -71,14 +71,12 @@ export class DollService {
   }
 
   /**
-   * Validates and cleanses filter values. Flattens nested arrays and removes invalid entries.
-   * Uses type-safe checks to satisfy strict TypeScript configurations without using 'any'.
+   * @param filters
    */
   private sanitizeFilters(
     filters: Partial<DollCatalogFilters>,
   ): Partial<DollCatalogFilters> {
     const sanitized: Partial<DollCatalogFilters> = { ...filters };
-
     const arrayFields: (keyof DollCatalogFilters)[] = [
       'manufacturer',
       'brand',
@@ -92,7 +90,6 @@ export class DollService {
     arrayFields.forEach((field) => {
       if (field in sanitized) {
         const value = sanitized[field];
-
         if (Array.isArray(value)) {
           const flatArray = (value as unknown[])
             .flat()
@@ -119,7 +116,7 @@ export class DollService {
   }
 
   /**
-   * Orchestrates the API request cycle and updates state signals based on the response.
+   * @param currentFilters
    */
   private async runLoadSequence(
     currentFilters: DollCatalogFilters,
@@ -132,23 +129,19 @@ export class DollService {
       const response: DollsResponseDTO =
         await this.apiService.getAll(currentFilters);
       const newDolls = response.data || [];
+      const serverTotal = response.total || 0;
 
       if (currentFilters._page === 1) {
         this.dollsSignal.set(newDolls);
-
-        this.totalCount.set(newDolls.length);
-        this.uiState.totalDolls.set(newDolls.length);
       } else {
         this.dollsSignal.update((old) => [...old, ...newDolls]);
-
-        const currentTotal = this.totalCount() + newDolls.length;
-        this.totalCount.set(currentTotal);
-        this.uiState.totalDolls.set(currentTotal);
       }
 
-      const limit = currentFilters._limit || 12;
+      this.totalCount.set(serverTotal);
+      this.uiState.totalDolls.set(serverTotal);
 
-      this.hasMore.set(newDolls.length === limit);
+      const limit = currentFilters._limit || 12;
+      this.hasMore.set(this.dollsSignal().length < serverTotal);
     } catch (error) {
       this.hasMore.set(false);
       if (currentFilters._page === 1) {

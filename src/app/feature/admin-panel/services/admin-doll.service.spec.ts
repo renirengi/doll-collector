@@ -16,10 +16,12 @@ describe('AdminDollService', () => {
     data: Doll[],
     page = 1,
     limit = 15,
+    total = 89,
   ): DollsResponseDTO => ({
     data,
     _page: page,
     _limit: limit,
+    total: 89,
   });
 
   beforeEach(() => {

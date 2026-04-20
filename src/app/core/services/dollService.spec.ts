@@ -1,5 +1,6 @@
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { signal, WritableSignal } from '@angular/core';
+import { of, throwError } from 'rxjs';
 import { DollApiService } from '../../../api/services/doll.api';
 import { UserspaceStateService } from '../../feature/userspace/service/userspace-state.service';
 import { Doll, DollsResponseDTO } from '../../shared/models/doll.model';
@@ -16,18 +17,22 @@ describe('DollService', () => {
     { id: '2', originalName: 'Doll 2' } as Doll,
   ];
 
-  const createMockResponse = (
+  function createMockResponse(
     data: Doll[],
     page = 1,
     limit = 12,
-  ): DollsResponseDTO => ({
-    data,
-    _page: page,
-    _limit: limit,
-  });
+    total = 89,
+  ): DollsResponseDTO {
+    return {
+      data,
+      _page: page,
+      _limit: limit,
+      total: total,
+    };
+  }
 
   beforeEach(() => {
-    const apiSpy = jasmine.createSpyObj('DollApiService', [
+    const apiSpy = jasmine.createSpyObj<DollApiService>('DollApiService', [
       'getAll',
       'getById',
     ]);
@@ -55,13 +60,13 @@ describe('DollService', () => {
   });
 
   describe('runLoadSequence Logic via setRawFilters', () => {
-    it('should set hasMore to true if response length equals limit', fakeAsync(() => {
+    it('should set hasMore to true if total in database is greater than loaded dolls', fakeAsync(() => {
       const twelveDolls = Array(12)
         .fill({})
         .map((_, i) => ({ id: `${i}` }) as Doll);
 
       apiServiceSpy.getAll.and.resolveTo(
-        createMockResponse(twelveDolls, 1, 12),
+        createMockResponse(twelveDolls, 1, 12, 50),
       );
 
       const filters: DollCatalogFilters = { _limit: 12 };
@@ -71,14 +76,17 @@ describe('DollService', () => {
 
       expect(service.hasMore()).toBeTrue();
       expect(service.dolls().length).toBe(12);
+      expect(service.totalCount()).toBe(50);
     }));
 
-    it('should set hasMore to false if response length is less than limit', fakeAsync(() => {
+    it('should set hasMore to false if all dolls are loaded', fakeAsync(() => {
       const fiveDolls = Array(5)
         .fill({})
         .map((_, i) => ({ id: `${i}` }) as Doll);
 
-      apiServiceSpy.getAll.and.resolveTo(createMockResponse(fiveDolls, 1, 12));
+      apiServiceSpy.getAll.and.resolveTo(
+        createMockResponse(fiveDolls, 1, 12, 5),
+      );
 
       const filters: DollCatalogFilters = { _limit: 12 };
       service.setRawFilters(filters);
@@ -90,25 +98,28 @@ describe('DollService', () => {
   });
 
   describe('loadMoreDolls', () => {
-    it('should append new dolls and increment totalCount', fakeAsync(() => {
+    it('should append new dolls and sync with server total', fakeAsync(() => {
       const page1 = [mockDolls[0]];
       const page2 = [mockDolls[1]];
+      const totalOnServer = 89;
 
       const internalSignal = service['dollsSignal'] as WritableSignal<Doll[]>;
       internalSignal.set(page1);
 
-      service.totalCount.set(1);
+      service.totalCount.set(totalOnServer);
       service.hasMore.set(true);
       service.filters.set({ _page: 1, _limit: 1 });
 
-      apiServiceSpy.getAll.and.resolveTo(createMockResponse(page2, 2, 1));
+      apiServiceSpy.getAll.and.resolveTo(
+        createMockResponse(page2, 2, 1, totalOnServer),
+      );
 
       service.loadMoreDolls();
       tick();
 
       expect(service.dolls().length).toBe(2);
       expect(service.dolls()).toEqual([...page1, ...page2]);
-      expect(service.totalCount()).toBe(2);
+      expect(service.totalCount()).toBe(totalOnServer);
     }));
   });
 

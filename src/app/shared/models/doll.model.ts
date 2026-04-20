@@ -72,6 +72,7 @@ export interface DollsResponseDTO {
   data: Doll[];
   _page: number;
   _limit: number;
+  total: number;
 }
 
 export interface UserDollResponseDTO {

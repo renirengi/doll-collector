@@ -59,18 +59,20 @@ export class UserShelfPage {
   constructor() {
     createInfiniteScroll(this.trigger, {
       canLoad: this.canLoadMore,
-      action: () => this.loadNextPage(),
+      action: () => this.loadMore(),
     });
 
     if (this.shelfService.dolls().length === 0) {
-      this.loadNextPage();
+      this.initialLoad();
     }
   }
 
-  private loadNextPage() {
-    this.shelfService.loadShelf(
-      this.shelfService.currentCriteria(),
-      this.shelfService.currentPage() + 1,
-    );
+  private initialLoad() {
+    this.shelfService.loadShelf(this.shelfService.currentCriteria(), 1);
+  }
+
+  private loadMore() {
+    const nextPage = this.shelfService.currentPage() + 1;
+    this.shelfService.loadShelf(this.shelfService.currentCriteria(), nextPage);
   }
 }
