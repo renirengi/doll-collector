@@ -22,6 +22,11 @@ export class OwnedDollService {
   public readonly currentPage = signal<number>(1);
   public readonly currentLimit = signal<number>(12);
 
+  public readonly currentCriteria = signal<OwnedDollSortAndFilterDto>({
+    filterCriteria: {},
+    sortCriteria: { ownedDollSortBy: 'createdAt', ownedDollSortOrder: 'DESC' },
+  });
+
   /**
    * Primary method to load the shelf data with current filters and sorting.
    * Updates state signals automatically.
@@ -32,23 +37,27 @@ export class OwnedDollService {
     limit: number = 12,
   ): void {
     this.isLoading.set(true);
+    this.currentCriteria.set(criteria);
     this.currentPage.set(page);
-    this.currentLimit.set(limit);
 
     this.api
       .sortAndFilter(criteria, page, limit)
       .pipe(finalize(() => this.isLoading.set(false)))
       .subscribe({
         next: (response) => {
-          this.dolls.set(response.data);
+          if (page === 1) {
+            this.dolls.set(response.data);
+          } else {
+            this.dolls.update((prev) => [...prev, ...response.data]);
+          }
           this.totalCount.set(response.total);
         },
         error: () => {
-          this.messages.showError(
-            'Could not refresh your shelf. Please try again later.',
-          );
-          this.dolls.set([]);
-          this.totalCount.set(0);
+          this.messages.showError('Could not refresh your shelf.');
+          if (page === 1) {
+            this.dolls.set([]);
+            this.totalCount.set(0);
+          }
         },
       });
   }
