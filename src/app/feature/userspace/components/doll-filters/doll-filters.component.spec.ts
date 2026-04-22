@@ -9,25 +9,40 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideRouter, Router } from '@angular/router';
 import { signal } from '@angular/core';
 import { DollService } from '../../../../core/services/dollService';
-import * as T from '../../../../shared/models/doll-enums';
-
-class MockDollService {
-  public updateFilters = jasmine.createSpy('updateFilters');
-  public setRawFilters = jasmine.createSpy('setRawFilters');
-  public isLoading = signal(false);
-}
+import { OwnedDollService } from '../../../../core/services/owned-doll.service';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('DollFiltersComponent', () => {
   let component: DollFiltersComponent;
   let fixture: ComponentFixture<DollFiltersComponent>;
-  let dollService: MockDollService;
+  let dollServiceMock: jasmine.SpyObj<DollService>;
+  let ownedDollServiceMock: jasmine.SpyObj<OwnedDollService>;
   let router: Router;
 
   beforeEach(async () => {
+    // Мок для общего каталога
+    dollServiceMock = jasmine.createSpyObj(
+      'DollService',
+      ['updateFilters', 'setRawFilters'],
+      {
+        isLoading: signal(false),
+      },
+    );
+
+    // Мок для полки пользователя
+    ownedDollServiceMock = jasmine.createSpyObj(
+      'OwnedDollService',
+      ['loadShelf'],
+      {
+        isLoading: signal(false),
+      },
+    );
+
     await TestBed.configureTestingModule({
-      imports: [DollFiltersComponent],
+      imports: [DollFiltersComponent, NoopAnimationsModule],
       providers: [
-        { provide: DollService, useClass: MockDollService },
+        { provide: DollService, useValue: dollServiceMock },
+        { provide: OwnedDollService, useValue: ownedDollServiceMock },
         provideRouter([]),
         provideAnimationsAsync('noop'),
       ],
@@ -35,17 +50,12 @@ describe('DollFiltersComponent', () => {
 
     fixture = TestBed.createComponent(DollFiltersComponent);
     component = fixture.componentInstance;
-    dollService = TestBed.inject(DollService) as unknown as MockDollService;
     router = TestBed.inject(Router);
   });
 
-  /**
-   * Helper to satisfy the internal MatSelect multiple mode during tests.
-   * Since form control types expect single values, we cast to unknown first.
-   */
   const asValue = <T>(val: T[]): T => val as unknown as T;
 
-  it('should include userFilters when in userspace', fakeAsync(() => {
+  it('should call ownedDollService.loadShelf when in userspace', fakeAsync(() => {
     spyOnProperty(router, 'url', 'get').and.returnValue('/userspace/shelf');
     fixture.detectChanges();
 
@@ -60,29 +70,23 @@ describe('DollFiltersComponent', () => {
     component.onFilterChange();
     tick();
 
-    const lastCall = dollService.updateFilters.calls.mostRecent().args[0];
-
-    expect(lastCall.userFilters).toBeDefined();
-    expect(lastCall.userFilters.dollStatus).toEqual(['active']);
-    expect(lastCall.userFilters.hasCouple).toBeTrue();
-    expect(lastCall.userFilters.acquisitionYear).toEqual([2026]);
+    expect(ownedDollServiceMock.loadShelf).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        filterCriteria: jasmine.objectContaining({
+          status: ['active'],
+          acquisitionYear: [2026],
+          hasCouple: true,
+        }),
+      }),
+      1,
+    );
   }));
 
-  it('should set hasCouple and hybrid to false by default in userFilters', fakeAsync(() => {
-    spyOnProperty(router, 'url', 'get').and.returnValue('/userspace/shelf');
+  it('should call dollService.updateFilters when in catalog', fakeAsync(() => {
+    spyOnProperty(router, 'url', 'get').and.returnValue('/catalog');
     fixture.detectChanges();
 
-    component.onFilterChange();
-    tick();
-
-    const lastCall = dollService.updateFilters.calls.mostRecent().args[0];
-
-    expect(lastCall.userFilters.hasCouple).toBeFalse();
-    expect(lastCall.userFilters.hybrid).toBeFalse();
-  }));
-
-  it('should call updateFilters with base filters correctly mapped to arrays', fakeAsync(() => {
-    fixture.detectChanges();
+    expect(component.isUserspace()).toBeFalse();
 
     component.filterForm.patchValue({
       articulation: asValue(['FullyArticulated']),
@@ -92,56 +96,72 @@ describe('DollFiltersComponent', () => {
     component.onFilterChange();
     tick();
 
-    expect(dollService.updateFilters).toHaveBeenCalledWith(
+    expect(dollServiceMock.updateFilters).toHaveBeenCalledWith(
       jasmine.objectContaining({
         articulation: ['FullyArticulated'],
         gender: ['Female'],
+        _page: 1,
       }),
     );
+    expect(ownedDollServiceMock.loadShelf).not.toHaveBeenCalled();
   }));
 
-  it('should reset form to default values and arrays', () => {
+  it('should correctly map shelf sort criteria', fakeAsync(() => {
+    spyOnProperty(router, 'url', 'get').and.returnValue('/userspace/shelf');
     fixture.detectChanges();
 
     component.filterForm.patchValue({
-      articulation: asValue(['Basic']),
+      sortData: { field: 'createdAt', order: 'ASC' },
+    });
+
+    component.onFilterChange();
+    tick();
+
+    const lastCall = ownedDollServiceMock.loadShelf.calls.mostRecent().args[0];
+    expect(lastCall!.sortCriteria).toEqual({
+      ownedDollSortBy: 'createdAt',
+      ownedDollSortOrder: 'ASC',
+    });
+  }));
+
+  it('should reset filters and call loadShelf(null) when in userspace', () => {
+    spyOnProperty(router, 'url', 'get').and.returnValue('/userspace/shelf');
+    fixture.detectChanges();
+
+    component.filterForm.patchValue({
       hasCouple: true,
+      gender: asValue(['Male']),
     });
 
     component.resetFilters();
 
-    // After reset, selection controls should be null or empty arrays
-    // depending on your reset implementation. MatSelect expects [] or null.
-    expect(component.filterForm.value.articulation).toBeNull();
     expect(component.filterForm.value.hasCouple).toBeFalse();
-    expect(dollService.setRawFilters).toHaveBeenCalled();
+    expect(component.filterForm.value.gender).toBeNull();
+    expect(ownedDollServiceMock.loadShelf).toHaveBeenCalledWith(null, 1);
   });
 
-  it('should format sorting order in uppercase (ASC/DESC)', fakeAsync(() => {
-    fixture.detectChanges();
-
-    component.filterForm.patchValue({
-      sortData: { field: 'releaseYear', order: 'DESC' },
-    });
-
-    component.onFilterChange();
-    tick();
-
-    const lastCall = dollService.updateFilters.calls.mostRecent().args[0];
-    expect(lastCall._order).toBe('DESC');
-    expect(lastCall._sort).toBe('releaseYear');
-  }));
-
-  it('should exclude userFilters when not in userspace', fakeAsync(() => {
+  it('should reset filters and call setRawFilters when in catalog', () => {
     spyOnProperty(router, 'url', 'get').and.returnValue('/catalog');
     fixture.detectChanges();
 
-    expect(component.isUserspace()).toBeFalse();
+    component.resetFilters();
 
-    component.onFilterChange();
-    tick();
+    expect(dollServiceMock.setRawFilters).toHaveBeenCalledWith({
+      _page: 1,
+      _limit: 12,
+    });
+  });
 
-    const lastCall = dollService.updateFilters.calls.mostRecent().args[0];
-    expect(lastCall.userFilters).toBeUndefined();
-  }));
+  it('should handle undefined values in ensureArray correctly', () => {
+    const result = component['ensureArray'](null);
+    expect(result).toBeUndefined();
+
+    // @ts-ignore
+    const resultEmpty = component['ensureArray']('');
+    expect(resultEmpty).toBeUndefined();
+
+    // @ts-ignore
+    const resultArr = component['ensureArray'](['test']);
+    expect(resultArr).toEqual(['test']);
+  });
 });

@@ -17,7 +17,7 @@ export interface DollCatalogFilters {
   _order?: 'ASC' | 'DESC'; // Strict uppercase for backend compatibility
 
   // Catalog Criteria
-  manufacturer?: string | T.Manufacturer | null;
+  manufacturer?: string | T.Manufacturer[] | null;
   brand?: T.DollBrand | T.DollBrand[] | null;
   articulation?: T.ArticulationType[];
   bodyVolume?: T.BodyVolume[];

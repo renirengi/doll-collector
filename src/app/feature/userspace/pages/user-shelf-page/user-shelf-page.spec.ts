@@ -3,22 +3,23 @@ import { UserShelfPage } from './user-shelf-page';
 import { OwnedDollService } from '../../../../core/services/owned-doll.service';
 import { UserspaceStateService } from '../../service/userspace-state.service';
 import { CollectionService } from '../../../../core/services/collection.service';
-import { signal } from '@angular/core';
+import { signal, WritableSignal } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
-import { provideRouter } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 import { UserDoll, OwnedDollSortAndFilterDto } from '../../../../shared/models';
 
 describe('UserShelfPage', () => {
   let component: UserShelfPage;
   let fixture: ComponentFixture<UserShelfPage>;
 
-  /** * Mocks for required services
-   */
   let ownedDollServiceMock: jasmine.SpyObj<OwnedDollService>;
   let uiServiceMock: jasmine.SpyObj<UserspaceStateService>;
   let collectionServiceMock: jasmine.SpyObj<CollectionService>;
+
+  const queryParamsSubject = new BehaviorSubject({});
 
   beforeEach(async () => {
     ownedDollServiceMock = jasmine.createSpyObj(
@@ -50,12 +51,14 @@ describe('UserShelfPage', () => {
     await TestBed.configureTestingModule({
       imports: [UserShelfPage, NoopAnimationsModule],
       providers: [
-        /** satisfying HttpClient and Router dependencies */
         provideHttpClient(),
         provideHttpClientTesting(),
-        provideRouter([]),
-
-        /** Providing mocked services */
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            queryParams: queryParamsSubject.asObservable(),
+          },
+        },
         { provide: OwnedDollService, useValue: ownedDollServiceMock },
         { provide: UserspaceStateService, useValue: uiServiceMock },
         { provide: CollectionService, useValue: collectionServiceMock },
@@ -66,22 +69,39 @@ describe('UserShelfPage', () => {
     component = fixture.componentInstance;
   });
 
-  /**
-   * @test verifies successful creation with all dependencies satisfied
-   */
   it('should create', () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
-  /**
-   * @test verifies card rendering logic
-   */
+  it('should load shelf on initialization with empty params', () => {
+    fixture.detectChanges();
+    expect(ownedDollServiceMock.loadShelf).toHaveBeenCalled();
+  });
+
+  it('should sync filters and reload when queryParams change', () => {
+    fixture.detectChanges();
+
+    queryParamsSubject.next({ brand: 'Mattel' });
+
+    expect(ownedDollServiceMock.loadShelf).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        filterCriteria: jasmine.objectContaining({
+          base: jasmine.objectContaining({
+            brand: ['Mattel'],
+          }),
+        }),
+      }),
+      1,
+    );
+  });
+
   it('should render correct number of doll cards', () => {
     const mockDolls = [
       { id: '1', base: { id: 'b1', originalName: 'Doll 1' } },
     ] as UserDoll[];
-    (ownedDollServiceMock.dolls as any).set(mockDolls);
+
+    (ownedDollServiceMock.dolls as WritableSignal<UserDoll[]>).set(mockDolls);
 
     fixture.detectChanges();
 

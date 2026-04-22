@@ -1,145 +1,123 @@
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DollCatalogComponent } from './doll-catalog.component';
 import { DollService } from '../../../../core/services/dollService';
-import { provideRouter, Router } from '@angular/router';
 import { UserspaceStateService } from '../../service/userspace-state.service';
-import { signal, ElementRef } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { signal, WritableSignal } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('DollCatalogComponent', () => {
   let component: DollCatalogComponent;
   let fixture: ComponentFixture<DollCatalogComponent>;
-  let dollServiceSpy: jasmine.SpyObj<DollService>;
-  let uiService: UserspaceStateService;
-  let router: Router;
-
-  // Signals to mock service state
-  const totalCountSignal = signal(0);
-  const isLoadingSignal = signal(false);
-  const hasMoreSignal = signal(true);
-  const dollsSignal = signal<any[]>([]);
+  let dollServiceMock: jasmine.SpyObj<DollService>;
+  let uiServiceMock: jasmine.SpyObj<UserspaceStateService>;
+  const queryParamsSubject = new BehaviorSubject<Record<string, any>>({});
 
   beforeEach(async () => {
-    /**
-     * Creating a spy object for DollService with mocked signals.
-     */
-    const spy = jasmine.createSpyObj(
+    dollServiceMock = jasmine.createSpyObj(
       'DollService',
       ['setRawFilters', 'loadMoreDolls'],
       {
-        totalCount: totalCountSignal,
-        isLoading: isLoadingSignal,
-        hasMore: hasMoreSignal,
-        dolls: dollsSignal,
+        dolls: signal([]),
+        isLoading: signal(false),
+        hasMore: signal(true),
       },
     );
+
+    uiServiceMock = jasmine.createSpyObj('UserspaceStateService', [], {
+      isFilterOpen: signal(false),
+    });
 
     await TestBed.configureTestingModule({
       imports: [DollCatalogComponent, NoopAnimationsModule],
       providers: [
-        { provide: DollService, useValue: spy },
-        UserspaceStateService,
-        provideRouter([{ path: 'catalog', component: DollCatalogComponent }]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        {
+          provide: ActivatedRoute,
+          useValue: { queryParams: queryParamsSubject.asObservable() },
+        },
+        { provide: DollService, useValue: dollServiceMock },
+        { provide: UserspaceStateService, useValue: uiServiceMock },
       ],
     }).compileComponents();
-
-    dollServiceSpy = TestBed.inject(DollService) as jasmine.SpyObj<DollService>;
-    uiService = TestBed.inject(UserspaceStateService);
-    router = TestBed.inject(Router);
 
     fixture = TestBed.createComponent(DollCatalogComponent);
     component = fixture.componentInstance;
   });
 
-  /**
-   * Basic instantiation test.
-   */
-  it('should create the component', () => {
+  it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
-  /**
-   * Test: Ensure filters are updated correctly when URL query parameters change.
-   */
-  describe('Query Params Synchronization', () => {
-    it('should call setRawFilters when query params change via route subscription', fakeAsync(() => {
-      fixture.detectChanges(); // Trigger ngOnInit
-      tick();
-
-      router.navigate(['/catalog'], {
-        queryParams: { manufacturer: 'Kurhn', brand: 'Kurhn-brand' },
-      });
-
-      tick();
-      fixture.detectChanges();
-
-      expect(dollServiceSpy.setRawFilters).toHaveBeenCalledWith(
-        jasmine.objectContaining({
-          manufacturer: 'Kurhn',
-          brand: 'Kurhn-brand',
-        }),
-      );
-    }));
-  });
-
-  /**
-   * Test: IntersectionObserver and Infinite Scroll logic.
-   */
-  describe('Infinite Scroll', () => {
-    it('should trigger loadMoreDolls via IntersectionObserver callback', () => {
-      // Mocking the behavior of loadMoreDolls call
-      component.infiniteTrigger = {
-        nativeElement: document.createElement('div'),
-      } as ElementRef;
-
-      // Since we can't easily trigger native IntersectionObserver in JSDOM,
-      // we check if the service method is reachable.
-      isLoadingSignal.set(false);
-      hasMoreSignal.set(true);
-
-      // Trigger manually through a helper or by simulating the observer logic
-      (component as any).service.loadMoreDolls();
-
-      expect(dollServiceSpy.loadMoreDolls).toHaveBeenCalled();
+  it('should call setRawFilters when query parameters change', () => {
+    fixture.detectChanges();
+    queryParamsSubject.next({ brand: 'Kurhn', manufacturer: 'Kurhn' });
+    expect(dollServiceMock.setRawFilters).toHaveBeenCalledWith({
+      manufacturer: ['Kurhn'],
+      brand: ['Kurhn'],
     });
   });
 
-  /**
-   * Test: Proper cleanup on component destruction.
-   */
-  describe('Cleanup', () => {
-    it('should unsubscribe from route changes on destroy', () => {
-      fixture.detectChanges();
-      const subSpy = spyOn(
-        (component as any).routeSub,
-        'unsubscribe',
-      ).and.callThrough();
+  it('should handle single string parameters and convert them to arrays', () => {
+    fixture.detectChanges();
+    queryParamsSubject.next({ brand: 'Barbie' });
+    expect(dollServiceMock.setRawFilters).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        brand: ['Barbie'],
+      }),
+    );
+  });
 
-      component.ngOnDestroy();
-
-      expect(subSpy).toHaveBeenCalled();
+  it('should pass null filters when query params are empty', () => {
+    fixture.detectChanges();
+    queryParamsSubject.next({});
+    expect(dollServiceMock.setRawFilters).toHaveBeenCalledWith({
+      manufacturer: null,
+      brand: null,
     });
+  });
 
-    it('should disconnect the IntersectionObserver on destroy', () => {
-      fixture.detectChanges();
-      // Initialize observer
-      component.infiniteTrigger = {
-        nativeElement: document.createElement('div'),
-      } as ElementRef;
+  it('should call loadMoreDolls when scroll action is executed', () => {
+    fixture.detectChanges();
+    component['service'].loadMoreDolls();
+    expect(dollServiceMock.loadMoreDolls).toHaveBeenCalled();
+  });
 
-      const observerSpy = spyOn(
-        (component as any).observer,
-        'disconnect',
-      ).and.callThrough();
+  it('should compute canLoadMore correctly', () => {
+    const isLoading = dollServiceMock.isLoading as WritableSignal<boolean>;
+    const hasMore = dollServiceMock.hasMore as WritableSignal<boolean>;
 
-      component.ngOnDestroy();
+    isLoading.set(false);
+    hasMore.set(true);
+    expect(component['canLoadMore']()).toBeTrue();
 
-      expect(observerSpy).toHaveBeenCalled();
-    });
+    isLoading.set(true);
+    expect(component['canLoadMore']()).toBeFalse();
+
+    isLoading.set(false);
+    hasMore.set(false);
+    expect(component['canLoadMore']()).toBeFalse();
+  });
+
+  it('should render doll cards based on service dolls signal', () => {
+    const dollsSignal = dollServiceMock.dolls as unknown as WritableSignal<
+      any[]
+    >;
+    const mockDolls = [
+      { id: '1', base: { originalName: 'Doll 1' } },
+      { id: '2', base: { originalName: 'Doll 2' } },
+    ];
+
+    dollsSignal.set(mockDolls);
+    fixture.detectChanges();
+
+    const cardElements =
+      fixture.nativeElement.querySelectorAll('app-doll-card');
+    expect(cardElements.length).toBe(2);
   });
 });

@@ -1,19 +1,30 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, WritableSignal, Signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserspaceStateService {
-  private _isFilterOpen = signal<boolean>(false);
-  public isFilterOpen = this._isFilterOpen.asReadonly();
+  private readonly _isFilterOpen: WritableSignal<boolean> =
+    signal<boolean>(false);
 
-  public totalDolls = signal<number>(0);
+  /** Exposed as readonly to prevent direct mutations from components */
+  public readonly isFilterOpen: Signal<boolean> =
+    this._isFilterOpen.asReadonly();
+  public readonly totalDolls: WritableSignal<number> = signal<number>(0);
 
-  toggleFilters() {
-    this._isFilterOpen.update((state) => !state);
+  /**
+   * Toggles the visibility of the filter panel.
+   * Complexity: 1
+   */
+  public toggleFilters(): void {
+    this._isFilterOpen.update((state: boolean): boolean => !state);
   }
 
-  closeFilters() {
+  /**
+   * Explicitly closes the filter panel.
+   * Complexity: 1
+   */
+  public closeFilters(): void {
     this._isFilterOpen.set(false);
   }
 }

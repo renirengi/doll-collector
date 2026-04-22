@@ -1,19 +1,20 @@
 @if (ui.isFilterOpen()) {
   <div class="filters-drawer-animation" @dropdown>
-    <app-filter-panel></app-filter-panel>
+    <app-filter-panel />
   </div>
 }
+
 <div class="catalog-container min-h-screen">
   <main class="catalog-content" [class.is-loading]="service.isLoading()">
     @if (service.isLoading() && service.dolls().length === 0) {
       <div class="initial-spinner">
-        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        <mat-progress-spinner mode="indeterminate" />
       </div>
     }
 
     <div class="doll-grid">
       @for (doll of service.dolls(); track doll.id) {
-        <app-doll-card [doll]="doll"></app-doll-card>
+        <app-doll-card [doll]="doll" />
       } @empty {
         @if (!service.isLoading()) {
           <div class="empty-state">
@@ -26,10 +27,7 @@
       @if (service.hasMore()) {
         <div #infiniteTrigger class="infinite-scroll-trigger">
           @if (service.isLoading()) {
-            <mat-progress-spinner
-              mode="indeterminate"
-              diameter="40"
-            ></mat-progress-spinner>
+            <mat-progress-spinner mode="indeterminate" diameter="40" />
           }
         </div>
       }
