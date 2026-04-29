@@ -12,6 +12,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
 // Chat font import
 @import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
+// Title font
+@import url("https://fonts.googleapis.com/css2?family=Forum&display=swap");
 
 // Icon font import - should be deleted when no longer needed
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
@@ -71,6 +73,8 @@
   --secondary-font:
     "Nunito Sans", ui-sans-serif, -apple-system, "Segoe UI", Roboto, Arial,
     sans-serif;
+  --title-font:
+    "Forum", serif, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   --chat-font:
     "Instrument Sans", ui-sans-serif, -apple-system, "Segoe UI", Roboto, Arial,
     sans-serif;

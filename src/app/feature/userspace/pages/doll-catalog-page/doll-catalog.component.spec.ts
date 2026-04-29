@@ -1,4 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { DollCatalogComponent } from './doll-catalog.component';
 import { DollService } from '../../../../core/services/dollService';
 import { UserspaceStateService } from '../../service/userspace-state.service';
@@ -19,16 +24,18 @@ describe('DollCatalogComponent', () => {
   beforeEach(async () => {
     dollServiceMock = jasmine.createSpyObj(
       'DollService',
-      ['setRawFilters', 'loadMoreDolls'],
+      ['updateFilters', 'loadMoreDolls'],
       {
         dolls: signal([]),
         isLoading: signal(false),
         hasMore: signal(true),
+        filters: signal({ _page: 1, _limit: 12 }),
       },
     );
 
     uiServiceMock = jasmine.createSpyObj('UserspaceStateService', [], {
       isFilterOpen: signal(false),
+      totalDolls: signal(0),
     });
 
     await TestBed.configureTestingModule({
@@ -54,33 +61,50 @@ describe('DollCatalogComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call setRawFilters when query parameters change', () => {
+  it('should call updateFilters when query parameters change', fakeAsync(() => {
     fixture.detectChanges();
-    queryParamsSubject.next({ brand: 'Kurhn', manufacturer: 'Kurhn' });
-    expect(dollServiceMock.setRawFilters).toHaveBeenCalledWith({
-      manufacturer: ['Kurhn'],
-      brand: ['Kurhn'],
+    queryParamsSubject.next({
+      brand: 'Kurhn',
+      manufacturer: 'Kurhn',
+      _sort: 'releaseYear',
+      _order: 'DESC',
     });
-  });
+    tick();
 
-  it('should handle single string parameters and convert them to arrays', () => {
+    expect(dollServiceMock.updateFilters).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        manufacturer: ['Kurhn'],
+        brand: ['Kurhn'],
+        _sort: 'releaseYear',
+        _order: 'DESC',
+      }),
+    );
+  }));
+
+  it('should handle single string parameters and convert them to arrays', fakeAsync(() => {
     fixture.detectChanges();
     queryParamsSubject.next({ brand: 'Barbie' });
-    expect(dollServiceMock.setRawFilters).toHaveBeenCalledWith(
+    tick();
+
+    expect(dollServiceMock.updateFilters).toHaveBeenCalledWith(
       jasmine.objectContaining({
         brand: ['Barbie'],
       }),
     );
-  });
+  }));
 
-  it('should pass null filters when query params are empty', () => {
+  it('should pass null filters when query params are empty', fakeAsync(() => {
     fixture.detectChanges();
     queryParamsSubject.next({});
-    expect(dollServiceMock.setRawFilters).toHaveBeenCalledWith({
-      manufacturer: null,
-      brand: null,
-    });
-  });
+    tick();
+
+    expect(dollServiceMock.updateFilters).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        manufacturer: null,
+        brand: null,
+      }),
+    );
+  }));
 
   it('should call loadMoreDolls when scroll action is executed', () => {
     fixture.detectChanges();
@@ -109,8 +133,8 @@ describe('DollCatalogComponent', () => {
       any[]
     >;
     const mockDolls = [
-      { id: '1', base: { originalName: 'Doll 1' } },
-      { id: '2', base: { originalName: 'Doll 2' } },
+      { id: '1', originalName: 'Doll 1' },
+      { id: '2', originalName: 'Doll 2' },
     ];
 
     dollsSignal.set(mockDolls);

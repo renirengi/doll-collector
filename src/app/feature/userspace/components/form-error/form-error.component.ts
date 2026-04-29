@@ -5,7 +5,11 @@ import { AbstractControl } from '@angular/forms';
   selector: 'app-form-error',
   standalone: true,
   template: `
-    @if (control && control.touched) {
+    @if (
+      control &&
+      control.touched &&
+      (control.invalid || groupContext?.hasError('passwordMismatch'))
+    ) {
       <div class="error-container">
         @if (control.errors?.['required']) {
           <span class="error-text">This field is required</span>
@@ -18,8 +22,6 @@ import { AbstractControl } from '@angular/forms';
             }}
             more characters
           </span>
-        } @else if (control.errors?.['email']) {
-          <span class="error-text">Please enter a valid email address</span>
         }
 
         @if (groupContext?.hasError('passwordMismatch')) {

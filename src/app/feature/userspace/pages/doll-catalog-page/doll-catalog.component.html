@@ -5,6 +5,16 @@
 }
 
 <div class="catalog-container min-h-screen">
+  <header class="catalog-header">
+    <h1>Catalog</h1>
+    <p>
+      Discover an array of looks, styles, and labels. This catalog serves as a
+      living encyclopedia for those who appreciate the artistry and heritage
+      behind each doll. Uncover your next treasure within our meticulously
+      gathered collection.
+    </p>
+  </header>
+
   <main class="catalog-content" [class.is-loading]="service.isLoading()">
     @if (service.isLoading() && service.dolls().length === 0) {
       <div class="initial-spinner">
@@ -12,7 +22,7 @@
       </div>
     }
 
-    <div class="doll-grid">
+    <div class="doll-flex">
       @for (doll of service.dolls(); track doll.id) {
         <app-doll-card [doll]="doll" />
       } @empty {

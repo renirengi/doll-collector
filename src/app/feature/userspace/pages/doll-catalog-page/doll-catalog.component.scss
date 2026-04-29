@@ -1,59 +1,6 @@
+@use "./../../../../../styles/user-pages.scss" as *;
 :host {
   display: block;
   width: 100%;
   min-height: 100vh;
-
-  background-color: var(--cloud-dancer);
-  background-repeat: repeat;
-  background-size: 400px;
-  background-attachment: fixed;
-
-  .filters-drawer-animation {
-    position: sticky;
-    top: var(--app-header-height, 120px);
-    z-index: 1000;
-    display: block;
-    overflow: hidden;
-    background: var(--app-bg-card);
-    border-bottom: 1px solid var(--app-border-light);
-    width: 100%;
-  }
-
-  .catalog-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-
-    .catalog-content {
-      padding: 2rem;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-
-    .doll-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-      width: 100%;
-      box-sizing: border-box;
-      justify-content: flex-start;
-    }
-  }
-
-  app-doll-card {
-    flex: 1 1 280px;
-    max-width: calc(33.333% - 1.4rem);
-    min-width: 280px;
-    display: block;
-  }
-
-  .infinite-scroll-trigger {
-    grid-column: 1 / -1;
-    display: flex;
-    justify-content: center;
-    padding: 2rem;
-    min-height: 100px;
-  }
 }

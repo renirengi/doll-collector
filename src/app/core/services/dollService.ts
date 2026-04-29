@@ -29,7 +29,8 @@ export class DollService {
   public readonly dolls: Signal<Doll[]> = this.dollsSignal.asReadonly();
 
   /**
-   * @param baseFilters
+   * Resets filters and starts a new load sequence from the first page.
+   * @param baseFilters The new filter set to apply.
    */
   public async setRawFilters(baseFilters: DollCatalogFilters): Promise<void> {
     const updated: DollCatalogFilters = {
@@ -42,12 +43,12 @@ export class DollService {
   }
 
   /**
-   * @param newFilters
+   * Merges new filters with current state and reloads from page 1.
+   * @param newFilters Partial filters to merge.
    */
   public updateFilters(newFilters: Partial<DollCatalogFilters>): void {
-    const current = this.filters();
     const updated: DollCatalogFilters = {
-      ...current,
+      ...this.filters(),
       ...this.sanitizeFilters(newFilters),
       _page: 1,
     };
@@ -57,58 +58,38 @@ export class DollService {
   }
 
   /**
-   * Loads the next set of dolls for infinite scrolling.
+   * Increments page and appends new dolls to the list.
+   * Method for infinite scroll support.
    */
   public loadMoreDolls(): void {
-    if (this.isLoading() || !this.hasMore()) return;
+    if (this.isLoading() || !this.hasMore()) {
+      return;
+    }
 
     const updated: DollCatalogFilters = {
       ...this.filters(),
       _page: (this.filters()._page || 1) + 1,
     };
+
     this.filters.set(updated);
     this.runLoadSequence(updated);
   }
 
   /**
-   * @param filters
+   * Removes empty, null or undefined values from filters.
+   * @param filters Filters to clean.
+   * @returns Sanitized filter object.
    */
   private sanitizeFilters(
     filters: Partial<DollCatalogFilters>,
   ): Partial<DollCatalogFilters> {
-    const sanitized: Partial<DollCatalogFilters> = { ...filters };
-    const arrayFields: (keyof DollCatalogFilters)[] = [
-      'manufacturer',
-      'brand',
-      'articulation',
-      'bodyVolume',
-      'footType',
-      'releaseYear',
-      'gender',
-    ];
+    const sanitized = { ...filters };
+    const keys = Object.keys(sanitized) as (keyof DollCatalogFilters)[];
 
-    arrayFields.forEach((field) => {
-      if (field in sanitized) {
-        const value = sanitized[field];
-        if (Array.isArray(value)) {
-          const flatArray = (value as unknown[])
-            .flat()
-            .filter((v) => v !== null && v !== undefined && v !== '');
-
-          if (flatArray.length > 0) {
-            (sanitized[field] as unknown[]) = flatArray;
-          } else {
-            delete sanitized[field];
-          }
-        } else if (
-          value === null ||
-          value === undefined ||
-          (value as unknown) === ''
-        ) {
-          delete sanitized[field];
-        } else {
-          (sanitized[field] as unknown[]) = [value];
-        }
+    keys.forEach((key) => {
+      const value = sanitized[key];
+      if (this.isEmpty(value)) {
+        delete sanitized[key];
       }
     });
 
@@ -116,41 +97,65 @@ export class DollService {
   }
 
   /**
-   * @param currentFilters
+   * Checks if a filter value is considered empty.
+   * @param value The value to check.
+   */
+  private isEmpty(value: unknown): boolean {
+    if (Array.isArray(value)) {
+      return value.flat().length === 0;
+    }
+    return value === null || value === undefined || value === '';
+  }
+
+  /**
+   * Core sequence to fetch data and update signals.
+   * @param currentFilters Active filters for the request.
    */
   private async runLoadSequence(
     currentFilters: DollCatalogFilters,
   ): Promise<void> {
-    if (this.isLoading() && currentFilters._page !== 1) return;
+    if (this.isLoading() && currentFilters._page !== 1) {
+      return;
+    }
 
     this.isLoading.set(true);
-
     try {
-      const response: DollsResponseDTO =
-        await this.apiService.getAll(currentFilters);
-      const newDolls = response.data || [];
-      const serverTotal = response.total || 0;
-
-      if (currentFilters._page === 1) {
-        this.dollsSignal.set(newDolls);
-      } else {
-        this.dollsSignal.update((old) => [...old, ...newDolls]);
-      }
-
-      this.totalCount.set(serverTotal);
-      this.uiState.totalDolls.set(serverTotal);
-
-      const limit = currentFilters._limit || 12;
-      this.hasMore.set(this.dollsSignal().length < serverTotal);
-    } catch (error) {
-      this.hasMore.set(false);
-      if (currentFilters._page === 1) {
-        this.dollsSignal.set([]);
-        this.totalCount.set(0);
-        this.uiState.totalDolls.set(0);
-      }
+      const response = await this.apiService.getAll(currentFilters);
+      this.handleResponse(response, currentFilters._page || 1);
+    } catch (error: unknown) {
+      this.handleError(currentFilters._page === 1);
     } finally {
       this.isLoading.set(false);
+    }
+  }
+
+  /**
+   * Processes API response and updates internal state.
+   */
+  private handleResponse(response: DollsResponseDTO, page: number): void {
+    const newDolls = response.data || [];
+    const total = response.total || 0;
+
+    if (page === 1) {
+      this.dollsSignal.set(newDolls);
+    } else {
+      this.dollsSignal.update((old) => [...old, ...newDolls]);
+    }
+
+    this.totalCount.set(total);
+    this.uiState.totalDolls.set(total);
+    this.hasMore.set(this.dollsSignal().length < total);
+  }
+
+  /**
+   * Handles request failure by resetting or stopping pagination.
+   */
+  private handleError(isFirstPage: boolean): void {
+    this.hasMore.set(false);
+    if (isFirstPage) {
+      this.dollsSignal.set([]);
+      this.totalCount.set(0);
+      this.uiState.totalDolls.set(0);
     }
   }
 }

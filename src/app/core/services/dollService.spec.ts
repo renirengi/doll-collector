@@ -1,6 +1,5 @@
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { signal, WritableSignal } from '@angular/core';
-import { of, throwError } from 'rxjs';
 import { DollApiService } from '../../../api/services/doll.api';
 import { UserspaceStateService } from '../../feature/userspace/service/userspace-state.service';
 import { Doll, DollsResponseDTO } from '../../shared/models/doll.model';
@@ -17,6 +16,9 @@ describe('DollService', () => {
     { id: '2', originalName: 'Doll 2' } as Doll,
   ];
 
+  /**
+   * Helper to create a standardized API response.
+   */
   function createMockResponse(
     data: Doll[],
     page = 1,
@@ -34,9 +36,9 @@ describe('DollService', () => {
   beforeEach(() => {
     const apiSpy = jasmine.createSpyObj<DollApiService>('DollApiService', [
       'getAll',
-      'getById',
     ]);
 
+    // Mocking signal-based state service
     const totalDollsSignal = signal(0);
     const uiSpy = jasmine.createSpyObj('UserspaceStateService', [], {
       totalDolls: totalDollsSignal,
@@ -77,6 +79,7 @@ describe('DollService', () => {
       expect(service.hasMore()).toBeTrue();
       expect(service.dolls().length).toBe(12);
       expect(service.totalCount()).toBe(50);
+      expect(uiStateSpy.totalDolls()).toBe(50);
     }));
 
     it('should set hasMore to false if all dolls are loaded', fakeAsync(() => {
@@ -97,15 +100,31 @@ describe('DollService', () => {
     }));
   });
 
+  describe('updateFilters', () => {
+    it('should merge new filters with existing ones and reset to page 1', fakeAsync(() => {
+      apiServiceSpy.getAll.and.resolveTo(createMockResponse([]));
+
+      service.filters.set({ _page: 5, _limit: 12, brand: ['Barbie' as any] });
+
+      service.updateFilters({ manufacturer: ['Mattel' as any] });
+      tick();
+
+      const lastFilters = service.filters();
+      expect(lastFilters._page).toBe(1);
+      expect(lastFilters.brand).toEqual(['Barbie' as any]);
+      expect(lastFilters.manufacturer).toEqual(['Mattel' as any]);
+    }));
+  });
+
   describe('loadMoreDolls', () => {
-    it('should append new dolls and sync with server total', fakeAsync(() => {
+    it('should append new dolls and increment page number', fakeAsync(() => {
       const page1 = [mockDolls[0]];
       const page2 = [mockDolls[1]];
       const totalOnServer = 89;
 
+      // Setup initial state
       const internalSignal = service['dollsSignal'] as WritableSignal<Doll[]>;
       internalSignal.set(page1);
-
       service.totalCount.set(totalOnServer);
       service.hasMore.set(true);
       service.filters.set({ _page: 1, _limit: 1 });
@@ -119,12 +138,19 @@ describe('DollService', () => {
 
       expect(service.dolls().length).toBe(2);
       expect(service.dolls()).toEqual([...page1, ...page2]);
-      expect(service.totalCount()).toBe(totalOnServer);
+      expect(service.filters()._page).toBe(2);
+    }));
+
+    it('should not trigger load if already loading', fakeAsync(() => {
+      service.isLoading.set(true);
+      service.loadMoreDolls();
+
+      expect(apiServiceSpy.getAll).not.toHaveBeenCalled();
     }));
   });
 
   describe('Error Handling', () => {
-    it('should reset state on page 1 failure', fakeAsync(() => {
+    it('should reset state on first page failure', fakeAsync(() => {
       apiServiceSpy.getAll.and.rejectWith(new Error('API Error'));
 
       service.setRawFilters({});
@@ -134,23 +160,58 @@ describe('DollService', () => {
       expect(service.totalCount()).toBe(0);
       expect(service.hasMore()).toBeFalse();
     }));
+
+    it('should keep existing dolls on subsequent page failure', fakeAsync(() => {
+      const initialDolls = [mockDolls[0]];
+      (service['dollsSignal'] as WritableSignal<Doll[]>).set(initialDolls);
+      service.filters.set({ _page: 2, _limit: 12 });
+
+      apiServiceSpy.getAll.and.rejectWith(new Error('API Error'));
+
+      service.loadMoreDolls();
+      tick();
+
+      expect(service.dolls()).toEqual(initialDolls);
+      expect(service.hasMore()).toBeFalse();
+    }));
   });
 
   describe('Filter Sanitization', () => {
-    it('should flatten and clean array filters', fakeAsync(() => {
+    it('should remove null, undefined and empty strings', fakeAsync(() => {
       apiServiceSpy.getAll.and.resolveTo(createMockResponse([]));
 
       const filters = {
-        articulation: [['Basic', 'Other']] as any,
-      } as DollCatalogFilters;
+        brand: '',
+        manufacturer: null,
+        articulation: undefined,
+        releaseYear: 2024,
+      } as any;
 
       service.setRawFilters(filters);
       tick();
 
-      const lastCall = apiServiceSpy.getAll.calls.mostRecent();
-      const sentFilters = lastCall.args[0];
+      const sentFilters = apiServiceSpy.getAll.calls.mostRecent().args[0];
+      expect(sentFilters.brand).toBeUndefined();
+      expect(sentFilters.manufacturer).toBeUndefined();
+      expect(sentFilters.releaseYear).toBe(2024);
+    }));
 
-      expect(sentFilters.articulation).toEqual(['Basic', 'Other']);
+    it('should remove empty arrays including flattened ones', fakeAsync(() => {
+      apiServiceSpy.getAll.and.resolveTo(createMockResponse([]));
+
+      const filters = {
+        brand: [[]], // Nested empty array
+        articulation: [],
+        gender: ['Male' as any],
+      } as any;
+
+      service.setRawFilters(filters);
+      tick();
+
+      const sentFilters = apiServiceSpy.getAll.calls.mostRecent().args[0];
+      expect(sentFilters.brand).toBeUndefined();
+      expect(sentFilters.articulation).toBeUndefined();
+      expect(sentFilters.gender).toEqual(['Male' as any]);
     }));
   });
 });

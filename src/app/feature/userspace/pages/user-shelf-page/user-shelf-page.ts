@@ -19,6 +19,7 @@ import { dropdownAnimation } from '../../../../shared/animations';
 import { createInfiniteScroll } from '../../../../shared/utils';
 import { OwnedDollSortAndFilterDto } from '../../../../shared/models';
 import * as T from '../../../../shared/models/doll-enums';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-user-shelf-page',
@@ -28,27 +29,54 @@ import * as T from '../../../../shared/models/doll-enums';
     DollCardComponent,
     FilterPanelComponent,
     MatProgressSpinnerModule,
+    MatIcon,
   ],
   animations: [dropdownAnimation],
   template: `
-    <div class="shelf-page">
-      @if (ui.isFilterOpen()) {
-        <div [@dropdown]><app-filter-panel /></div>
-      }
-
-      <div class="dolls-grid">
-        @for (doll of shelfService.dolls(); track doll.id) {
-          <app-doll-card [doll]="doll" />
-        }
+    @if (ui.isFilterOpen()) {
+      <div class="filters-drawer-animation" [@dropdown]>
+        <app-filter-panel />
       </div>
+    }
 
-      <div #infiniteTrigger class="scroll-anchor">
-        @if (shelfService.isLoading()) {
-          <div class="flex justify-center p-4">
-            <mat-spinner diameter="40" />
+    <div class="catalog-container shelf min-h-screen">
+      <header class="catalog-header">
+        <h1>My shelf</h1>
+        <p>
+          A curated sanctuary for my stories and a home for my treasures. Each
+          piece in this collection represents a unique memory and a step in my
+          personal journey as a collector.
+        </p>
+      </header>
+
+      <main
+        class="catalog-content"
+        [class.is-loading]="shelfService.isLoading()"
+      >
+        @if (shelfService.isLoading() && shelfService.dolls().length === 0) {
+          <div class="initial-spinner">
+            <mat-progress-spinner mode="indeterminate" />
           </div>
         }
-      </div>
+
+        <div class="doll-flex">
+          @for (doll of shelfService.dolls(); track doll.id) {
+            <app-doll-card [doll]="doll" />
+          } @empty {
+            @if (!shelfService.isLoading()) {
+              <div class="empty-state">
+                <mat-icon>search</mat-icon>
+                <p>No dolls found matching these filters.</p>
+              </div>
+            }
+          }
+          <div #infiniteTrigger class="infinite-scroll-trigger">
+            @if (shelfService.isLoading()) {
+              <mat-progress-spinner mode="indeterminate" diameter="40" />
+            }
+          </div>
+        </div>
+      </main>
     </div>
   `,
   styleUrl: './user-shelf-page.scss',

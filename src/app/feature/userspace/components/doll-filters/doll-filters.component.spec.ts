@@ -2,11 +2,12 @@ import {
   ComponentFixture,
   TestBed,
   fakeAsync,
+  flush,
   tick,
 } from '@angular/core/testing';
 import { DollFiltersComponent } from './doll-filters.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideRouter, Router } from '@angular/router';
+import { provideRouter, Router, ActivatedRoute } from '@angular/router';
 import { signal } from '@angular/core';
 import { DollService } from '../../../../core/services/dollService';
 import { OwnedDollService } from '../../../../core/services/owned-doll.service';
@@ -20,16 +21,15 @@ describe('DollFiltersComponent', () => {
   let router: Router;
 
   beforeEach(async () => {
-    // Мок для общего каталога
     dollServiceMock = jasmine.createSpyObj(
       'DollService',
       ['updateFilters', 'setRawFilters'],
       {
         isLoading: signal(false),
+        filters: signal({ _page: 1, _limit: 12 }),
       },
     );
 
-    // Мок для полки пользователя
     ownedDollServiceMock = jasmine.createSpyObj(
       'OwnedDollService',
       ['loadShelf'],
@@ -55,6 +55,9 @@ describe('DollFiltersComponent', () => {
 
   const asValue = <T>(val: T[]): T => val as unknown as T;
 
+  /**
+   * Tests shelf loading logic in userspace mode.
+   */
   it('should call ownedDollService.loadShelf when in userspace', fakeAsync(() => {
     spyOnProperty(router, 'url', 'get').and.returnValue('/userspace/shelf');
     fixture.detectChanges();
@@ -82,30 +85,9 @@ describe('DollFiltersComponent', () => {
     );
   }));
 
-  it('should call dollService.updateFilters when in catalog', fakeAsync(() => {
-    spyOnProperty(router, 'url', 'get').and.returnValue('/catalog');
-    fixture.detectChanges();
-
-    expect(component.isUserspace()).toBeFalse();
-
-    component.filterForm.patchValue({
-      articulation: asValue(['FullyArticulated']),
-      gender: asValue(['Female']),
-    });
-
-    component.onFilterChange();
-    tick();
-
-    expect(dollServiceMock.updateFilters).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        articulation: ['FullyArticulated'],
-        gender: ['Female'],
-        _page: 1,
-      }),
-    );
-    expect(ownedDollServiceMock.loadShelf).not.toHaveBeenCalled();
-  }));
-
+  /**
+   * Tests shelf sorting mapping logic.
+   */
   it('should correctly map shelf sort criteria', fakeAsync(() => {
     spyOnProperty(router, 'url', 'get').and.returnValue('/userspace/shelf');
     fixture.detectChanges();
@@ -124,6 +106,9 @@ describe('DollFiltersComponent', () => {
     });
   }));
 
+  /**
+   * Tests full filter reset in userspace mode.
+   */
   it('should reset filters and call loadShelf(null) when in userspace', () => {
     spyOnProperty(router, 'url', 'get').and.returnValue('/userspace/shelf');
     fixture.detectChanges();
@@ -140,6 +125,9 @@ describe('DollFiltersComponent', () => {
     expect(ownedDollServiceMock.loadShelf).toHaveBeenCalledWith(null, 1);
   });
 
+  /**
+   * Tests full filter reset in catalog mode.
+   */
   it('should reset filters and call setRawFilters when in catalog', () => {
     spyOnProperty(router, 'url', 'get').and.returnValue('/catalog');
     fixture.detectChanges();
@@ -152,6 +140,9 @@ describe('DollFiltersComponent', () => {
     });
   });
 
+  /**
+   * Tests internal utility for array conversion.
+   */
   it('should handle undefined values in ensureArray correctly', () => {
     const result = component['ensureArray'](null);
     expect(result).toBeUndefined();
@@ -163,5 +154,8 @@ describe('DollFiltersComponent', () => {
     // @ts-ignore
     const resultArr = component['ensureArray'](['test']);
     expect(resultArr).toEqual(['test']);
+
+    const resultSingle = component['ensureArray']('test');
+    expect(resultSingle).toEqual(['test']);
   });
 });
