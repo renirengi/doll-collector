@@ -1,5 +1,10 @@
 import { Component, inject, computed, input } from '@angular/core';
 import { CollectionService } from '../../../../core/services/collection.service';
+import { UserspaceStateService } from '../../service/userspace-state.service';
+import { FilterPanelComponent } from '../../components/filter-panel/filter-panel.component';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { DollCardComponent } from '../../components/doll-card/doll-card.component';
+import { MatIcon } from '@angular/material/icon';
 
 /**
  * Component responsible for displaying dolls within a specific user collection.
@@ -8,28 +13,67 @@ import { CollectionService } from '../../../../core/services/collection.service'
   selector: 'app-collection-details',
   standalone: true,
   template: `
-    <div class="collection-header">
+    @if (ui.isFilterOpen()) {
+      <div class="filters-drawer-animation" @dropdown>
+        <app-filter-panel />
+      </div>
+    }
+    <div class="catalog-container custom min-h-screen">
       @if (collection(); as col) {
-        <h1>{{ col.name }}</h1>
-        <p>{{ col.description }}</p>
-        <span class="icon" [class]="col.icon"></span>
+        <header class="catalog-header">
+          <h1>{{ col.name }}</h1>
+          <p>
+            {{ col.description }}
+          </p>
+        </header>
       } @else {
         <p>Collection not found</p>
       }
-    </div>
 
-    <div class="dolls-grid">
-      @for (doll of collection()?.dolls; track doll.id) {
-        <div class="doll-card">{{ doll.originalName }}</div>
-      } @empty {
-        <p>This collection is empty. Add some dolls!</p>
-      }
+      <main
+        class="catalog-content"
+        [class.is-loading]="collectionService.isLoading()"
+      >
+        @if (
+          collectionService.isLoading() &&
+          collectionService.dolls().length === 0
+        ) {
+          <div class="initial-spinner">
+            <mat-progress-spinner mode="indeterminate" />
+          </div>
+        }
+
+        <div class="doll-flex">
+          @for (doll of collectionService.dolls(); track doll.id) {
+            <app-doll-card [doll]="doll" />
+          } @empty {
+            @if (!collectionService.isLoading()) {
+              <div class="empty-state">
+                <mat-icon>search</mat-icon>
+                <p>No dolls found matching these filters.</p>
+              </div>
+            }
+          }
+          <div #infiniteTrigger class="infinite-scroll-trigger">
+            @if (collectionService.isLoading()) {
+              <mat-progress-spinner mode="indeterminate" diameter="40" />
+            }
+          </div>
+        </div>
+      </main>
     </div>
   `,
   styleUrl: './collection-details-page.scss',
+  imports: [
+    FilterPanelComponent,
+    MatProgressSpinner,
+    DollCardComponent,
+    MatIcon,
+  ],
 })
 export class CollectionDetailsComponent {
-  private readonly collectionService = inject(CollectionService);
+  protected readonly collectionService = inject(CollectionService);
+  protected readonly ui = inject(UserspaceStateService);
 
   /**
    * Automatically bound from the route parameter ':id'

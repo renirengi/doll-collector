@@ -127,6 +127,7 @@
         font-size: 1.3rem;
         line-height: 1.5;
         font-style: italic;
+        text-align: center;
       }
     }
 
@@ -142,6 +143,7 @@
     .doll-flex {
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
       gap: 2rem;
       width: 100%;
     }
@@ -232,6 +234,29 @@
   }
   .shelf {
     background-image: url("../assets/backgrounds/shelf-bg.png");
+    background-repeat: repeat;
+    background-attachment: fixed;
+  }
+  .favorites {
+    background-image: url("../assets/backgrounds/favorite-bg.png");
+    background-repeat: repeat;
+    background-attachment: fixed;
+  }
+
+  .shop {
+    background-image: url("../assets/backgrounds/shop-bg.png");
+    background-repeat: repeat;
+    background-attachment: fixed;
+  }
+
+  .sold {
+    background-image: url("../assets/backgrounds/sold-bg.png");
+    background-repeat: repeat;
+    background-attachment: fixed;
+  }
+
+  .custom {
+    background-image: url("../assets/backgrounds/custom-bg.png");
     background-repeat: repeat;
     background-attachment: fixed;
   }

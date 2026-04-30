@@ -1,10 +1,7 @@
+@use "./../../../../../styles/user-pages.scss" as *;
+
 :host {
   display: block;
   width: 100%;
   min-height: 100vh;
-
-  background-image: url("../../../../../assets/backgrounds/favorite-bg.png");
-  background-repeat: repeat;
-  background-size: 400px;
-  background-attachment: fixed;
 }
