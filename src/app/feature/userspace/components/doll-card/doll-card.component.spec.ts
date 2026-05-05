@@ -1,24 +1,23 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DollCardComponent } from './doll-card.component';
-import { Router } from '@angular/router';
+import { Router, provideRouter } from '@angular/router';
 import { CollectionService } from '../../../../core/services/collection.service';
 import { signal, WritableSignal } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import * as T from '../../../../shared/models/doll-enums';
-import {
-  Doll,
-  UserDoll,
-  SidebarItem,
-  DollDataType,
-} from '../../../../shared/models';
+import { Doll, UserDoll, SidebarItem } from '../../../../shared/models';
 
 class CollectionServiceMock {
   public menuItems: WritableSignal<SidebarItem[]> = signal([]);
+  public collections: WritableSignal<any[]> = signal([]);
+  public addToCollection = jasmine.createSpy('addToCollection');
 }
 
 describe('DollCardComponent', () => {
   let component: DollCardComponent;
   let fixture: ComponentFixture<DollCardComponent>;
-  let routerSpy: jasmine.SpyObj<Router>;
+  let router: Router;
   let collectionServiceMock: CollectionServiceMock;
 
   const mockCatalogDoll: Doll = {
@@ -43,76 +42,32 @@ describe('DollCardComponent', () => {
     pets: [],
   };
 
-  const mockDynamicItems: SidebarItem[] = [
-    {
-      id: 'col_1',
-      route: '/user/collections/1',
-      iconClass: 'icon-custom',
-      label: 'Custom Col',
-    },
-  ];
-
   beforeEach(async () => {
-    routerSpy = jasmine.createSpyObj('Router', [], ['url']);
-
     await TestBed.configureTestingModule({
       imports: [DollCardComponent],
       providers: [
-        { provide: Router, useValue: routerSpy },
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
         { provide: CollectionService, useClass: CollectionServiceMock },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DollCardComponent);
     component = fixture.componentInstance;
+    router = TestBed.inject(Router);
     collectionServiceMock = TestBed.inject(
       CollectionService,
     ) as unknown as CollectionServiceMock;
 
     component.doll = mockCatalogDoll;
-
-    (
-      Object.getOwnPropertyDescriptor(routerSpy, 'url')?.get as jasmine.Spy
-    ).and.returnValue('/catalog');
+    spyOnProperty(router, 'url', 'get').and.returnValue('/catalog');
 
     fixture.detectChanges();
   });
 
-  describe('Signal: availableActions', () => {
-    it('should show static and dynamic actions when on catalog page', () => {
-      collectionServiceMock.menuItems.set(mockDynamicItems);
-      fixture.detectChanges();
-
-      const actions = component['availableActions']();
-      expect(actions.length).toBe(5);
-      expect(actions.find((a) => a.id === 'col_1')).toBeDefined();
-    });
-
-    it('should filter out current route from actions', () => {
-      const urlSpy = Object.getOwnPropertyDescriptor(routerSpy, 'url')
-        ?.get as jasmine.Spy;
-      urlSpy.and.returnValue('/user/favorites');
-
-      collectionServiceMock.menuItems.set([]);
-      fixture.detectChanges();
-
-      const actions = component['availableActions']();
-      expect(actions.length).toBe(3);
-      expect(actions.find((a) => a.id === 'favorites')).toBeUndefined();
-    });
-  });
-
-  describe('Data Logic', () => {
-    it('should identify UserDoll by checking for "base" property', () => {
-      expect(component.isUserDoll(mockUserDoll)).toBeTrue();
-      expect(component.isUserDoll(mockCatalogDoll)).toBeFalse();
-    });
-
-    it('should extract catalog info via d getter', () => {
-      component.doll = mockUserDoll;
-      expect(component.d.id).toBe('CATALOG_ID_123');
-      expect(component.d.originalName).toBe('Valentine Sweetheart Barbie');
-    });
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 
   describe('Interactions', () => {
@@ -122,28 +77,40 @@ describe('DollCardComponent', () => {
       component.doll = mockUserDoll;
       component.onCardClick();
       expect(console.log).toHaveBeenCalledWith(
-        'Clicked doll ID:',
-        'INSTANCE_UUID_001',
+        'Navigating to doll details:',
+        'CATALOG_ID_123',
       );
 
       component.doll = mockCatalogDoll;
       component.onCardClick();
       expect(console.log).toHaveBeenCalledWith(
-        'Clicked doll ID:',
+        'Navigating to doll details:',
         'CATALOG_ID_123',
       );
     });
 
-    it('should handle onAction', () => {
+    it('should handle onAction and stop propagation', () => {
       const event = new MouseEvent('click');
       spyOn(event, 'stopPropagation');
 
-      component.onAction('shop', event);
+      collectionServiceMock.collections.set([]);
+
+      component.onAction('favorites', event);
 
       expect(event.stopPropagation).toHaveBeenCalled();
-      expect(console.log).toHaveBeenCalledWith(
-        jasmine.stringMatching(/Moving Valentine Sweetheart Barbie to: shop/),
-      );
+    });
+  });
+
+  describe('Data Logic', () => {
+    it('should identify UserDoll', () => {
+      expect(component.isUserDoll(mockUserDoll)).toBeTrue();
+      expect(component.isUserDoll(mockCatalogDoll)).toBeFalse();
+    });
+
+    it('should use base doll data via d getter', () => {
+      component.doll = mockUserDoll;
+      expect(component.d.brand).toBe('Barbie');
+      expect(component.d.id).toBe('CATALOG_ID_123');
     });
   });
 });

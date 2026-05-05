@@ -2,9 +2,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CollectionDetailsComponent } from './collection-details.component';
 import { CollectionService } from '../../../../core/services/collection.service';
 import { UserspaceStateService } from '../../service/userspace-state.service';
-import { signal, computed } from '@angular/core';
+import { signal } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('CollectionDetailsComponent', () => {
   let component: CollectionDetailsComponent;
@@ -12,25 +15,21 @@ describe('CollectionDetailsComponent', () => {
   let collectionServiceMock: jasmine.SpyObj<CollectionService>;
   let uiStateMock: jasmine.SpyObj<UserspaceStateService>;
 
-  // Mock data representing a collection
   const mockCollection = {
     id: 'col-123',
     name: 'Vintage Kurhn',
     description: 'A collection of classic Kurhn dolls from early 2000s.',
-    dolls: [],
+    dolls: [] as any[],
   };
 
   beforeEach(async () => {
-    // Setup Service Mocks with Signals
     collectionServiceMock = jasmine.createSpyObj(
       'CollectionService',
-      ['loadCollectionDolls'],
+      ['loadCollections', 'addToCollection'],
       {
         collections: signal([mockCollection]),
-        dolls: signal([]),
+        menuItems: signal([]),
         isLoading: signal(false),
-        totalCount: signal(0),
-        currentPage: signal(1),
       },
     );
 
@@ -43,13 +42,15 @@ describe('CollectionDetailsComponent', () => {
       providers: [
         { provide: CollectionService, useValue: collectionServiceMock },
         { provide: UserspaceStateService, useValue: uiStateMock },
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CollectionDetailsComponent);
     component = fixture.componentInstance;
 
-    // Set the required input 'id'
     fixture.componentRef.setInput('id', 'col-123');
     fixture.detectChanges();
   });
@@ -60,54 +61,62 @@ describe('CollectionDetailsComponent', () => {
 
   it('should display the collection name and description', () => {
     const header = fixture.debugElement.query(By.css('.catalog-header'));
-    expect(header.nativeElement.textContent).toContain('Vintage Kurhn');
-    expect(header.nativeElement.textContent).toContain(
-      'A collection of classic Kurhn dolls',
-    );
+    const text = header.nativeElement.textContent;
+    expect(text).toContain('Vintage Kurhn');
+    expect(text).toContain('A collection of classic Kurhn dolls');
   });
 
-  it('should show the loading spinner when service is loading and no dolls are present', () => {
-    // Update signals via the mock properties
+  it('should show the loading spinner when service is loading and collection has no dolls', () => {
+    const loadingCollection = { ...mockCollection, dolls: [] };
+    (collectionServiceMock.collections as any).set([loadingCollection]);
     (collectionServiceMock.isLoading as any).set(true);
     fixture.detectChanges();
 
-    const spinner = fixture.debugElement.query(By.css('.initial-spinner'));
+    const spinner = fixture.debugElement.query(By.css('mat-progress-spinner'));
     expect(spinner).toBeTruthy();
   });
 
-  it('should render doll cards when dolls are available', () => {
+  it('should render doll cards when dolls are available in collection object', () => {
     const mockDolls = [
-      { id: 'd1', base: { originalName: 'Doll 1' } },
-      { id: 'd2', base: { originalName: 'Doll 2' } },
+      {
+        id: 'd1',
+        base: { id: 'b1', originalName: 'Doll 1', photos: [] },
+      },
+      {
+        id: 'd2',
+        base: { id: 'b2', originalName: 'Doll 2', photos: [] },
+      },
     ];
 
-    (collectionServiceMock.dolls as any).set(mockDolls);
+    const updatedCollection = { ...mockCollection, dolls: mockDolls };
+    (collectionServiceMock.collections as any).set([updatedCollection]);
     fixture.detectChanges();
 
     const cards = fixture.debugElement.queryAll(By.css('app-doll-card'));
     expect(cards.length).toBe(2);
   });
 
-  it('should display empty state when no dolls are found and not loading', () => {
-    (collectionServiceMock.dolls as any).set([]);
+  it('should display empty state when dolls array is empty and not loading', () => {
+    const emptyCollection = { ...mockCollection, dolls: [] };
+    (collectionServiceMock.collections as any).set([emptyCollection]);
     (collectionServiceMock.isLoading as any).set(false);
     fixture.detectChanges();
 
     const emptyState = fixture.debugElement.query(By.css('.empty-state'));
     expect(emptyState.nativeElement.textContent).toContain(
-      'No dolls found matching these filters',
+      'No dolls found in this collection.',
     );
   });
 
-  it('should display "Collection not found" if the id does not match any collection', () => {
-    fixture.componentRef.setInput('id', 'wrong-id');
+  it('should display "Collection not found" if the id does not match', () => {
+    fixture.componentRef.setInput('id', 'non-existent-id');
     fixture.detectChanges();
 
-    const mainContent = fixture.debugElement.nativeElement.textContent;
-    expect(mainContent).toContain('Collection not found');
+    const content = fixture.debugElement.nativeElement.textContent;
+    expect(content).toContain('Collection not found');
   });
 
-  it('should toggle the filter panel based on UserspaceStateService', () => {
+  it('should toggle the filter panel visibility', () => {
     (uiStateMock.isFilterOpen as any).set(true);
     fixture.detectChanges();
 

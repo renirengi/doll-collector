@@ -175,4 +175,35 @@ export class CollectionService {
       this.isLoading.set(false);
     }
   }
+
+  /**
+   * Adds a doll to a specific collection and refreshes state.
+   * @param collectionId - Target collection UUID.
+   * @param dollId - Doll UUID.
+   */
+  public async addToCollection(
+    collectionId: string,
+    dollId: string,
+  ): Promise<void> {
+    this.isLoading.set(true);
+    try {
+      await firstValueFrom(this.api.addDoll({ collectionId, dollId }));
+      this.messages.showSuccess('Doll added to collection');
+      await this.loadCollections();
+    } catch (error: unknown) {
+      this.handleError(error, 'Failed to add doll to collection');
+    } finally {
+      this.isLoading.set(false);
+    }
+  }
+
+  /**
+   * Centralized error handler for the service.
+   * @param error - The error object.
+   * @param userMessage - Message for the snackbar.
+   */
+  private handleError(error: unknown, userMessage: string): void {
+    console.error(error);
+    this.messages.showError(userMessage);
+  }
 }
