@@ -9,7 +9,6 @@ import { SidebarItem } from '../../shared/models';
   imports: [Header, RouterOutlet, Sidebar],
   template: `
     <app-header></app-header>
-    <!-- <app-user-sidebar-mobile></app-user-sidebar-mobile> -->
 
     <section class="user-page-container">
       <app-sidebar

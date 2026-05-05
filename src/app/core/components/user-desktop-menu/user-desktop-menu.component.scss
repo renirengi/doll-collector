@@ -1,0 +1,156 @@
+.custom-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 230px;
+  background-color: var(--menu-bg);
+  border: 1px solid var(--menu-border);
+  box-shadow:
+    0 10px 25px -5px var(--background-hover-shadow),
+    0 8px 10px -6px var(--background-hover-shadow);
+  border-radius: 12px;
+  padding: 12px;
+  z-index: 1000;
+  transform-origin: top right;
+  animation: dropdownReveal 0.2s ease-out;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    right: 18px;
+    width: 12px;
+    height: 12px;
+    background: var(--menu-bg);
+    border-left: 1px solid var(--menu-border);
+    border-top: 1px solid var(--menu-border);
+    transform: rotate(45deg);
+  }
+}
+
+.user-header {
+  padding: var(--menu-padding);
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--app-bg-overlay);
+  display: flex;
+  flex-direction: column;
+
+  .full-name {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--menu-text-main);
+
+    &.header-name::before {
+      content: "";
+      flex: 0 0 20px;
+      height: 20px;
+      background-color: var(--menu-text-main);
+      -webkit-mask: url("/assets/icons/name.svg") no-repeat center / contain;
+      mask: url("/assets/icons/name.svg") no-repeat center / contain;
+    }
+  }
+
+  .role-tag {
+    padding-left: 32px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--menu-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    margin-top: 2px;
+  }
+}
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  .separator {
+    height: 1px;
+    background: var(--app-bg-overlay);
+    margin: 6px 0;
+  }
+
+  a,
+  button {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: var(--menu-padding);
+    border-radius: 8px;
+    color: var(--menu-text-main);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.15s ease;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+
+    &::before {
+      content: "";
+      flex: 0 0 20px;
+      height: 20px;
+      background-color: var(--menu-text-muted);
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+      mask-position: center;
+      -webkit-mask-size: contain;
+      mask-size: contain;
+      transition: background-color 0.15s ease;
+    }
+
+    &:hover {
+      background: var(--app-bg-main);
+      color: var(--menu-accent);
+      &::before {
+        background-color: var(--menu-accent);
+      }
+    }
+  }
+
+  .link-billing::before {
+    mask-image: url("/assets/icons/favorite.svg");
+    -webkit-mask-image: url("/assets/icons/favorite.svg");
+  }
+  .link-settings::before {
+    mask-image: url("/assets/icons/settings.svg");
+    -webkit-mask-image: url("/assets/icons/settings.svg");
+  }
+  .link-support::before {
+    mask-image: url("/assets/icons/support.svg");
+    -webkit-mask-image: url("/assets/icons/support.svg");
+  }
+  .link-admin::before {
+    mask-image: url("/assets/icons/admin_area.svg");
+    -webkit-mask-image: url("/assets/icons/admin_area.svg");
+  }
+  .logout-btn::before {
+    mask-image: url("/assets/icons/logout.svg");
+    -webkit-mask-image: url("/assets/icons/logout.svg");
+  }
+  .link-add-collection::before {
+    mask-image: url("/assets/icons/add-collection.svg");
+    -webkit-mask-image: url("/assets/icons/add-collection.svg");
+  }
+}
+
+@keyframes dropdownReveal {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

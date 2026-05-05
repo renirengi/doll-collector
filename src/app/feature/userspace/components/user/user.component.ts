@@ -15,6 +15,7 @@ import { User, UserRoles } from '../../../../shared/models';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ModalComponent } from '../../../../core/components/modal/modal.component';
 import { CreateCollectionFormComponent } from '../create-collection-form/create-collection-form.component';
+import { UserDesktopMenuComponent } from '../../../../core/components/user-desktop-menu/user-desktop-menu.component';
 
 @Component({
   selector: 'app-user',
@@ -22,12 +23,41 @@ import { CreateCollectionFormComponent } from '../create-collection-form/create-
   imports: [
     RouterModule,
     CommonModule,
-    TitleCasePipe,
     AvatarComponent,
     ModalComponent,
     CreateCollectionFormComponent,
+    UserDesktopMenuComponent,
   ],
-  templateUrl: './user.component.html',
+  template: `<div class="user-menu-container">
+      <div
+        class="active-user"
+        [class.open]="menuOpen()"
+        (click)="toggleMenu($event)"
+      >
+        <app-avatar
+          [src]="userData()?.avatar"
+          [name]="displayName()"
+          [size]="'w-11 h-11'"
+          class="user-avatar-shadow"
+          [class.active-ring]="menuOpen()"
+        ></app-avatar>
+      </div>
+
+      @if (menuOpen()) {
+        <app-user-desktop-menu
+          [user]="userData()"
+          [displayName]="displayName()"
+          [canCreateCollection]="true"
+          (close)="closeMenu()"
+          (createCollection)="openCreateModal()"
+        ></app-user-desktop-menu>
+      }
+    </div>
+    <app-modal class="user-modal" #createModal title="New Collection">
+      <app-create-collection-form
+        (success)="createModal.closeModal()"
+      ></app-create-collection-form>
+    </app-modal>`,
   styleUrls: ['./user.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -80,8 +110,10 @@ export class UserComponent {
     }
   }
 
-  public openCreateModal(event: Event): void {
-    event.stopPropagation();
+  public openCreateModal(event?: Event): void {
+    if (event) {
+      event.stopPropagation();
+    }
     this.closeMenu();
     this.createCollectionModal()?.showModal();
   }
