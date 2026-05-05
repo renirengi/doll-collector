@@ -1,7 +1,14 @@
 @use "./styles/_user-modal.scss" as *;
+@use "./styles/_mixins.scss" as *;
 section.user-page-container {
   margin-top: var(--app-header-height);
   display: flex;
   flex-direction: row;
   flex-grow: 1;
+  margin-left: 0;
+  transition: margin-left 0.3s ease;
+
+  @include desktop {
+    margin-left: 75px;
+  }
 }

@@ -1,19 +1,11 @@
 @use "./styles/icon-basic" as *;
+@use "./styles/_mixins.scss" as *;
 
 $colon-bg: var(--midnight-abyss);
 $accent-purple: var(--nebula-glow);
 
 :host {
-  background: $colon-bg;
-  width: 75px;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  display: block;
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+  display: none;
 
   aside {
     height: 100%;
@@ -65,5 +57,18 @@ $accent-purple: var(--nebula-glow);
       display: flex;
       justify-content: center;
     }
+  }
+
+  @include desktop {
+    display: block;
+    background: $colon-bg;
+    width: 75px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
   }
 }

@@ -52,14 +52,6 @@ describe('UserPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render the container with correct spacing class', () => {
-    const container = fixture.nativeElement.querySelector(
-      '.user-page-container',
-    );
-    expect(container).toBeTruthy();
-    expect(container.classList).toContain('ml-[75px]');
-  });
-
   it('should combine static menu and dynamic collections', () => {
     const items = component.sidebarItems();
 

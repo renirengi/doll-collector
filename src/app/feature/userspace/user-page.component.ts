@@ -11,7 +11,7 @@ import { SidebarItem } from '../../shared/models';
     <app-header></app-header>
     <!-- <app-user-sidebar-mobile></app-user-sidebar-mobile> -->
 
-    <section class="user-page-container ml-[75px]">
+    <section class="user-page-container">
       <app-sidebar
         [items]="sidebarItems()"
         variantClass="user-sidebar"
