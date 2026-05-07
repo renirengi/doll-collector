@@ -21,13 +21,14 @@ $logo-base-dark: #2b2246;
   border-bottom: 1px solid rgba($dawn-end, 0.5);
   box-sizing: border-box;
   backdrop-filter: blur(10px);
+  border-bottom: 5px solid $logo-base-dark;
 
   &:after {
     content: "";
     position: absolute;
     bottom: -15px;
     left: 0;
-    width: 75px;
+    width: 100%;
     height: 25px;
     background: linear-gradient(
       to bottom,
@@ -57,7 +58,6 @@ $logo-base-dark: #2b2246;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding-top: 10px;
 
     .header-title {
       font-family: "Poppins", sans-serif;
@@ -81,22 +81,16 @@ $logo-base-dark: #2b2246;
 
     .logo-link {
       position: absolute;
-      top: 3px;
       display: flex;
       justify-content: center;
       z-index: 10;
       text-decoration: none;
       outline: none;
-
-      &:hover .header-logo {
-        transform: scale(1.1);
-      }
     }
 
     .header-logo {
       height: 75px;
       width: auto;
-      border-bottom: 5px solid $logo-base-dark;
       filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
       transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
@@ -113,6 +107,28 @@ $logo-base-dark: #2b2246;
       padding: 4px 12px;
       border-radius: 20px;
       font-weight: 600;
+    }
+  }
+
+  @include desktop {
+    border-bottom: none;
+    &:after {
+      width: 75px;
+    }
+    .logo-wrapper {
+      padding-top: 10px;
+
+      .logo-link {
+        top: 3px;
+        &:hover .header-logo {
+          transform: scale(1.1);
+        }
+      }
+
+      .header-logo {
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border-bottom: 5px solid $logo-base-dark;
+      }
     }
   }
 }
