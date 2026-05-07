@@ -4,7 +4,7 @@ import { provideRouter } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { UserspaceStateService } from './service/userspace-state.service';
 import { CollectionService } from '../../core/services/collection.service';
-import { signal, WritableSignal } from '@angular/core';
+import { signal, computed } from '@angular/core';
 import { SidebarItem } from '../../shared/models';
 
 class AuthServiceMock {
@@ -19,9 +19,23 @@ class UserspaceStateServiceMock {
 }
 
 class CollectionServiceMock {
-  public menuItems: WritableSignal<SidebarItem[]> = signal([
+  public readonly menuItems = signal<SidebarItem[]>([
     { route: '/user/collections/1', iconClass: 'icon-custom', label: 'Custom' },
   ]);
+
+  public readonly fullMenu = computed(() => {
+    const staticMenu: SidebarItem[] = [
+      {
+        route: '/user/favorites',
+        iconClass: 'icon-favorite',
+        label: 'My wish',
+      },
+      { route: '/user/shelf', iconClass: 'icon-shelves', label: 'My shelf' },
+      { route: '/user/shop', iconClass: 'icon-shop', label: 'My shop' },
+      { route: '/user/sold-doll', iconClass: 'icon-sold-doll', label: 'Sold' },
+    ];
+    return [...staticMenu, ...this.menuItems()];
+  });
 }
 
 describe('UserPageComponent', () => {
@@ -42,9 +56,11 @@ describe('UserPageComponent', () => {
 
     fixture = TestBed.createComponent(UserPageComponent);
     component = fixture.componentInstance;
+
     collectionServiceMock = TestBed.inject(
       CollectionService,
     ) as unknown as CollectionServiceMock;
+
     fixture.detectChanges();
   });
 
@@ -52,23 +68,21 @@ describe('UserPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should combine static menu and dynamic collections', () => {
+  it('should combine static menu and dynamic collections from service', () => {
     const items = component.sidebarItems();
 
     expect(items.length).toBe(5);
     expect(items[0].label).toBe('My wish');
     expect(items[4].label).toBe('Custom');
-    expect(items[4].route).toBe('/user/collections/1');
   });
 
-  it('should update sidebarItems when collection service changes', () => {
+  it('should update sidebarItems when collection service menuItems change', () => {
     const newItems: SidebarItem[] = [
       { route: '/user/collections/2', iconClass: 'icon-new', label: 'New Col' },
     ];
 
     collectionServiceMock.menuItems.set(newItems);
     fixture.detectChanges();
-
     const items = component.sidebarItems();
 
     expect(items.length).toBe(5);

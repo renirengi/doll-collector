@@ -16,6 +16,7 @@ import { AuthService } from '../../../../core/services/auth.service';
 import { ModalComponent } from '../../../../core/components/modal/modal.component';
 import { CreateCollectionFormComponent } from '../create-collection-form/create-collection-form.component';
 import { UserDesktopMenuComponent } from '../../../../core/components/user-desktop-menu/user-desktop-menu.component';
+import { UserMobileMenuComponent } from '../../../../core/components/user-mobile-menu/user-mobile-menu.component';
 
 @Component({
   selector: 'app-user',
@@ -27,6 +28,7 @@ import { UserDesktopMenuComponent } from '../../../../core/components/user-deskt
     ModalComponent,
     CreateCollectionFormComponent,
     UserDesktopMenuComponent,
+    UserMobileMenuComponent,
   ],
   template: `<div class="user-menu-container">
       <div
@@ -45,12 +47,23 @@ import { UserDesktopMenuComponent } from '../../../../core/components/user-deskt
 
       @if (menuOpen()) {
         <app-user-desktop-menu
+          class="desktop-menu-only"
           [user]="userData()"
           [displayName]="displayName()"
           [canCreateCollection]="true"
-          (close)="closeMenu()"
+          (menuClose)="closeMenu()"
           (createCollection)="openCreateModal()"
         ></app-user-desktop-menu>
+
+        <!-- Mobile -->
+        <app-user-mobile-menu
+          class="mobile-menu-only"
+          [displayName]="displayName()"
+          [canCreateCollection]="true"
+          (menuClose)="closeMenu()"
+          (createCollection)="openCreateModal()"
+          (logout)="onLogout()"
+        ></app-user-mobile-menu>
       }
     </div>
     <app-modal class="user-modal" #createModal title="New Collection">

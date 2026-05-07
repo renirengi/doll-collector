@@ -26,18 +26,9 @@ import { SidebarItem } from '../../shared/models';
 export class UserPageComponent {
   private readonly collectionService = inject(CollectionService);
 
-  public readonly sidebarItems = computed<SidebarItem[]>(() => {
-    const staticMenu: SidebarItem[] = [
-      {
-        route: '/user/favorites',
-        iconClass: 'icon-favorite',
-        label: 'My wish',
-      },
-      { route: '/user/shelf', iconClass: 'icon-shelves', label: 'My shelf' },
-      { route: '/user/shop', iconClass: 'icon-shop', label: 'My shop' },
-      { route: '/user/sold-doll', iconClass: 'icon-sold-doll', label: 'Sold' },
-    ];
-
-    return [...staticMenu, ...this.collectionService.menuItems()];
-  });
+  /**
+   * Reactive signal representing the complete list of sidebar items.
+   * Derived directly from the service to avoid local state duplication.
+   */
+  public readonly sidebarItems = this.collectionService.fullMenu;
 }

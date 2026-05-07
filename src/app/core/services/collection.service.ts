@@ -50,6 +50,26 @@ export class CollectionService {
   );
 
   /**
+   * Combined signal providing the full navigation structure:
+   * Includes static system routes (Wishlist, Shelf, etc.) and dynamic user collections.
+   * Used by Sidebar, Header, and Mobile Menu to ensure UI consistency.
+   */
+  public readonly fullMenu = computed<SidebarItem[]>(() => {
+    const staticMenu: SidebarItem[] = [
+      {
+        route: '/user/favorites',
+        iconClass: 'icon-favorite',
+        label: 'My wish',
+      },
+      { route: '/user/shelf', iconClass: 'icon-shelves', label: 'My shelf' },
+      { route: '/user/shop', iconClass: 'icon-shop', label: 'My shop' },
+      { route: '/user/sold-doll', iconClass: 'icon-sold-doll', label: 'Sold' },
+    ];
+
+    return [...staticMenu, ...this.menuItems()];
+  });
+
+  /**
    * Computed signal for the total number of collections.
    */
   public readonly count = computed(() => this._collections().length);
